@@ -1,0 +1,14 @@
+site:
+  title: "mixit"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/kotlin-webpack/js/developmentExecutable/mixit.js"
+      api: "build/libs/mixit.jar"
+    prod:
+      script: "build/kotlin-webpack/js/productionExecutable/mixit.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080
