@@ -18,8 +18,9 @@ class Cryptographer(private val properties: MixitProperties) {
 
     fun decrypt(value: String?): String? = value?.decrypt(properties.security.key, properties.security.initVector)
 
-    private fun String.encrypt(key: String, initVector: String): String? {
+    private fun String?.encrypt(key: String, initVector: String): String? {
         try {
+            if( this == null) return null
             val encrypted = cipher(key, initVector, Cipher.ENCRYPT_MODE).doFinal(toByteArray())
             return Base64.getEncoder().encodeToString(encrypted)
         } catch (ex: Exception) {
@@ -28,14 +29,14 @@ class Cryptographer(private val properties: MixitProperties) {
         return null
     }
 
-    private fun String.decrypt(key: String, initVector: String): String? {
+    private fun String?.decrypt(key: String, initVector: String): String? {
         try {
+            if( this == null) return null
             val encrypted = Base64.getDecoder().decode(toByteArray())
             return String(cipher(key, initVector, Cipher.DECRYPT_MODE).doFinal(encrypted))
         } catch (ex: Exception) {
-            ex.printStackTrace()
+            return this
         }
-        return null
     }
 
     private fun cipher(key: String, initVector: String, mode: Int): Cipher {

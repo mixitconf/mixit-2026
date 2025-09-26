@@ -20,11 +20,17 @@ repositories {
 dependencies {
 	implementation(libs.spring.boot.starter.actuator)
 	implementation(libs.spring.boot.starter.cache)
+    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.kotlinx.serialization.json)
 	implementation(libs.kotlinx.datetime)
 	implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.markdown)
 	implementation(project(":shared"))
+
+    // TODO
+    implementation("org.webjars:bootstrap:5.3.7")
+    implementation("org.webjars:webjars-locator:0.30")
 
 	// developmentOnly(libs.spring.boot.docker.compose)
 
@@ -42,4 +48,14 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks {
+	processResources {
+		dependsOn(":frontend:wasmJsBrowserDistribution", ":frontend:copy")
+		from(project(":frontend").layout.buildDirectory
+			.dir("dist/wasmJs/productionExecutable")) {
+			into("static")
+		}
+	}
 }

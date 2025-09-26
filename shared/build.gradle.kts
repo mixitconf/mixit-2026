@@ -22,6 +22,8 @@ kotlin {
 						add(projectDirPath)
 					}
 				}
+				cssSupport { enabled.set(true) }
+				scssSupport { enabled.set(true) }
 			}
 		}
 	}
@@ -30,8 +32,8 @@ kotlin {
 		commonMain.dependencies {
 			implementation(kotlin("stdlib-common"))
 			implementation(libs.kotlinx.datetime)
-		}
-		commonTest.dependencies {
+			implementation(libs.kotlinx.html.common)
+			implementation(libs.kotlinx.serialization.json)
 		}
 	}
 }

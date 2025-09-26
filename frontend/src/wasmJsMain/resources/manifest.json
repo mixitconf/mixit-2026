@@ -1,0 +1,30 @@
+{
+  "name": "MiXiT",
+  "short_name": "MiXiT",
+  "icons": [
+    {
+      "src": "images/png/mxt-favicon_default.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "images/png/mxt-favicon_ms.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "images/png/mxt-favicon_apple.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "images/png/mxt-favicon_chrome.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c233d"
+}

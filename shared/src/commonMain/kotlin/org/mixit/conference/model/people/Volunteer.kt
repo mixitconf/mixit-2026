@@ -1,0 +1,18 @@
+package org.mixit.conference.model.people
+
+import org.mixit.conference.model.shared.Language
+import org.mixit.conference.model.link.Link
+
+data class Volunteer(
+    override val id: String,
+    override val email: String?,
+    override val photoUrl: String?,
+    val firstname: String,
+    val lastname: String,
+    val links: List<Link>,
+    val description: Map<Language, String> = emptyMap(),
+) : Person(
+    id = id,
+    email = email,
+    photoUrl = photoUrl
+)

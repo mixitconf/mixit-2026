@@ -1,6 +1,6 @@
 package org.mixit.conference.event.spi
 
-import org.mixit.conference.event.model.Event
+import org.mixit.conference.model.event.Event
 
 interface EventRepository {
     fun findAll(): List<Event>
