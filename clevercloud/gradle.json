@@ -2,7 +2,7 @@
   "build": {
     "goal": "assemble"
   },
-  "deploy": {
+  "deploy": {r
     "goal": "bootRun"
   }
 }
