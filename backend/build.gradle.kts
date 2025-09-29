@@ -20,19 +20,14 @@ repositories {
 dependencies {
 	implementation(libs.spring.boot.starter.actuator)
 	implementation(libs.spring.boot.starter.cache)
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.kotlinx.serialization.json)
 	implementation(libs.kotlinx.datetime)
 	implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.markdown)
-	implementation(project(":shared"))
-
-    // TODO
-    implementation("org.webjars:bootstrap:5.3.7")
-    implementation("org.webjars:webjars-locator:0.30")
-
-	// developmentOnly(libs.spring.boot.docker.compose)
+    implementation(libs.webjars.bootstrap)
+    implementation(libs.webjars.locator)
+    implementation(project(":shared"))
 
 	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.kotlin.test)

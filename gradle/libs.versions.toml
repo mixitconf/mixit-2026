@@ -1,6 +1,7 @@
 [versions]
 androidx-navigation = "2.9.0-beta04"
 androidx-lifecycle = "2.9.1"
+bootstrap = "5.3.7"
 compose-adaptive = "1.1.2"
 compose-hot-reload = "1.0.0-beta04"
 compose-multiplatform = "1.8.2"
@@ -8,9 +9,10 @@ kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.6.2"
-kotlinx-html= "0.12.0"
+kotlinx-html = "0.12.0"
 kotlinx-browser = "0.3"
 kotlin-markdown = "0.7.3"
+locator = "0.30"
 spring-boot = "3.5.4"
 spring-dependency-management = "1.1.7"
 
@@ -36,6 +38,9 @@ spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-docker-compose = { module = "org.springframework.boot:spring-boot-docker-compose" }
+spring-boot-starter-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+webjars-bootstrap= { module = "org.webjars:bootstrap", version.ref = "bootstrap"}
+webjars-locator= { module = "org.webjars:webjars-locator", version.ref = "locator"}
 
 [plugins]
 compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }

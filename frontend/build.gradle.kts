@@ -24,7 +24,6 @@ kotlin {
         }
         binaries.executable()
     }
-// https://github.com/rjaros/kvision/tree/master
 
     sourceSets {
         wasmJsMain {
@@ -32,7 +31,6 @@ kotlin {
                 implementation(project(":shared"))
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.browser)
-                //implementation(libs.konform)
             }
         }
     }
