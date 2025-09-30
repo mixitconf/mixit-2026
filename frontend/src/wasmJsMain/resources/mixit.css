@@ -702,6 +702,9 @@ footer {
     overflow-x: auto;
     scrollbar-color: var(--color-primary) #fff;
     padding-bottom: 0.5em;
+    @media (max-width: 1150px) {
+        justify-content: flex-start;
+    }
 }
 
 .mxt-year__selector-link {
