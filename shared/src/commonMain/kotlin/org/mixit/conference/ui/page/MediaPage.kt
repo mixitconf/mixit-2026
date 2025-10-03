@@ -7,6 +7,7 @@ import org.mixit.conference.model.picture.Album
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.model.talk.TalkFormat
+import org.mixit.conference.ui.MEDIA_YEARS
 import org.mixit.conference.ui.component.*
 import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.renderTemplate
@@ -28,7 +29,7 @@ fun renderMedia(
                 +pageTitle
             }
 
-            yearSelectorComponent(context, event, url = "/media", alt = pageTitle)
+            yearSelectorComponent(context, event, url = "/media", alt = pageTitle, years = MEDIA_YEARS)
 
             val keynotes = talksWithVideo[TalkFormat.KEYNOTE] ?: emptyList()
             val others = talksWithVideo.entries

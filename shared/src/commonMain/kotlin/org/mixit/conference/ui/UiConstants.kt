@@ -5,9 +5,16 @@ import org.mixit.conference.model.menu.Menu
 import org.mixit.conference.model.menu.MenuItem
 import org.mixit.conference.model.talk.Podcast
 
-const val CURRENT_YEAR = 2025
+const val CURRENT_YEAR = 2026
+const val CURRENT_TALK_YEAR = 2025
+const val CURRENT_MEDIA_YEAR = 2025
+
+
+val TALKS_YEARS = (2012..CURRENT_TALK_YEAR).sortedDescending().filterNot { it == 2020 }
+
+val MEDIA_YEARS = (2012..CURRENT_MEDIA_YEAR).sortedDescending().filterNot { it == 2020 }
 val YEARS = (2012..CURRENT_YEAR).sortedDescending().filterNot { it == 2020 }
-val MIXETTE_YEARS = (2022..CURRENT_YEAR).sortedDescending()
+val MIXETTE_YEARS = (2022..CURRENT_MEDIA_YEAR).sortedDescending()
 
 const val DEFAULT_IMG_URL = "/images/png/mxt-icon--default-avatar.png"
 
@@ -46,8 +53,8 @@ val MENU = listOf(
             MenuItem(title = "menu.content.cod", href = "codeofconduct"),
             MenuItem(title = "menu.content.sponsors", href = "$CURRENT_YEAR/sponsors"),
             MenuItem(title = "menu.content.speakers", href = "$CURRENT_YEAR/speakers"),
-            MenuItem(title = "menu.content.agenda", href = CURRENT_YEAR.toString()),
-            MenuItem(title = "menu.content.media", href = "$CURRENT_YEAR/media"),
+            MenuItem(title = "menu.content.agenda", href = CURRENT_TALK_YEAR.toString()),
+            MenuItem(title = "menu.content.media", href = "$CURRENT_MEDIA_YEAR/media"),
             MenuItem(title = "menu.content.faq", href = "faq")
         )
     ),

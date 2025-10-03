@@ -10,6 +10,8 @@ import org.mixit.conference.people.api.OrgaHandlerApi
 import org.mixit.conference.people.api.SpeakerHandlerApi
 import org.mixit.conference.people.api.SponsorHandlerApi
 import org.mixit.conference.talk.api.TalkHandlerApi
+import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
+import org.mixit.conference.ui.CURRENT_TALK_YEAR
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.page.renderError
 import org.springframework.context.annotation.Bean
@@ -56,16 +58,16 @@ class WebRouterConfig {
                 faqHandlerApi.findAllQuestions()
             }
             GET("/media") {
-                mediaHandler.findMediaByYear(CURRENT_YEAR, it.param("search").orElse(null))
+                mediaHandler.findMediaByYear(CURRENT_MEDIA_YEAR, it.param("search").orElse(null))
             }
             GET("/mixette") {
-                orgaHandlerApi.findOrganizationByYear(CURRENT_YEAR)
+                orgaHandlerApi.findOrganizationByYear(CURRENT_MEDIA_YEAR)
             }
             GET("/schedule") {
-                talkHandlerApi.findTalkByYear(CURRENT_YEAR, it.param("search").orElse(null))
+                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.param("search").orElse(null))
             }
             GET("/speakers") {
-                speakerHandlerApi.findSpeakerByYear(CURRENT_YEAR, MediaType.TEXT_HTML)
+                speakerHandlerApi.findSpeakerByYear(CURRENT_TALK_YEAR, MediaType.TEXT_HTML)
             }
             GET("/speakers/{login}") {
                 speakerHandlerApi.findSpeakerByLogin(it.pathVariable("login"))
@@ -74,7 +76,7 @@ class WebRouterConfig {
                 sponsorHandlerApi.findSponsorByYear(CURRENT_YEAR, MediaType.TEXT_HTML)
             }
             GET("/talks") {
-                talkHandlerApi.findTalkByYear(CURRENT_YEAR, it.param("search").orElse(null))
+                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.param("search").orElse(null))
             }
             GET("/user/{login}") {
                 speakerHandlerApi.findSpeakerByLogin(it.pathVariable("login"))

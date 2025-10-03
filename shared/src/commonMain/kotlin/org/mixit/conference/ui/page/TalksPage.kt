@@ -7,6 +7,7 @@ import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.talk.Talk
+import org.mixit.conference.ui.TALKS_YEARS
 import org.mixit.conference.ui.component.languageComponent
 import org.mixit.conference.ui.component.roomComponent
 import org.mixit.conference.ui.component.sectionComponent
@@ -29,7 +30,7 @@ fun renderTalks(context: Context, event: Event, sponsors: List<Sponsor>, talksBy
                 }
                 +pageTitle
             }
-            yearSelectorComponent(context, event, url = "", alt = pageTitle)
+            yearSelectorComponent(context, event, url = "", alt = pageTitle, years = TALKS_YEARS)
 
             val keys: List<LocalDate?> = talksByDate.keys.map { it?.date }.toSet().sortedBy { it }
 

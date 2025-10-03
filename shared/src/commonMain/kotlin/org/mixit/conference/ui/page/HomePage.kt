@@ -4,8 +4,9 @@ import kotlinx.html.*
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
-import org.mixit.conference.shared.model.Topic
+import org.mixit.conference.model.shared.Language
 import org.mixit.conference.model.talk.Talk
+import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.ui.component.*
 import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.renderTemplate
@@ -26,7 +27,36 @@ fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keyn
             }
         }
         sectionComponent(context, i18nKey = "home.section.news.title") {
-            div { +"du blabla" }
+            div("lead") { +context.i18n("home.section.news.when") }
+            div("mt-2") {
+                b { +context.i18n("home.section.news.birthday") }
+                +context.i18n("home.section.news.birthday2")
+            }
+            div(classes = "d-flex align-items-baseline pt-3") {
+                div {
+                    img(classes = "mxt-img__header-ticket-home") {
+                        alt = "Ticket"
+                    }
+                }
+                div {
+                    +context.i18n("home.section.news.ticket")
+                }
+            }
+            div(classes = "d-flex align-items-baseline") {
+                div {
+                    img(classes = "mxt-img__header-sponsor-home") {
+                        alt = "Sponsor"
+                    }
+                }
+                div(classes = "mxt-no-link") {
+                    unsafe {
+                        raw(
+                            context.markdown(context.i18n("home.section.news.sponsor"))
+                        )
+                    }
+                }
+            }
+
         }
         sectionComponent(
             context,

@@ -1,4 +1,4 @@
-rootProject.name = "mixit"
+rootProject.name = "mixit-conf"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

@@ -6,6 +6,7 @@ import org.mixit.conference.model.people.Speaker
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.DEFAULT_IMG_URL
+import org.mixit.conference.ui.TALKS_YEARS
 import org.mixit.conference.ui.component.sectionComponent
 import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.component.yearSelectorComponent
@@ -26,7 +27,7 @@ fun renderSpeakers(
                 }
                 +pageTitle
             }
-            yearSelectorComponent(context, event, url = "/speakers", alt = pageTitle)
+            yearSelectorComponent(context, event, url = "/speakers", alt = pageTitle, years = TALKS_YEARS)
 
             p(classes = "lead mt-3") {
                 +context.i18n("speaker.intro")
