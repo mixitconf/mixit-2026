@@ -270,6 +270,23 @@ body {
     width: 100%;
 }
 
+.mxt-video__container-image {
+    background-color: #000;
+    border-radius: 12px;
+    color: #fff;
+    width: 100%;
+    height: 11em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mxt-video__container-image > a {
+    color: #fff;
+    opacity: 0.8;
+}
+
 .mxt-video__player-container {
     position: relative;
     height: 0;
@@ -723,7 +740,7 @@ footer {
     width: 100%;
     gap: 0.5em;
     max-width: 95vw;
-    white-space: nowrap;
+    // white-space: nowrap;
     justify-content: flex-start;
     text-overflow: unset;
     overflow: scroll;

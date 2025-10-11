@@ -44,9 +44,11 @@ fun renderMedia(
                 p(classes = "lead") {
                     +context.i18n("talk.keynotes.intro")
                 }
-                div(classes = "mxt-video__multi-container") {
-                    keynotes.forEach {
-                        videoComponent(context, it)
+
+                div(classes = "mxt-year__selector") {
+                    style = "justify-content: flex-start;"
+                    keynotes.shuffled().forEach {
+                        videoComponent(context, it, false)
                     }
                 }
             }
