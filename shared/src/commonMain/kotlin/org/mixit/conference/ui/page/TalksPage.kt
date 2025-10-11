@@ -7,6 +7,7 @@ import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.talk.Talk
+import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.ui.TALKS_YEARS
 import org.mixit.conference.ui.component.languageComponent
 import org.mixit.conference.ui.component.roomComponent
@@ -16,11 +17,44 @@ import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.component.talkFormatComponent
 import org.mixit.conference.ui.component.topicPrefixComponent
 import org.mixit.conference.ui.component.yearSelectorComponent
+import org.mixit.conference.ui.form.FormDescriptor
+import org.mixit.conference.ui.form.FormField
+import org.mixit.conference.ui.form.FormFieldType
 import org.mixit.conference.ui.formatter.formatDate
 import org.mixit.conference.ui.formatter.formatTime
 import org.mixit.conference.ui.renderTemplate
 
-fun renderTalks(context: Context, event: Event, sponsors: List<Sponsor>, talksByDate: Map<LocalDateTime?, List<Talk>>) =
+fun talkSearchForm(
+    context: Context,
+    values: Pair<Topic?, String?>? = null,
+    valuesInRequest: Map<String, String?> = emptyMap(),
+    converter: (FormDescriptor<Pair<Topic?, String?>>) -> Pair<Topic?, String?> = { throw IllegalStateException() }
+) = FormDescriptor(
+    fields = listOf(
+        FormField(
+            "topic",
+            type = FormFieldType.Select,
+            fieldPlaceholder = context.i18n("talks.topic"),
+            options = listOf("" to context.i18n("talks.topic.all")) + Topic.entries.map { it.name to  context.i18n("topics.${it.value}.title") },
+            defaultValue = values?.first?.name ?: valuesInRequest["topic"]
+        ),
+        FormField(
+            "filter",
+            type = FormFieldType.Text,
+            fieldPlaceholder = context.i18n("talks.filter"),
+            defaultValue = values?.second ?: valuesInRequest["filter"],
+        )
+    ),
+    converter = converter
+)
+
+fun renderTalks(
+    context: Context,
+    event: Event,
+    sponsors: List<Sponsor>,
+    talksByDate: Map<LocalDateTime?, List<Talk>>,
+    filter: FormDescriptor<Pair<Topic?, String?>>
+) =
     renderTemplate(context, event) {
         sectionComponent(context) {
             val pageTitle = context.i18n("talks.title")
@@ -34,8 +68,17 @@ fun renderTalks(context: Context, event: Event, sponsors: List<Sponsor>, talksBy
 
             val keys: List<LocalDate?> = talksByDate.keys.map { it?.date }.toSet().sortedBy { it }
 
+            div(classes = "mt-3") {
+                filter.filterForm(this, "${context.uriBasePath}/${event.year}", formMethod = FormMethod.get) {
+                    button(classes = "btn mxt-btn-primary") {
+                        type = ButtonType.submit
+                        small {
+                            +context.i18n("talks.filter.button")
+                        }
+                    }
+                }
+            }
 
-            // TODO add a search field
 
             keys.forEach { date ->
                 if(date != null) {
@@ -44,9 +87,11 @@ fun renderTalks(context: Context, event: Event, sponsors: List<Sponsor>, talksBy
                     }
                 }
                 val talkFilteredByDate = talksByDate.filter { it.key?.date == date }
-                talkFilteredByDate.keys.filterNotNull().forEach { time ->
-                    a(href = "#$time", classes = "mxt-talks__time-card") {
-                        +time.formatTime()
+                div(classes = "mxt-year__selector") {
+                    talkFilteredByDate.keys.filterNotNull().forEach { time ->
+                        a(href = "#$time", classes = "mxt-talks__time-card") {
+                            +time.formatTime()
+                        }
                     }
                 }
                 talkFilteredByDate.forEach { (date, talks) ->

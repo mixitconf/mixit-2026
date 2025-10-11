@@ -40,6 +40,9 @@ data class Talk(
                     speaker.description.values.any { it.lowercase().contains(lowerTerm) }
             }
     }
+
+    fun searchByTopic(topic: Topic?): Boolean =
+        this.topic == topic || topic == null
 }
 
 

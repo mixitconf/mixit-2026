@@ -4,6 +4,7 @@ import org.mixit.WebContext
 import org.mixit.conference.event.api.EventHandlerApi
 import org.mixit.conference.event.api.EventScreen
 import org.mixit.conference.event.api.FaqHandlerApi
+import org.mixit.conference.talk.api.toTalkCriteria
 import org.mixit.conference.media.domain.MediaHandler
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.people.api.OrgaHandlerApi
@@ -64,7 +65,7 @@ class WebRouterConfig {
                 orgaHandlerApi.findOrganizationByYear(CURRENT_MEDIA_YEAR)
             }
             GET("/schedule") {
-                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.param("search").orElse(null))
+                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.toTalkCriteria(webContext.context))
             }
             GET("/speakers") {
                 speakerHandlerApi.findSpeakerByYear(CURRENT_TALK_YEAR, MediaType.TEXT_HTML)
@@ -76,7 +77,7 @@ class WebRouterConfig {
                 sponsorHandlerApi.findSponsorByYear(CURRENT_YEAR, MediaType.TEXT_HTML)
             }
             GET("/talks") {
-                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.param("search").orElse(null))
+                talkHandlerApi.findTalkByYear(CURRENT_TALK_YEAR, it.toTalkCriteria(webContext.context))
             }
             GET("/user/{login}") {
                 speakerHandlerApi.findSpeakerByLogin(it.pathVariable("login"))
@@ -90,7 +91,7 @@ class WebRouterConfig {
 
             (2012..CURRENT_YEAR).forEach { year ->
                 GET("/$year") {
-                    talkHandlerApi.findTalkByYear(year, it.param("search").orElse(null))
+                    talkHandlerApi.findTalkByYear(year, it.toTalkCriteria(webContext.context))
                 }
                 GET("/$year/media") {
                     mediaHandler.findMediaByYear(year, it.param("search").orElse(null))
