@@ -30,7 +30,7 @@ fun DIV.headerComponent(ctx: Context, event: Event?) {
                 }
                 div {
                     if (event != null) {
-                        span { +"${event.start.formatDate(ctx.language)} ${event.end.year}" }
+                        span { +"${event.start.formatDate(ctx.language)}, ${event.end.formatDate(ctx.language)} ${event.end.year}" }
                     }
                     span(classes ="mxt-navbar-description ps-2") { +"Lyon - FRANCE" }
                 }
