@@ -1,8 +1,6 @@
 {
   "build": {
+    "type": "gradle",
     "goal": "assemble"
-  },
-  "deploy": {
-    "jarName": "./backend/build/libs/backend-1.0.0-SNAPSHOT.jar"
   }
 }
