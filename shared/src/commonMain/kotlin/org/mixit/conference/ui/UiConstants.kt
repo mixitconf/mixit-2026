@@ -55,7 +55,6 @@ val MENU = listOf(
             MenuItem(title = "menu.content.speakers", href = "$CURRENT_TALK_YEAR/speakers"),
             MenuItem(title = "menu.content.agenda", href = CURRENT_TALK_YEAR.toString()),
             MenuItem(title = "menu.content.media", href = "$CURRENT_MEDIA_YEAR/media"),
-            MenuItem(title = "menu.content.faq", href = "faq")
         )
     ),
     Menu(
@@ -64,7 +63,8 @@ val MENU = listOf(
             MenuItem(title = "menu.facilities.accessibility", href = "accessibility"),
             MenuItem(title = "menu.facilities.venue", href = "venue"),
             MenuItem(title = "menu.facilities.mixette", href = "mixette"),
-            MenuItem(title = "menu.facilities.us", href = "about")
+            MenuItem(title = "menu.facilities.us", href = "about"),
+            MenuItem(title = "menu.content.faq", href = "faq")
         )
     )
 )

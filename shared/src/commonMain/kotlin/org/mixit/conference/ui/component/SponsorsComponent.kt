@@ -7,25 +7,30 @@ import org.mixit.conference.model.people.SponsorshipLevel
 import org.mixit.conference.model.shared.Context
 
 fun DIV.sponsorGroupComponent(context: Context, event: Event, sponsors: List<Sponsor>) {
-    h2 {
-        +"${context.i18n("home.section.sponsors.title")} ${event.year}"
-    }
-    val mainLevels = listOf(SponsorshipLevel.GOLD, SponsorshipLevel.LANYARD, SponsorshipLevel.PARTY)
-    val mainSponsors = sponsors.filter { mainLevels.contains(it.level) }.sortedBy { it.subscriptionDate }
-        .map { it.name to it.photoUrl!! }.toSet()
-    val otherSponsors = sponsors.filterNot { mainLevels.contains(it.level) }.sortedBy { it.subscriptionDate }
-        .map { it.name to it.photoUrl!! }
-
-    div {
-        h5 {
-            +context.i18n("sponsor.level.main")
+    if(sponsors.isNotEmpty()) {
+        h2 {
+            +"${context.i18n("home.section.sponsors.title")} ${event.year}"
         }
-        sponsorBlockComponent(event, mainSponsors)
+        val mainLevels = listOf(SponsorshipLevel.GOLD, SponsorshipLevel.LANYARD, SponsorshipLevel.PARTY)
+        val mainSponsors = sponsors.filter { mainLevels.contains(it.level) }.sortedBy { it.subscriptionDate }
+            .map { it.name to it.photoUrl!! }.toSet()
+        val otherSponsors = sponsors.filterNot { mainLevels.contains(it.level) }.sortedBy { it.subscriptionDate }
+            .map { it.name to it.photoUrl!! }
 
-        h5(classes = "mt-3") {
-            +context.i18n("sponsor.level.partner")
+        div {
+            h5 {
+                +context.i18n("sponsor.level.main")
+            }
+            sponsorBlockComponent(event, mainSponsors)
+
+            h5(classes = "mt-3") {
+                +context.i18n("sponsor.level.partner")
+            }
+            sponsorBlockComponent(
+                event,
+                otherSponsors.filter { !mainSponsors.map { it.first }.contains(it.first) }.toSet()
+            )
         }
-        sponsorBlockComponent(event, otherSponsors.filter { !mainSponsors.map { it.first }.contains(it.first) }.toSet())
     }
 }
 
