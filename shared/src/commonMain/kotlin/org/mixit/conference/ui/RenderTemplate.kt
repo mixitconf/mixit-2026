@@ -153,15 +153,6 @@ fun renderTemplate(ctx: Context, event: Event? = null, layoutContent: DIV.(Conte
                 div(classes ="mxt-layout__main-page") {
                     layoutContent(ctx)
                 }
-                div(classes="container-xxl text-center pt-5 pb-3") {
-                    small {
-                        +"Hosted and supported by"
-                    }
-                    br
-                    img(src="/images/sponsors/logo-clevercloud.svg") {
-                        style = "max-height: 2em"
-                    }
-                }
                 footerComponent(ctx, event)
             }
         }

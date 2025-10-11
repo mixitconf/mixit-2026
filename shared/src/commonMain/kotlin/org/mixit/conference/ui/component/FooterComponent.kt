@@ -15,6 +15,19 @@ fun DIV.footerComponent(ctx: Context, event: Event?) {
                 }
                 MENU.forEach { menu -> renderMenu(ctx, MenuUsage.FOOTER, menu) }
             }
+            div(classes="container-xxl text-center") {
+                small {
+                    style="color: #fff"
+                    +"Hosted and supported by"
+                }
+                br
+                img(src="/images/sponsors/logo-clever-cloud.png") {
+                    style = "max-height: 2em"
+                    alt = "Clever Cloud"
+                }
+            }
+
         }
+
     }
 }
