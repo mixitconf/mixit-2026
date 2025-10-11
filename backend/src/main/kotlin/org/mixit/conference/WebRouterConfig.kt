@@ -84,6 +84,9 @@ class WebRouterConfig {
             GET("/venue") {
                 eventHandler.findByYear(CURRENT_YEAR, MediaType.TEXT_HTML, EventScreen.VENUE)
             }
+            GET("/budget") {
+                eventHandler.findByYear(CURRENT_YEAR, MediaType.TEXT_HTML, EventScreen.BUDGET)
+            }
 
             (2012..CURRENT_YEAR).forEach { year ->
                 GET("/$year") {

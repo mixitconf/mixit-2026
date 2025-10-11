@@ -12,7 +12,7 @@
     --text-footer-color: var(--color-light);
     --accent-color: #2c233d;
     --title-color: var(--text-color);
-    --mode-img-src: url('/images/svg/mode/mxt-car.svg');
+    --mode-img-src: url('/images/svg/mode/mxt-dark.svg');
     --theme-sponsor: var(--theme-color);
     --color-fourth: #1976d2;
     --color-light: #E0E0E0;
@@ -34,28 +34,13 @@
     --header-img-venue-src: url('/images/svg/header/mxt-icon-venue-dark.svg');
     --header-img-faq-src: url('/images/svg/header/mxt-icon-faq-dark.svg');
     --header-img-ticket-src: url('/images/svg/header/mxt-icon-ticket-dark.svg');
+    --header-img-budget-src: url('/images/svg/header/mxt-icon-budget-dark.svg');
     --transport-train: url('/images/svg/transport/transport_railway-dark.svg');
     --transport-bus: url('/images/svg/transport/transport_bus-dark.svg');
     --transport-flight: url('/images/svg/transport/transport_flight-dark.svg');
     --transport-bike: url('/images/svg/transport/transport_bike-dark.svg');
     --transport-car: url('/images/svg/transport/transport_car-dark.svg');
     --sponsor-max-width: 20em;
-}
-
-body[data-theme="fire"] {
-    --color-primary: #f59f00;
-    --color-secondary: #1732FF;
-    --color-third: #ffd43b;
-    --theme-color: #ffe8cc;
-    --theme-dark: #f59f00;
-    --theme-light: #ffd43b;
-    --theme-footer: var(--color-primary);
-    --text-color: var(--color-dark);
-    --text-footer-color: var(--color-dark);
-    --accent-color: #f59f00;
-    --title-color: var(--text-color);
-    --mode-img-src: url('/images/svg/mode/mxt-light.svg');
-    --theme-sponsor: var(--theme-color);
 }
 
 body[data-theme="car"] {
@@ -70,7 +55,7 @@ body[data-theme="car"] {
     --text-footer-color: var(--color-dark);
     --accent-color: #FF4081;
     --title-color: var(--text-color);
-    --mode-img-src: url('/images/svg/mode/mxt-fire.svg');
+    --mode-img-src: url('/images/svg/mode/mxt-light.svg');
     --theme-sponsor: var(--theme-color);
 }
 
@@ -87,7 +72,7 @@ body[data-theme="dark"] {
     --text-footer-color: #E0E0E0;
     --accent-color: var(--color-dark);
     --title-color: var(--text-color);
-    --mode-img-src: url('/images/svg/mode/mxt-old.svg');
+    --mode-img-src: url('/images/svg/mode/mxt-fire.svg');
     --accessibility-child-care: url('/images/svg/accessibility/mxt-icon--child-care.svg');
     --accessibility-hearing-impaired: url('/images/svg/accessibility/mxt-icon--hearing-impaired.svg');
     --accessibility-motor-disability: url('/images/svg/accessibility/mxt-icon--motor-disability.svg');
@@ -105,6 +90,7 @@ body[data-theme="dark"] {
     --header-img-venue-src: url('/images/svg/header/mxt-icon-venue-light.svg');
     --header-img-faq-src: url('/images/svg/header/mxt-icon-faq-light.svg');
     --header-img-ticket-src: url('/images/svg/header/mxt-icon-ticket-light.svg');
+    --header-img-budget-src: url('/images/svg/header/mxt-icon-budget-light.svg');
     --transport-train: url('/images/svg/transport/transport_railway.svg');
     --transport-bus: url('/images/svg/transport/transport_bus.svg');
     --transport-flight: url('/images/svg/transport/transport_flight.svg');
@@ -125,7 +111,7 @@ body[data-theme="old"] {
     --text-color: #212121;
     --accent-color: var(--color-primary);
     --title-color: var(--color-primary);
-    --mode-img-src: url('/images/svg/mode/mxt-dark.svg');
+    --mode-img-src: url('/images/svg/mode/mxt-car.svg');
 }
 
 body {
@@ -395,6 +381,12 @@ body {
 .mxt-img__header-ticket-home {
     content: var(--header-img-ticket-src);
     max-height: 3em;
+    margin-right: 8px;
+}
+
+.mxt-img__header-budget {
+    content: var(--header-img-budget-src);
+    max-height: 1.8em;
     margin-right: 8px;
 }
 
@@ -1006,4 +998,35 @@ footer {
     content: " *";
     font-weight: bolder;
     color: var(--color-secondary);
+}
+
+.mxt-chart--container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    margin-bottom: 0.5em;
+}
+.mxt-chart--bullet {
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+}
+.mxt-chart--color1 {
+    background-color: #5b308fff;
+}
+.mxt-chart--color2 {
+    background-color: #f9d642ff;
+}
+.mxt-chart--color3 {
+    background-color: #e23c6aff;
+}
+.mxt-chart--color4 {
+    background-color: #ed8534ff;
+}
+.mxt-chart--color5 {
+    background-color: #1f9cdfff;
+}
+.mxt-chart--color6 {
+    background-color: #46ae87ff;
 }

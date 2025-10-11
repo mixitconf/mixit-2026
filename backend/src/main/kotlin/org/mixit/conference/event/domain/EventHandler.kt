@@ -11,6 +11,7 @@ import org.mixit.conference.talk.spi.TalkRepository
 import org.mixit.conference.ui.home.renderHomePage
 import org.mixit.conference.ui.page.renderAboutPage
 import org.mixit.conference.ui.page.renderAccessibilityPage
+import org.mixit.conference.ui.page.renderBudgetPage
 import org.mixit.conference.ui.page.renderCodeOfConduct
 import org.mixit.conference.ui.page.renderMixettePage
 import org.mixit.conference.ui.page.renderVenuePage
@@ -52,6 +53,7 @@ class EventHandler(
                             when (eventScreen) {
                                 EventScreen.CODE_OF_CONDUCT -> renderCodeOfConduct(context, event, sponsors)
                                 EventScreen.VENUE -> renderVenuePage(context, event, sponsors)
+                                EventScreen.BUDGET -> renderBudgetPage(context, event, sponsors)
                                 EventScreen.ACCESSIBILITY -> renderAccessibilityPage(context, event, sponsors)
                                 EventScreen.ABOUT -> renderAboutPage(
                                     context,

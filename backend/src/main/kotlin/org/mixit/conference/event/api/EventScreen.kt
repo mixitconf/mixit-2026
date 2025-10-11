@@ -5,6 +5,7 @@ package org.mixit.conference.event.api
  */
 enum class EventScreen {
     ABOUT,
+    BUDGET,
     ACCESSIBILITY,
     CODE_OF_CONDUCT,
     HOME,

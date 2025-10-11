@@ -120,9 +120,6 @@ fun renderTemplate(ctx: Context, event: Event? = null, layoutContent: DIV.(Conte
                             case 'old':
                                 theme = 'car'
                                 break;
-                            case 'car':
-                                theme = 'fire'
-                                break;    
                             case 'light':
                                 theme = 'dark'
                                 break;

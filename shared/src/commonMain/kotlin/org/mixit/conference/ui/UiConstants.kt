@@ -44,7 +44,8 @@ val MENU = listOf(
             MenuItem(title = "menu.mixit.news", href = "#home.section.news.title"),
             MenuItem(title = "menu.mixit.podcast", href = "#home.section.onair.title"),
             MenuItem(title = "menu.mixit.values", href = "#home.section.values.title"),
-            MenuItem(title = "menu.mixit.editorialline", href = "#home.section.editorialline.title")
+            MenuItem(title = "menu.mixit.editorialline", href = "#home.section.editorialline.title"),
+                    MenuItem(title = "menu.facilities.us", href = "about"),
         )
     ),
     Menu(
@@ -63,7 +64,7 @@ val MENU = listOf(
             MenuItem(title = "menu.facilities.accessibility", href = "accessibility"),
             MenuItem(title = "menu.facilities.venue", href = "venue"),
             MenuItem(title = "menu.facilities.mixette", href = "mixette"),
-            MenuItem(title = "menu.facilities.us", href = "about"),
+            MenuItem(title = "menu.facilities.budget", href = "budget"),
             MenuItem(title = "menu.content.faq", href = "faq")
         )
     )
