@@ -38,7 +38,7 @@ fun renderSpeaker(context: Context, speaker: Speaker, talks: List<Talk>) =
                 }
             }
             div(classes = "mxt-btn__group") {
-                speaker.links.forEach { linkAsSecondaryButton(context, it) }
+                speaker.links.forEach { linkAsSecondaryButton(it) }
             }
 
             talks.forEach { talk ->

@@ -14,11 +14,3 @@ fun String.toSlug() = lowercase()
     .split(" ")
     .joinToString("-")
     .replace("-+".toRegex(), "-") // Avoid multiple consecutive "--"
-
-fun String.camelCase(): String = this
-    .trim()
-    .split(" ")
-    .joinToString(" ") { str ->
-        str.lowercase()
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-    }

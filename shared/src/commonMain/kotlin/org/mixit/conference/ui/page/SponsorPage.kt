@@ -3,6 +3,7 @@ package org.mixit.conference.ui.page
 import kotlinx.html.*
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.link.Link
+import org.mixit.conference.model.link.LinkType
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.shared.Language
@@ -38,32 +39,20 @@ fun renderSponsor(context: Context, event: Event, sponsors: List<Sponsor>) =
 
                 div(classes = "mxt-btn__group mb-5") {
                     linkAsPrimaryButton(
-                        context,
-                        Link(
-                            url = "mailto:contact@mixitconf.org",
-                            name = context.i18n("sponsor.contact")
-                        )
+                        Link(url = "mailto:contact@mixitconf.org"),
+                        label = context.i18n("sponsor.contact")
                     )
                     linkAsPrimaryButton(
-                        context,
-                        Link(
-                            url = context.i18n("sponsor.leaflet.url"),
-                            name = context.i18n("sponsor.leaflet.name")
-                        )
+                        Link(url = context.i18n("sponsor.leaflet.url")),
+                        label = context.i18n("sponsor.leaflet.name")
                     )
                     linkAsPrimaryButton(
-                        context,
-                        Link(
-                            url = context.i18n("sponsor.mixit.form.url"),
-                            name = context.i18n("sponsor.mixit.form.name")
-                        )
+                        Link(url = context.i18n("sponsor.mixit.form.url")),
+                        label = context.i18n("sponsor.mixit.form.name")
                     )
                     linkAsPrimaryButton(
-                        context,
-                        Link(
-                            url = context.i18n("sponsor.mixteen.form.url"),
-                            name = context.i18n("sponsor.mixteen.form.name")
-                        )
+                        Link(url = context.i18n("sponsor.mixteen.form.url")),
+                        label = context.i18n("sponsor.mixteen.form.name")
                     )
                 }
             }
@@ -94,7 +83,7 @@ fun renderSponsor(context: Context, event: Event, sponsors: List<Sponsor>) =
                                         raw(context.markdown(sponsor.description[Language.FRENCH] ?: ""))
                                     }
                                     div(classes = "mxt-btn__group") {
-                                        sponsor.links.forEach { linkAsSecondaryButton(context, it) }
+                                        sponsor.links.forEach { linkAsSecondaryButton(it) }
                                     }
                                 }
                             }

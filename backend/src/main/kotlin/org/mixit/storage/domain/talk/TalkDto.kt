@@ -6,6 +6,7 @@ import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.model.talk.TalkLevel
 import org.mixit.conference.model.shared.Language
 import org.mixit.conference.model.link.Link
+import org.mixit.conference.model.link.LinkType
 import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.model.talk.Room
 import org.mixit.conference.model.talk.Talk
@@ -47,7 +48,7 @@ data class TalkDto(
         end = end,
         room = room ?: Room.UNKNOWN,
         level = level,
-        photos = photoUrls.map { Link(name = it.name, url = it.url, image = null) },
+        photos = photoUrls.map { Link(type = LinkType.PHOTO, url = it.url) },
         videos = listOfNotNull(video?.let { Video(it) }, video2?.let { Video(it) }),
         topic = Topic.of(topic),
         slug = slug,

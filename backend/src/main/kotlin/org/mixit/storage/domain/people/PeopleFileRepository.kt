@@ -38,9 +38,10 @@ class PeopleFileRepository(
         return peopleRepository.findAll()
             .asSequence()
             .filter { sponsorIds.contains(it.login) }
-            .map { personDto ->
-                val sponsor = event.sponsors.first { it.sponsorId == personDto.login }
-                personDto.toSponsor(sponsor.level, sponsor.subscriptionDate)
+            .flatMap { personDto ->
+                event.sponsors
+                    .filter { it.sponsorId == personDto.login }
+                    .map { sponsor -> personDto.toSponsor(sponsor.level, sponsor.subscriptionDate) }
             }
             .toList()
     }

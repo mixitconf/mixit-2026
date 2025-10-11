@@ -49,7 +49,7 @@ data class PersonDto(
         company = company,
         firstname = firstname ?: "",
         lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.name, it.url, it.image) },
+        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description
     )
 
@@ -58,7 +58,7 @@ data class PersonDto(
         email = email,
         photoUrl = photoUrl,
         name = company ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.name, it.url, it.image) },
+        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description,
         level = level,
         subscriptionDate = subscriptionDate
@@ -69,7 +69,7 @@ data class PersonDto(
         email = email,
         photoUrl = photoUrl,
         name = company ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.name, it.url, it.image) },
+        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description
     )
 
@@ -79,7 +79,7 @@ data class PersonDto(
         photoUrl = photoUrl,
         firstname = firstname ?: "",
         lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.name, it.url, it.image) },
+        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description
     )
 
@@ -89,7 +89,7 @@ data class PersonDto(
         photoUrl = photoUrl,
         firstname = firstname ?: "",
         lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.name, it.url, it.image) },
+        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description
     )
 }

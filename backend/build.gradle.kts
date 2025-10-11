@@ -31,6 +31,7 @@ dependencies {
 
 	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
 
 	testRuntimeOnly(libs.junit.launcher)
 }
