@@ -1,6 +1,8 @@
 {
   "build": {
-    "type": "gradle",
     "goal": "assemble"
+  },
+  "deploy": {
+    "goal": "bootRun"
   }
 }
