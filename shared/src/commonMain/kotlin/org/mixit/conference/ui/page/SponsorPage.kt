@@ -3,7 +3,6 @@ package org.mixit.conference.ui.page
 import kotlinx.html.*
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.link.Link
-import org.mixit.conference.model.link.LinkType
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.shared.Language
@@ -29,7 +28,7 @@ fun renderSponsor(context: Context, event: Event, sponsors: List<Sponsor>) =
             p(classes = "lead mt-3") {
                 +context.i18n("sponsor.intro")
             }
-            if(event.year == CURRENT_YEAR) {
+            if (event.year == CURRENT_YEAR) {
                 p {
                     +context.i18n("sponsor.become")
                 }
@@ -63,19 +62,36 @@ fun renderSponsor(context: Context, event: Event, sponsors: List<Sponsor>) =
                 .entries
                 .sortedByDescending { it.key.priority }
 
+            div("mxt-sponsor__image-thumb") {
+                sponsors.map{ it.name to it.photoUrl}.shuffled().distinct().forEach { (sponsorName, photoUrl) ->
+                    div {
+                        a {
+                            href = "/${event.year}/sponsors#${sponsorName.replace(" ", "-")}"
+                            img(
+                                classes = "mxt-sponsor__image",
+                                alt = sponsorName,
+                                src = photoUrl!!.replace("https://mixitconf.org", "")
+                            ) {
+                                style = "width: 100%"
+                            }
+                        }
+                    }
+                }
+            }
 
             sponsorByLevel.forEach { (level, sponsors) ->
                 sectionComponent(context, i18nKey = "sponsor.level.${level.name}") {
                     sponsors.forEach { sponsor ->
                         sectionComponent(context) {
                             div(classes = "mxt-sponsor__grid") {
+                                attributes["id"] = sponsor.name.replace(" ", "-")
                                 div {
                                     div(classes = "mxt-sponsor__image-container") {
                                         img(
                                             classes = "mxt-sponsor__image",
                                             alt = sponsor.name,
                                             src = sponsor.photoUrl!!.replace("https://mixitconf.org", "")
-                                        )                                                                                       
+                                        )
                                     }
                                 }
                                 div {
