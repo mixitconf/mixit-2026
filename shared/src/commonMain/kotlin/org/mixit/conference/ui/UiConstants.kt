@@ -39,16 +39,6 @@ val PODCASTS = listOf(
 
 val MENU = listOf(
     Menu(
-        title = "menu.mixit.title",
-        items = listOf(
-            MenuItem(title = "menu.mixit.news", href = "#home.section.news.title"),
-            MenuItem(title = "menu.mixit.podcast", href = "#home.section.onair.title"),
-            MenuItem(title = "menu.mixit.values", href = "#home.section.values.title"),
-            MenuItem(title = "menu.mixit.editorialline", href = "#home.section.editorialline.title"),
-                    MenuItem(title = "menu.facilities.us", href = "about"),
-        )
-    ),
-    Menu(
         title = "menu.content.title",
         items = listOf(
             MenuItem(title = "menu.content.cod", href = "codeofconduct"),
@@ -67,6 +57,16 @@ val MENU = listOf(
             MenuItem(title = "menu.facilities.budget", href = "budget"),
             MenuItem(title = "menu.content.faq", href = "faq")
         )
-    )
+    ),
+    Menu(
+        title = "menu.mixit.title",
+        items = listOf(
+            MenuItem(title = "menu.mixit.news", href = "#home.section.news.title"),
+            MenuItem(title = "menu.mixit.podcast", href = "#home.section.onair.title"),
+            MenuItem(title = "menu.mixit.values", href = "#home.section.values.title"),
+            MenuItem(title = "menu.mixit.editorialline", href = "#home.section.editorialline.title"),
+            MenuItem(title = "menu.facilities.us", href = "about"),
+        )
+    ),
 )
 

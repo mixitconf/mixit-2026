@@ -12,16 +12,38 @@ enum class MenuUsage {
 }
 
 fun DIV.renderMenu(ctx: Context, menuUsage: MenuUsage, menu: Menu) {
-    div(classes = if(menuUsage == MenuUsage.FOOTER) "col-6 col-lg-2 offset-lg-1 mb-3" else "row") {
-        h5 {
-            +ctx.i18n(menu.title)
+    when (menuUsage) {
+        MenuUsage.HEADER -> {
+            div(classes = "row") {
+                h4 {
+                    +ctx.i18n(menu.title)
+                }
+                ul(classes = "list-unstyled") {
+                    menu.items.forEach { item ->
+                        li(classes = "mb-2") {
+                            a(classes = "mxt-menu__item") {
+                                href = "${ctx.uriBasePath}/${item.href}"
+                                +ctx.i18n(item.title)
+                            }
+                        }
+                    }
+                }
+            }
         }
-        ul(classes = "list-unstyled small") {
-            menu.items.forEach { item ->
-                li(classes = "mb-2") {
-                    a(classes = "mxt-menu__item") {
-                        href = "${ctx.uriBasePath}/${item.href}"
-                        +ctx.i18n(item.title)
+
+        MenuUsage.FOOTER -> {
+            div(classes = "col-4 col-lg-2 offset-lg-1 mb-3") {
+                h5 {
+                    +ctx.i18n(menu.title)
+                }
+                ul(classes = "list-unstyled small") {
+                    menu.items.forEach { item ->
+                        li(classes = "mb-2") {
+                            a(classes = "mxt-menu__item") {
+                                href = "${ctx.uriBasePath}/${item.href}"
+                                +ctx.i18n(item.title)
+                            }
+                        }
                     }
                 }
             }
