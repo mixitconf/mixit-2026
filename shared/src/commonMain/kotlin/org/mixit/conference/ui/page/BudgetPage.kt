@@ -37,14 +37,6 @@ fun renderBudgetPage(
             p {
                 +context.i18n("budget.lines.intro")
             }
-            listOf("speakers", "logistics", "venue", "accessibility", "media", "admin").forEach {
-                div {
-                    b { +context.i18n("budget.lines.$it.title") }
-                    p {
-                        +context.i18n("budget.lines.$it.intro")
-                    }
-                }
-            }
             div(classes = "row justify-content-center align-items-center") {
                 img(classes = "col-12 col-md-6 pb-3",) {
                     src = "/images/svg/budget-2026.svg"
@@ -58,6 +50,14 @@ fun renderBudgetPage(
                     legend(context, "accessibility","color4")
                     legend(context, "venue","color5")
                     legend(context, "admin","color6")
+                }
+            }
+            listOf("speakers", "logistics", "venue", "accessibility", "media", "admin").forEach {
+                div(classes = "pt-4") {
+                    b { +context.i18n("budget.lines.$it.title") }
+                    div {
+                        +context.i18n("budget.lines.$it.intro")
+                    }
                 }
             }
         }
