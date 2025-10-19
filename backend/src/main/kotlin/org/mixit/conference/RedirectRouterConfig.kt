@@ -44,7 +44,15 @@ class RedirectRouterConfig(
                     ServerResponse.permanentRedirect(properties.doc.en.sponsorMixteenForm).build()
                 }
             }
-
+            GET("/en/docs/sponsor/mixteen") {
+                ServerResponse.permanentRedirect(properties.doc.en.sponsorMixteenForm).build()
+            }
+            GET("/en/docs/sponsor/leaflet") {
+                ServerResponse.permanentRedirect(properties.doc.en.sponsor).build()
+            }
+            GET("/en/docs/sponsor/mixit") {
+                ServerResponse.permanentRedirect(properties.doc.en.sponsorForm).build()
+            }
             GET("/docs/sponsor/leaflet/en") {
                 ServerResponse.permanentRedirect(properties.doc.en.sponsor).build()
             }
