@@ -80,7 +80,7 @@ fun renderBudgetPage(
     }
 
 private fun DIV.legend(context: Context, section: String, colorClass: String) {
-    div(classes = "d-flex ms-4") {
+    div(classes = "d-flex ms-4 align-items-center") {
         div(classes = "mxt-chart--bullet mxt-chart--$colorClass") {}
         div(classes = "ms-2") {
             small {
