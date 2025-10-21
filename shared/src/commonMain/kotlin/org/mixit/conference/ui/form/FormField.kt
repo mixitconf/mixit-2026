@@ -127,9 +127,10 @@ data class FormField(
                     this.required = isRequired
                     options.forEach { input ->
                         option {
+                            this.selected = (input.first == defaultValue)
                             value = input.first
                             this.label = input.second
-                            selected = (input.first == defaultValue)
+                            this.text(input.second)
                         }
                     }
                 }
