@@ -49,7 +49,7 @@ class WebFilter(
 
         val isEn = request.hasLanguagePrefix(Language.ENGLISH)
         webContext.context =
-            buildContext(messageSource, markdownRenderer, if (isEn) Locale.ENGLISH else localeResolver.resolveLocale(request))
+            buildContext(messageSource, markdownRenderer, if (isEn) Locale.ENGLISH else Locale.FRENCH)
 
         val uriPath = request.requestURI.let {
             if (isEn || request.hasLanguagePrefix(Language.ENGLISH)) it.substring(3) else it
