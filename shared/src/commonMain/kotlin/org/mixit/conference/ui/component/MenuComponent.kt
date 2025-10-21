@@ -22,7 +22,7 @@ fun DIV.renderMenu(ctx: Context, menuUsage: MenuUsage, menu: Menu) {
                     menu.items.forEach { item ->
                         li(classes = "mb-2") {
                             a(classes = "mxt-menu__item") {
-                                href = "${ctx.uriBasePath}/${item.href}"
+                                href = "${ctx.forceUriBAsePath()}/${item.href}"
                                 +ctx.i18n(item.title)
                             }
                         }
@@ -40,7 +40,7 @@ fun DIV.renderMenu(ctx: Context, menuUsage: MenuUsage, menu: Menu) {
                     menu.items.forEach { item ->
                         li(classes = "mb-2") {
                             a(classes = "mxt-menu__item") {
-                                href = "${ctx.uriBasePath}/${item.href}"
+                                href = "${ctx.forceUriBAsePath()}/${item.href}"
                                 +ctx.i18n(item.title)
                             }
                         }

@@ -45,7 +45,7 @@
 
 body[data-theme="car"] {
     --color-primary: #FF4081;
-    --color-secondary: #1976d2;
+    --color-secondary: #5e40ff;
     --color-third: #f49bb9;
     --theme-color: #ffffff;
     --theme-dark: #FF4081;
@@ -910,14 +910,16 @@ footer {
 .mxt-no-link > a, .mxt-no-link > p > a {
     font-weight: bolder;
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--color-secondary);
 }
 
 .mxt-talks__container-line > a {
     text-decoration: none;
     color: var(--text-color);
 }
-
+.mxt-no-link > a, .mxt-no-link > p > a, .mxt-talks__container-line > a {
+    opacity: 0.8;
+}
 .mxt-talks__container-line {
     margin-top: 0.5em;
 }

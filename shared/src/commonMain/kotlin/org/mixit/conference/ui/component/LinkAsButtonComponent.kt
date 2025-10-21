@@ -10,7 +10,7 @@ fun DIV.linkAsPrimaryButton(link: Link, label: String?) {
     a(href = link.url, classes = "btn btn-primary mxt-btn-primary", target = "_blank") {
         attributes["alt"] = label ?: link.name
         if (link.type.image != null) {
-            img(src = link.type.image, alt = label ?:link.name)
+            img(src = link.type.image, alt = label ?:link.name, classes = "me-2")
         }
         +(label ?:link.name)
     }

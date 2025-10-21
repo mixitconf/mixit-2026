@@ -52,7 +52,9 @@ class WebFilter(
             buildContext(messageSource, markdownRenderer, if (isEn) Locale.ENGLISH else Locale.FRENCH)
 
         val uriPath = request.requestURI.let {
-            if (isEn || request.hasLanguagePrefix(Language.ENGLISH)) it.substring(3) else it
+            if (isEn || request.hasLanguagePrefix(Language.ENGLISH) || request.hasLanguagePrefix(Language.FRENCH)) it.substring(
+                3
+            ) else it
         }.ifBlank { "/" }
 
         val req = CustomHttpServletRequestWrapper(request, uriPath).apply {

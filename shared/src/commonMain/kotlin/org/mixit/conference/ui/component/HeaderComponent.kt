@@ -21,7 +21,7 @@ fun DIV.headerComponent(ctx: Context, event: Event?) {
             lateralMenuComponent(ctx)
             div(classes ="flex-fill") { }
             div(classes ="navbar-header mxt-navbar-brand") {
-                a(classes = "navbar-brand", href = "/") {
+                a(classes = "navbar-brand", href = ctx.forceUriBAsePath() + "/") {
                     img(
                         classes = "navbar-brand-icon",
                         src = "/images/svg/logo/mxt-icon--logo--light.svg",
@@ -37,11 +37,17 @@ fun DIV.headerComponent(ctx: Context, event: Event?) {
             }
             div(classes ="flex-fill") { }
             div(classes ="d-flex flex-column") {
-                button(classes = "navbar-toggler") {
-                    onClick = "javascript:switchTheme()"
-                    img(classes ="mxt-navbar-mode", alt = ctx.translator.invoke("header.mode"))
+                div(classes ="d-flex flex-gap-2") {
+//                    button(classes = "navbar-toggler p-0") {
+//                        onClick = "javascript:switchTheme()"
+//                        img(classes = "mxt-navbar-mode", alt = ctx.translator.invoke("header.mode"))
+//                    }
+                    button(classes = "navbar-toggler") {
+                        onClick = "javascript:switchTheme()"
+                        img(classes = "mxt-navbar-mode", alt = ctx.translator.invoke("header.mode"))
+                    }
                 }
-                div(classes ="d-flex me-2") {
+                div(classes ="d-flex flex-gap-2") {
                     if (ctx.language == Language.FRENCH) {
                         div(classes = "mxt-navbar-language me-2 mxt-navbar-language--active") {
                             +"FR"
