@@ -4,7 +4,6 @@ import kotlinx.html.*
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
-import org.mixit.conference.model.shared.Language
 import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.ui.component.*
@@ -32,31 +31,7 @@ fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keyn
                 b { +context.i18n("home.section.news.birthday") }
                 +context.i18n("home.section.news.birthday2")
             }
-            div(classes = "d-flex align-items-baseline pt-3") {
-                div {
-                    img(classes = "mxt-img__header-ticket-home") {
-                        alt = "Ticket"
-                    }
-                }
-                div {
-                    +context.i18n("home.section.news.ticket")
-                }
-            }
-            div(classes = "d-flex align-items-baseline") {
-                div {
-                    img(classes = "mxt-img__header-sponsor-home") {
-                        alt = "Sponsor"
-                    }
-                }
-                div(classes = "mxt-no-link") {
-                    unsafe {
-                        raw(
-                            context.markdown(context.i18n("home.section.news.sponsor"))
-                        )
-                    }
-                }
-            }
-
+            timeline(context)
         }
         sectionComponent(
             context,
@@ -119,7 +94,7 @@ fun DIV.renderHomeTopic(context: Context, topic: Topic) {
 }
 
 fun DIV.renderValueBlock(context: Context, category: String) {
-    div(classes = "d-flex align-items-baseline pt-3") {
+    div(classes = "d-flex align-items-center pt-3") {
         div {
             img(classes = "mxt-icon__category-$category") {
                 alt = context.i18n("home.section.values.$category.title")
@@ -131,5 +106,40 @@ fun DIV.renderValueBlock(context: Context, category: String) {
     }
     div {
         +context.i18n("home.section.values.$category.desc")
+    }
+}
+
+fun DIV.timeline(context: Context) {
+    div(classes = "d-flex justify-content-center gap-4") {
+        timelineElement(context, "home.timeline.cfp.open", "mxt-timeline--cfp-open")
+        timelineElement(context, "home.timeline.cfp.close", "mxt-timeline--cfp-close")
+        timelineElement(context, "home.timeline.tickets.sale", "mxt-timeline--ticketing-open")
+    }
+    div(classes = "d-flex align-items-baseline justify-content-center mt-3") {
+        div {
+            img(classes = "mxt-img__header-sponsor-home") {
+                alt = "Sponsor"
+            }
+        }
+        div(classes = "mxt-no-link") {
+            unsafe {
+                raw(
+                    context.markdown(context.i18n("home.section.news.sponsor"))
+                )
+            }
+        }
+    }
+}
+
+fun DIV.timelineElement(context: Context, titleKey: String, className: String) {
+    div(classes = "d-flex flex-column align-items-center") {
+        img(classes = className) {
+            alt = context.i18n(titleKey)
+        }
+        div {
+            b {
+                +context.i18n(titleKey)
+            }
+        }
     }
 }

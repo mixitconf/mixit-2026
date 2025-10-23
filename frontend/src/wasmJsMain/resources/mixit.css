@@ -40,6 +40,9 @@
     --transport-flight: url('/images/svg/transport/transport_flight-dark.svg');
     --transport-bike: url('/images/svg/transport/transport_bike-dark.svg');
     --transport-car: url('/images/svg/transport/transport_car-dark.svg');
+    --timeline-cfpe-open: url('/images/svg/timeline/nov10.svg');
+    --timeline-cfpe-close: url('/images/svg/timeline/jan4.svg');
+    --timeline-ticketing-open: url('/images/svg/timeline/fev9.svg');
     --sponsor-max-width: 20em;
 }
 
@@ -96,6 +99,9 @@ body[data-theme="dark"] {
     --transport-flight: url('/images/svg/transport/transport_flight.svg');
     --transport-bike: url('/images/svg/transport/transport_bike.svg');
     --transport-car: url('/images/svg/transport/transport_car.svg');
+    --timeline-cfpe-open: url('/images/svg/timeline/nov10_light.svg');
+    --timeline-cfpe-close: url('/images/svg/timeline/jan4_light.svg');
+    --timeline-ticketing-open: url('/images/svg/timeline/fev9_light.svg');
 }
 
 body[data-theme="old"] {
@@ -388,6 +394,22 @@ body {
 .mxt-img__social:hover {
     cursor: pointer;
     opacity: 0.8;
+}
+
+.mxt-timeline--cfp-open {
+    content: var(--timeline-cfpe-open);
+    height: 4em;
+    width: 4em;
+}
+.mxt-timeline--cfp-close {
+    content: var(--timeline-cfpe-close);
+    height: 4em;
+    width: 4em;
+}
+.mxt-timeline--ticketing-open {
+    content: var(--timeline-ticketing-open);
+    height: 4em;
+    width: 4em;
 }
 
 .mxt-img__header-sponsor-home {
