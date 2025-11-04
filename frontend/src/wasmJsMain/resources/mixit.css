@@ -48,7 +48,7 @@
 
 body[data-theme="car"] {
     --color-primary: #FF4081;
-    --color-secondary: #5e40ff;
+    --color-secondary: #1976d2;
     --color-third: #f49bb9;
     --theme-color: #ffffff;
     --theme-dark: #FF4081;
@@ -172,13 +172,17 @@ body {
     content: var(--mode-img-src);
 }
 
+.mxt-navbar-secu {
+    width: 1em;
+}
+
 .mxt-navbar-language {
-    color: var(--color-light) !important;
+    color: var(--color-dark) !important;
     text-decoration: none !important;
 }
 
 .mxt-navbar-language--active {
-    color: var(--color-third) !important;
+    color: var(--color-dark) !important;
 }
 
 .navbar-brand-icon {
@@ -757,10 +761,12 @@ footer {
 
 .mxt-btn-primary {
     background-color: var(--color-secondary);
+    color: var(--color-dark) !important;
 }
 .mxt-btn-primary:hover {
-    background-color: var(--color-secondary);
-    opacity: 0.8;
+    background-color: var(--color-secondary) !important;
+    opacity: 0.8 !important;
+    color: var(--color-dark) !important;
 }
 
 .mxt-btn-secondary:hover, .mxt-btn-primary:focus {
@@ -1041,9 +1047,6 @@ footer {
     row-gap: 1em;
     margin-top: 2em;
     margin-bottom: 2em;
-    @media (min-width: 768px) {
-        grid-template-columns: 1fr 1fr;
-    }
 }
 
 .mxt-form__filter {
