@@ -25,6 +25,16 @@ fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keyn
                 }
             }
         }
+        +"TESTS"
+        iframe {
+            width = "560"
+            height = "315"
+            src = "https://f2498cb6.sibforms.com/serve/MUIFACCrnNpm4RYbbUu7Ym7J2MIWnA7zQ3My1xfU6_iWunSa9ChFT73CqZhw0Vw6CfaWBPv0ORut4DDSlcVZ0FkGh0VklDe1tBgK_Tp05kg-2rGDPFZ-KcQLKUltsH430wR4EBdL_-r9FGvxawI_ZeY-JmiqEd72fynJhFAhFZQqe0_mPa9_5WNK5OLC0MgWPQC_biJ4_b4qV7lC"
+           attributes["frameborder"] = "0"
+            attributes["scrolling"] = "auto"
+            attributes["allowfullscreen"] = "true"
+            style = "display: block;margin-left: auto;margin-right: auto;max-width: 100%;"
+        }
         sectionComponent(context, i18nKey = "home.section.news.title") {
             div("lead") { +context.i18n("home.section.news.when") }
             div("mt-2") {

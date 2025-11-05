@@ -8,11 +8,11 @@ import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.people.spi.PeopleRepository
 import org.mixit.conference.talk.spi.TalkRepository
-import org.mixit.conference.ui.home.renderHomePage
 import org.mixit.conference.ui.page.renderAboutPage
 import org.mixit.conference.ui.page.renderAccessibilityPage
 import org.mixit.conference.ui.page.renderBudgetPage
 import org.mixit.conference.ui.page.renderCodeOfConduct
+import org.mixit.conference.ui.page.renderHomePage
 import org.mixit.conference.ui.page.renderMixettePage
 import org.mixit.conference.ui.page.renderVenuePage
 import org.springframework.http.MediaType
