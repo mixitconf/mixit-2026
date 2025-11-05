@@ -943,7 +943,7 @@ footer {
 .mxt-no-link > a, .mxt-no-link > p > a {
     font-weight: bolder;
     text-decoration: none;
-    color: var(--color-secondary);
+    color: var(--color-primary);
 }
 
 .mxt-talks__container-line > a {

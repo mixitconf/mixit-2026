@@ -20,6 +20,13 @@ class RedirectRouterConfig(
         webContext: WebContext
     ) = router {
         accept(TEXT_HTML).nest {
+            GET("/cfp") {
+                ServerResponse.permanentRedirect(properties.cfpUrl).build()
+            }
+            GET("/newsletter-subscribe") {
+                ServerResponse.permanentRedirect(properties.newsLetterUrl).build()
+            }
+
             GET("/docs/sponsor/leaflet") {
                 val language = webContext.context?.language ?: Language.FRENCH
                 if(language == Language.FRENCH) {

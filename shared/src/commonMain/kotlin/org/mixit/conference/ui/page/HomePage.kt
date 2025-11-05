@@ -1,13 +1,25 @@
 package org.mixit.conference.ui.page
 
-import kotlinx.html.*
+import kotlinx.html.DIV
+import kotlinx.html.b
+import kotlinx.html.br
+import kotlinx.html.div
+import kotlinx.html.h3
+import kotlinx.html.img
+import kotlinx.html.span
+import kotlinx.html.unsafe
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.shared.model.Topic
-import org.mixit.conference.ui.component.*
+import org.mixit.conference.ui.component.SectionEffect
+import org.mixit.conference.ui.component.SectionStyle
+import org.mixit.conference.ui.component.podcastComponent
+import org.mixit.conference.ui.component.podcastLinks
+import org.mixit.conference.ui.component.sectionComponent
 import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.videoComponent
 import org.mixit.conference.ui.renderTemplate
 
 fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keynotes: List<Talk>) =
@@ -25,20 +37,19 @@ fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keyn
                 }
             }
         }
-//        iframe {
-//            width = "560"
-//            height = "315"
-//            src = "https://f2498cb6.sibforms.com/serve/MUIFACCrnNpm4RYbbUu7Ym7J2MIWnA7zQ3My1xfU6_iWunSa9ChFT73CqZhw0Vw6CfaWBPv0ORut4DDSlcVZ0FkGh0VklDe1tBgK_Tp05kg-2rGDPFZ-KcQLKUltsH430wR4EBdL_-r9FGvxawI_ZeY-JmiqEd72fynJhFAhFZQqe0_mPa9_5WNK5OLC0MgWPQC_biJ4_b4qV7lC"
-//           attributes["frameborder"] = "0"
-//            attributes["scrolling"] = "auto"
-//            attributes["allowfullscreen"] = "true"
-//            style = "display: block;margin-left: auto;margin-right: auto;max-width: 100%;"
-//        }
+
         sectionComponent(context, i18nKey = "home.section.news.title") {
             div("lead") { +context.i18n("home.section.news.when") }
             div("mt-2") {
                 b { +context.i18n("home.section.news.birthday") }
                 +context.i18n("home.section.news.birthday2")
+                div(classes = "mxt-no-link mt-2") {
+                    unsafe {
+                        raw(
+                            context.markdown(context.i18n("home.section.news.newsletter"))
+                        )
+                    }
+                }
             }
             timeline(context)
         }
@@ -154,6 +165,7 @@ fun DIV.timeline(context: Context) {
                 }
             }
         }
+
     }
 
 }

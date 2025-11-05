@@ -7,6 +7,8 @@ import java.net.URI
 data class MixitProperties(
     val security: SecurityProperties,
     val doc: DocumentProperties,
+    val cfpUrl: URI,
+    val newsLetterUrl: URI,
 )
 
 data class SecurityProperties(
