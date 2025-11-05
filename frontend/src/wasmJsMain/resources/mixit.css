@@ -177,12 +177,12 @@ body {
 }
 
 .mxt-navbar-language {
-    color: var(--color-dark) !important;
+    color: var(--color-light) !important;
     text-decoration: none !important;
 }
 
 .mxt-navbar-language--active {
-    color: var(--color-dark) !important;
+    color: var(--color-secondary) !important;
 }
 
 .navbar-brand-icon {
@@ -416,6 +416,11 @@ body {
     width: 4em;
 }
 
+.mxt-img__header-cfp-home {
+    content: var(--header-img-talk-src);
+    max-height: 3em;
+    margin-right: 8px;
+}
 .mxt-img__header-sponsor-home {
     content: var(--header-img-sponsor-src);
     max-height: 3em;
@@ -878,7 +883,7 @@ footer {
 .mxt-talk-language {
     font-weight: bolder;
     font-size: small;
-    color: var(--color-light);
+    color: var(--color-dark);
     background-color: var(--color-secondary);
     padding: 0.2em 1em;
     border-radius: 24px;

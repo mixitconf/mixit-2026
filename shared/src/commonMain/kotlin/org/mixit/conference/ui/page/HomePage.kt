@@ -1,4 +1,4 @@
-package org.mixit.conference.ui.home
+package org.mixit.conference.ui.page
 
 import kotlinx.html.*
 import org.mixit.conference.model.event.Event
@@ -110,25 +110,43 @@ fun DIV.renderValueBlock(context: Context, category: String) {
 }
 
 fun DIV.timeline(context: Context) {
-    div(classes = "d-flex justify-content-center gap-4") {
+    div(classes = "d-flex justify-content-center gap-4 mt-5") {
         timelineElement(context, "home.timeline.cfp.open", "mxt-timeline--cfp-open")
         timelineElement(context, "home.timeline.cfp.close", "mxt-timeline--cfp-close")
         timelineElement(context, "home.timeline.tickets.sale", "mxt-timeline--ticketing-open")
     }
-    div(classes = "d-flex align-items-baseline justify-content-center mt-3") {
-        div {
-            img(classes = "mxt-img__header-sponsor-home") {
-                alt = "Sponsor"
+
+    div(classes = "mt-5 mb-5") {
+        div(classes = "d-flex align-items-center mt-3") {
+            div {
+                img(classes = "mxt-img__header-cfp-home") {
+                    alt = "CFP"
+                }
+            }
+            div(classes = "mxt-no-link") {
+                unsafe {
+                    raw(
+                        context.markdown(context.i18n("home.section.news.cfp"))
+                    )
+                }
             }
         }
-        div(classes = "mxt-no-link") {
-            unsafe {
-                raw(
-                    context.markdown(context.i18n("home.section.news.sponsor"))
-                )
+        div(classes = "d-flex align-items-center") {
+            div {
+                img(classes = "mxt-img__header-sponsor-home") {
+                    alt = "Sponsor"
+                }
+            }
+            div(classes = "mxt-no-link") {
+                unsafe {
+                    raw(
+                        context.markdown(context.i18n("home.section.news.sponsor"))
+                    )
+                }
             }
         }
     }
+
 }
 
 fun DIV.timelineElement(context: Context, titleKey: String, className: String) {
