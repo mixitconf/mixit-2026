@@ -936,13 +936,11 @@ footer {
     background-color: var(--theme-light);
 }
 .mxt-no-link, .mxt-no-link > p {
-    text-decoration: none;
     color: var(--text-color);
 }
 
 .mxt-no-link > a, .mxt-no-link > p > a {
     font-weight: bolder;
-    text-decoration: none;
     color: var(--color-primary);
 }
 

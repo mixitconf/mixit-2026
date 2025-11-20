@@ -3,7 +3,6 @@ package org.mixit.util
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mixit.conference.camelCase
-import org.mixit.conference.toSlug
 
 class StringExtensionTest {
     @Test
