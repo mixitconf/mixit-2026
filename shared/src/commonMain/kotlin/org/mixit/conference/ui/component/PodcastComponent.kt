@@ -6,7 +6,7 @@ import org.mixit.conference.ui.PODCASTS
 fun DIV.podcastComponent() {
     div(classes = "mxt-podcast__container") {
         iframe {
-            src="https://player.ausha.co/?podcastId=ZR0DWhzVRKEV&v=3&playerId=ausha-tvtg"
+            src="https://player.ausha.co/?podcastId=reQZgtGV0859&v=3&playerId=ausha-tvtg"
             attributes["name"] = "Ausha Podcast Player"
             attributes["frameborder"] = "0"
             attributes["loading"] = "lazy"
