@@ -1,4 +1,4 @@
-package org.mixit.conference.people.domain
+package org.mixit.conference.people.handler
 
 import org.mixit.WebContext
 import org.mixit.conference.event.spi.EventRepository

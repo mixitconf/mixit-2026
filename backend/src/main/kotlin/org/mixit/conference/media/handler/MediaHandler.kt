@@ -1,4 +1,4 @@
-package org.mixit.conference.media.domain
+package org.mixit.conference.media.handler
 
 import org.mixit.WebContext
 import org.mixit.conference.event.spi.EventRepository

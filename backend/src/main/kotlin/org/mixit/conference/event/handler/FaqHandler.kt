@@ -1,4 +1,4 @@
-package org.mixit.conference.event.domain
+package org.mixit.conference.event.handler
 
 import org.mixit.WebContext
 import org.mixit.conference.event.api.FaqHandlerApi

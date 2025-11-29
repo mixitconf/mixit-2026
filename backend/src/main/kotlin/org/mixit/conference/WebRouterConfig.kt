@@ -5,7 +5,7 @@ import org.mixit.conference.event.api.EventHandlerApi
 import org.mixit.conference.event.api.EventScreen
 import org.mixit.conference.event.api.FaqHandlerApi
 import org.mixit.conference.talk.api.toTalkCriteria
-import org.mixit.conference.media.domain.MediaHandler
+import org.mixit.conference.media.handler.MediaHandler
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.people.api.OrgaHandlerApi
 import org.mixit.conference.people.api.SpeakerHandlerApi

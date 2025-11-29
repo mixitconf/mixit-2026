@@ -1,4 +1,4 @@
-package org.mixit.conference.event.domain
+package org.mixit.conference.event.handler
 
 import org.mixit.WebContext
 import org.mixit.conference.event.api.EventHandlerApi
@@ -13,7 +13,6 @@ import org.mixit.conference.ui.page.renderAccessibilityPage
 import org.mixit.conference.ui.page.renderBudgetPage
 import org.mixit.conference.ui.page.renderCodeOfConduct
 import org.mixit.conference.ui.page.renderHomePage
-import org.mixit.conference.ui.page.renderMixettePage
 import org.mixit.conference.ui.page.renderVenuePage
 import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
