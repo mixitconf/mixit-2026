@@ -9,6 +9,7 @@ data class MixitProperties(
     val doc: DocumentProperties,
     val cfpUrl: URI,
     val newsLetterUrl: URI,
+    val podcastId: String
 )
 
 data class SecurityProperties(

@@ -1,5 +1,6 @@
 package org.mixit.conference.event.handler
 
+import org.mixit.MixitProperties
 import org.mixit.WebContext
 import org.mixit.conference.event.api.EventHandlerApi
 import org.mixit.conference.event.api.EventScreen
@@ -27,7 +28,8 @@ class EventHandler(
     private val repository: EventRepository,
     private val peopleRepository: PeopleRepository,
     private val talkRepository: TalkRepository,
-    private val webContext: WebContext
+    private val webContext: WebContext,
+    private val properties: MixitProperties
 ) : EventHandlerApi {
 
     override fun findOne(id: String, contentType: MediaType): ServerResponse =
@@ -64,6 +66,7 @@ class EventHandler(
 
                                 EventScreen.HOME -> renderHomePage(
                                     context,
+                                    lastPodCastId = properties.podcastId,
                                     event,
                                     sponsors,
                                     talkRepository.findRandomKeynote(3)

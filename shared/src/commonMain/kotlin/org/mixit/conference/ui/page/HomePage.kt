@@ -22,7 +22,7 @@ import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.component.videoComponent
 import org.mixit.conference.ui.renderTemplate
 
-fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keynotes: List<Talk>) =
+fun renderHomePage(context: Context, lastPodCastId: String, event: Event, sponsors: List<Sponsor>, keynotes: List<Talk>) =
     renderTemplate(context, event) {
         sectionComponent(context, effect = SectionEffect.END, style = SectionStyle.DARK) {
             div(classes = "mxt-text__wrapper") {
@@ -61,7 +61,7 @@ fun renderHomePage(context: Context, event: Event, sponsors: List<Sponsor>, keyn
         ) {
             div("lead") { +context.i18n("home.section.onair.subtitle") }
             div("mt-2") { +context.i18n("home.section.onair.description") }
-            podcastComponent()
+            podcastComponent(lastPodCastId)
             div { +context.i18n("home.section.onair.joinus") }
             podcastLinks()
         }
