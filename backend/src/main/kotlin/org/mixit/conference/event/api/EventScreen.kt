@@ -9,5 +9,5 @@ enum class EventScreen {
     ACCESSIBILITY,
     CODE_OF_CONDUCT,
     HOME,
-    VENUE
+    VENUE,
 }

@@ -11,7 +11,6 @@ import org.springframework.web.servlet.function.router
 
 @Configuration
 class ApiRouterConfig {
-
     @Bean
     fun apiRouter(
         eventHandler: EventHandlerApi,
@@ -21,7 +20,7 @@ class ApiRouterConfig {
         GET("/api/events/{id}") {
             eventHandler.findOne(it.pathVariable("id"), APPLICATION_JSON)
         }
-        (GET("/api/{year}/events") or GET("/api/{year}/event") ) {
+        (GET("/api/{year}/events") or GET("/api/{year}/event")) {
             eventHandler.findByYear(it.pathVariable("year").toInt(), APPLICATION_JSON, EventScreen.HOME)
         }
         (GET("/api/{year}/speakers")) {

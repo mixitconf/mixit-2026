@@ -9,17 +9,23 @@ data class MixitProperties(
     val doc: DocumentProperties,
     val cfpUrl: URI,
     val newsLetterUrl: URI,
-    val podcastId: String
+    val podcastId: String,
+    val externalData: ExternalDataProperties,
+)
+
+data class ExternalDataProperties(
+    val url: String,
+    val enabled: Boolean,
 )
 
 data class SecurityProperties(
     val initVector: String,
-    val key: String
+    val key: String,
 )
 
 data class DocumentProperties(
-    val fr : LanguageDocumentsProperties,
-    val en : LanguageDocumentsProperties
+    val fr: LanguageDocumentsProperties,
+    val en: LanguageDocumentsProperties,
 )
 
 data class LanguageDocumentsProperties(
@@ -27,5 +33,5 @@ data class LanguageDocumentsProperties(
     val sponsor: URI,
     val sponsorMixteenForm: URI,
     val speaker: URI,
-    val press: URI
+    val press: URI,
 )

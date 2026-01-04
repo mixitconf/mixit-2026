@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component
 import java.nio.file.Files
 import java.nio.file.Path
 
-
 @Component
 class TalkStaticFileRepository {
-
+    @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableMap<Int, List<TalkDto>> = mutableMapOf()
 
     init {
@@ -25,12 +24,12 @@ class TalkStaticFileRepository {
     }
 
     @Cacheable(Cache.TALK_CACHE)
-    fun findAll(): Map<Int, List<TalkDto>> {
-        return _data
-    }
+    fun findAll(): Map<Int, List<TalkDto>> = _data
 
     @Cacheable(Cache.TALK_SPEAKER_IDS)
     fun findAllSpeakers(): Set<String> =
-        _data.entries.map { talks -> talks.value.flatMap { it.speakerIds } }.flatten().toSet()
-
+        _data.entries
+            .map { talks -> talks.value.flatMap { it.speakerIds } }
+            .flatten()
+            .toSet()
 }

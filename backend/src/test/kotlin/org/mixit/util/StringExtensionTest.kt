@@ -1,8 +1,8 @@
 package org.mixit.util
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mixit.conference.camelCase
+import kotlin.test.assertEquals
 
 class StringExtensionTest {
     @Test
@@ -21,5 +21,4 @@ class StringExtensionTest {
         assertEquals("Mixit", "MIXIT".camelCase())
         assertEquals("", "".camelCase())
     }
-
 }

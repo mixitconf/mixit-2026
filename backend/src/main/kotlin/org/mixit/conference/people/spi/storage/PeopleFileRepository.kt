@@ -1,19 +1,22 @@
 package org.mixit.conference.people.spi.storage
 
-import org.mixit.conference.model.people.*
-import org.mixit.conference.people.spi.PeopleRepository
 import org.mixit.conference.event.spi.storage.EventStaticFileRepository
+import org.mixit.conference.model.people.Organization
+import org.mixit.conference.model.people.Speaker
+import org.mixit.conference.model.people.Sponsor
+import org.mixit.conference.model.people.Staff
+import org.mixit.conference.model.people.Volunteer
+import org.mixit.conference.people.spi.PeopleRepository
 import org.mixit.conference.talk.spi.storage.TalkStaticFileRepository
 import org.mixit.util.cache.Cache
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 
-
 @Component
 class PeopleFileRepository(
     private val peopleRepository: PeopleStaticFileRepository,
     private val eventRepository: EventStaticFileRepository,
-    private val talkFileRepository: TalkStaticFileRepository
+    private val talkFileRepository: TalkStaticFileRepository,
 ) : PeopleRepository {
 
     @Cacheable(Cache.SPEAKER_CACHE)
@@ -35,22 +38,23 @@ class PeopleFileRepository(
     override fun findSponsorByYear(year: Int): List<Sponsor> {
         val event = eventRepository.findAll().firstOrNull { it.year == year } ?: return emptyList()
         val sponsorIds = event.sponsors.map { it.sponsorId }
-        return peopleRepository.findAll()
+        return peopleRepository
+            .findAll()
             .asSequence()
             .filter { sponsorIds.contains(it.login) }
             .flatMap { personDto ->
                 event.sponsors
                     .filter { it.sponsorId == personDto.login }
                     .map { sponsor -> personDto.toSponsor(sponsor.level, sponsor.subscriptionDate) }
-            }
-            .toList()
+            }.toList()
     }
 
     @Cacheable(Cache.ORGANIZATION_CACHE)
     override fun findOrganizationByYear(year: Int): List<Organization> {
         val event = eventRepository.findAll().firstOrNull { it.year == year } ?: return emptyList()
         val ids = event.organizations.map { it.organizationLogin }
-        return peopleRepository.findAll()
+        return peopleRepository
+            .findAll()
             .asSequence()
             .filter { ids.contains(it.login) }
             .map { it.toOrganization() }
@@ -61,7 +65,8 @@ class PeopleFileRepository(
     override fun findStaffByYear(year: Int): List<Staff> {
         val event = eventRepository.findAll().firstOrNull { it.year == year } ?: return emptyList()
         val staffs = event.organizers.map { it.organizerLogin }
-        return peopleRepository.findAll()
+        return peopleRepository
+            .findAll()
             .asSequence()
             .filter { staffs.contains(it.login) }
             .map { it.toStaff() }
@@ -72,7 +77,8 @@ class PeopleFileRepository(
     override fun findVolunteerByYear(year: Int): List<Volunteer> {
         val event = eventRepository.findAll().firstOrNull { it.year == year } ?: return emptyList()
         val volunteers = event.volunteers.map { it.volunteerLogin }
-        return peopleRepository.findAll()
+        return peopleRepository
+            .findAll()
             .asSequence()
             .filter { volunteers.contains(it.login) }
             .map { it.toVolunteer() }
@@ -91,5 +97,4 @@ class PeopleFileRepository(
             .firstOrNull { it == login }
             ?.let { person.toSpeaker() }
     }
-
 }

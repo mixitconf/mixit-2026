@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component
 import java.nio.file.Files
 import java.nio.file.Path
 
-
 @Component
 class EventStaticFileRepository {
+    @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableList<EventDto>
 
     init {
@@ -20,7 +20,5 @@ class EventStaticFileRepository {
     }
 
     @Cacheable(Cache.EVENT_CACHE)
-    fun findAll(): List<EventDto> =
-        _data.toList()
-
+    fun findAll(): List<EventDto> = _data.toList()
 }

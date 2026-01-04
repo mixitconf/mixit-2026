@@ -29,21 +29,24 @@ class EventHandler(
     private val peopleRepository: PeopleRepository,
     private val talkRepository: TalkRepository,
     private val webContext: WebContext,
-    private val properties: MixitProperties
+    private val properties: MixitProperties,
 ) : EventHandlerApi {
-
-    override fun findOne(id: String, contentType: MediaType): ServerResponse =
-        renderEvent(repository.findOne(id), contentType, EventScreen.HOME)
+    override fun findOne(
+        id: String,
+        contentType: MediaType,
+    ): ServerResponse = renderEvent(repository.findOne(id), contentType, EventScreen.HOME)
 
     override fun findByYear(
         year: Int?,
         contentType: MediaType,
-        eventScreen: EventScreen
+        eventScreen: EventScreen,
+    ): ServerResponse = renderEvent(repository.findByYear(year), contentType, eventScreen)
+
+    private fun renderEvent(
+        event: Event?,
+        contentType: MediaType,
+        eventScreen: EventScreen,
     ): ServerResponse =
-        renderEvent(repository.findByYear(year), contentType, eventScreen)
-
-
-    private fun renderEvent(event: Event?, contentType: MediaType, eventScreen: EventScreen): ServerResponse =
         event
             ?.let {
                 val context = webContext.context ?: Context.default()
@@ -56,22 +59,24 @@ class EventHandler(
                                 EventScreen.VENUE -> renderVenuePage(context, event, sponsors)
                                 EventScreen.BUDGET -> renderBudgetPage(context, event, sponsors)
                                 EventScreen.ACCESSIBILITY -> renderAccessibilityPage(context, event, sponsors)
-                                EventScreen.ABOUT -> renderAboutPage(
-                                    context,
-                                    event,
-                                    staff = peopleRepository.findStaffByYear(event.year),
-                                    volunteers = peopleRepository.findVolunteerByYear(event.year),
-                                    sponsors = peopleRepository.findSponsorByYear(event.year)
-                                )
+                                EventScreen.ABOUT ->
+                                    renderAboutPage(
+                                        context,
+                                        event,
+                                        staff = peopleRepository.findStaffByYear(event.year),
+                                        volunteers = peopleRepository.findVolunteerByYear(event.year),
+                                        sponsors = peopleRepository.findSponsorByYear(event.year),
+                                    )
 
-                                EventScreen.HOME -> renderHomePage(
-                                    context,
-                                    lastPodCastId = properties.podcastId,
-                                    event,
-                                    sponsors,
-                                    talkRepository.findRandomKeynote(3)
-                                )
-                            }
+                                EventScreen.HOME ->
+                                    renderHomePage(
+                                        context,
+                                        lastPodCastId = properties.podcastId,
+                                        event,
+                                        sponsors,
+                                        talkRepository.findRandomKeynote(3),
+                                    )
+                            },
                         )
                     }
 

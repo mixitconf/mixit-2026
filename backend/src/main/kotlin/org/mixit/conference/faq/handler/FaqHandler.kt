@@ -17,16 +17,15 @@ class FaqHandler(
     private val repository: FaqRepository,
     private val eventRepository: EventRepository,
     private val peopleRepository: PeopleRepository,
-    private val webContext: WebContext
+    private val webContext: WebContext,
 ) : FaqHandlerApi {
-
     override fun findAllQuestions(): ServerResponse =
         ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderFaqPage(
                 webContext.context ?: Context.Companion.default(),
                 event = eventRepository.findByYear(CURRENT_YEAR)!!,
                 sponsors = peopleRepository.findSponsorByYear(CURRENT_YEAR),
-                questionSets = repository.findAll()
-            )
+                questionSets = repository.findAll(),
+            ),
         )
 }

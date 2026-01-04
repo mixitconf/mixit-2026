@@ -9,30 +9,32 @@ import org.mixit.conference.model.picture.Photo
 data class AlbumDto(
     val event: String,
     val sections: List<AlbumSectionDto> = emptyList(),
-    val rootUrl: String?
+    val rootUrl: String?,
 ) {
-    fun toAlbum() = Album(
-        event = event,
-        url = rootUrl ?: "https://raw.githubusercontent.com/mixitconf/mixitconf-images/main/",
-        sections = sections.map { it.toAlbumSection() }
-    )
+    fun toAlbum() =
+        Album(
+            event = event,
+            url = rootUrl ?: "https://raw.githubusercontent.com/mixitconf/mixitconf-images/main/",
+            sections = sections.map { it.toAlbumSection() },
+        )
 }
 
 @Serializable
 data class AlbumSectionDto(
     val sectionId: String,
     val i18n: String,
-    val images: List<PhotoDto>
+    val images: List<PhotoDto>,
 ) {
     fun toAlbumSection() =
         AlbumSection(
             sectionId = sectionId,
             i18nKey = i18n,
-            photos = images.map {
-                Photo(
-                    name = it.name
-                )
-            }
+            photos =
+                images.map {
+                    Photo(
+                        name = it.name,
+                    )
+                },
         )
 }
 
@@ -40,5 +42,5 @@ data class AlbumSectionDto(
 data class PhotoDto(
     val name: String,
     val talkId: String? = null,
-    val mustacheTemplate: String? = null
+    val mustacheTemplate: String? = null,
 )

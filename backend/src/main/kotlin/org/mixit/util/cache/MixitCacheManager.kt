@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class MixitCacheManager(
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
 ) {
     fun clearCache() {
         cacheManager.cacheNames.forEach { cacheName ->

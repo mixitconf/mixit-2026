@@ -25,25 +25,28 @@ class PeopleHandler(
     private val eventRepository: EventRepository,
     private val talkRepository: TalkRepository,
     private val peopleRepository: PeopleRepository,
-    private val webContext: WebContext
-) : SpeakerHandlerApi, SponsorHandlerApi, OrgaHandlerApi {
-
+    private val webContext: WebContext,
+) : SpeakerHandlerApi,
+    SponsorHandlerApi,
+    OrgaHandlerApi {
     override fun findSpeakerByYear(
         year: Int,
-        contentType: MediaType
+        contentType: MediaType,
     ): ServerResponse =
         repository.findSpeakerByYear(year).let { speakers ->
             val staff = repository.findStaffByYear(year).map { it.id }
             // A speaker can't be also staff
             val speakersWithoutStaff = speakers.filterNot { staff.contains(it.id) }
             when (contentType) {
-                TEXT_HTML -> ok().contentType(contentType).body(
-                    renderSpeakers(
-                        context= webContext.context!!,
-                        event = eventRepository.findByYear(year)!!,
-                        sponsors = peopleRepository.findSponsorByYear(year),
-                        speakers = speakersWithoutStaff)
-                )
+                TEXT_HTML ->
+                    ok().contentType(contentType).body(
+                        renderSpeakers(
+                            context = webContext.context!!,
+                            event = eventRepository.findByYear(year)!!,
+                            sponsors = peopleRepository.findSponsorByYear(year),
+                            speakers = speakersWithoutStaff,
+                        ),
+                    )
 
                 APPLICATION_JSON -> ok().contentType(contentType).body(speakersWithoutStaff)
                 else -> notFound().build()
@@ -52,44 +55,45 @@ class PeopleHandler(
 
     override fun findSponsorByYear(
         year: Int,
-        contentType: MediaType
+        contentType: MediaType,
     ): ServerResponse =
         repository.findSponsorByYear(year).let { sponsors ->
             when (contentType) {
-                TEXT_HTML -> ok().contentType(contentType).body(
-                    renderSponsor(webContext.context!!, eventRepository.findByYear(year)!!, sponsors)
-                )
+                TEXT_HTML ->
+                    ok().contentType(contentType).body(
+                        renderSponsor(webContext.context!!, eventRepository.findByYear(year)!!, sponsors),
+                    )
 
                 APPLICATION_JSON -> ok().contentType(contentType).body(sponsors)
                 else -> notFound().build()
             }
         }
 
-
     override fun findSpeakerByLogin(login: String): ServerResponse =
-        repository.findSpeaker(login)
+        repository
+            .findSpeaker(login)
             ?.let { speaker ->
                 ok().contentType(TEXT_HTML).body(
                     renderSpeaker(
                         context = webContext.context!!,
                         speaker = speaker,
-                        talks = talkRepository.findSpeakerTalks(speaker.id)
-                    )
+                        talks = talkRepository.findSpeakerTalks(speaker.id),
+                    ),
                 )
             }
             ?: notFound().build()
 
     override fun findOrganizationByYear(year: Int): ServerResponse =
-       repository.findOrganizationByYear(year)
-           .let { orgs ->
-               ok().contentType(TEXT_HTML).body(
-                   renderMixettePage(
-                       context = webContext.context!!,
-                       event = eventRepository.findByYear(year)!!,
-                       organizations = orgs,
-                       sponsors = repository.findSponsorByYear(year)
-                   )
-               )
-           }
-
+        repository
+            .findOrganizationByYear(year)
+            .let { orgs ->
+                ok().contentType(TEXT_HTML).body(
+                    renderMixettePage(
+                        context = webContext.context!!,
+                        event = eventRepository.findByYear(year)!!,
+                        organizations = orgs,
+                        sponsors = repository.findSponsorByYear(year),
+                    ),
+                )
+            }
 }

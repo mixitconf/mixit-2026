@@ -9,5 +9,8 @@ interface TalkRepository {
 
     fun findSpeakerTalks(speakerId: String): List<Talk>
 
-    fun findBySlug(year: Int, slug: String): Talk?
+    fun findBySlug(
+        year: Int,
+        slug: String,
+    ): Talk?
 }

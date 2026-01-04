@@ -10,19 +10,17 @@ import org.springframework.stereotype.Component
 import java.nio.file.Files
 import java.nio.file.Path
 
-
 @Component
-class FaqFileRepository: FaqRepository {
+class FaqFileRepository : FaqRepository {
+    @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableSet<FaqDto>
 
     init {
-            val path = Path.of(ClassPathResource("data/faq.json").url.path)
-            val json = Files.readString(path)
-            _data = Constants.serializer.decodeFromString<Array<FaqDto>>(json).toMutableSet()
+        val path = Path.of(ClassPathResource("data/faq.json").url.path)
+        val json = Files.readString(path)
+        _data = Constants.serializer.decodeFromString<Array<FaqDto>>(json).toMutableSet()
     }
 
     @Cacheable(Cache.FAQ_CACHE)
-    override fun findAll(): List<QuestionSet> {
-        return _data.map { faq -> faq.toQuestionSet()}
-    }
+    override fun findAll(): List<QuestionSet> = _data.map { faq -> faq.toQuestionSet() }
 }

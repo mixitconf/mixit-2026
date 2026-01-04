@@ -4,11 +4,11 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mixit.MixitProperties
 import org.mixit.SecurityProperties
+import org.mixit.util.serializer.Cryptographer
 
 class CryptographerTest {
     @MockK
@@ -18,10 +18,11 @@ class CryptographerTest {
     @BeforeEach
     fun init() {
         MockKAnnotations.init(this)
-        val securityProperties = SecurityProperties(
-            key = "myKeyIsTheBest01",
-            initVector = "myvectorIsBetter"
-        )
+        val securityProperties =
+            SecurityProperties(
+                key = "myKeyIsTheBest01",
+                initVector = "myvectorIsBetter",
+            )
         service = Cryptographer(properties)
 
         every { properties.security } returns securityProperties

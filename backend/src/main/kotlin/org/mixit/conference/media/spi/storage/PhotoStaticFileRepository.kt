@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component
 import java.nio.file.Files
 import java.nio.file.Path
 
-
 @Component
 class PhotoStaticFileRepository {
+    @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableMap<Int, Album> = mutableMapOf()
 
     init {
@@ -25,7 +25,5 @@ class PhotoStaticFileRepository {
     }
 
     @Cacheable(Cache.PHOTO_CACHE)
-    fun findAll(): Map<Int, Album> {
-        return _data
-    }
+    fun findAll(): Map<Int, Album> = _data
 }

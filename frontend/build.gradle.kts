@@ -35,7 +35,6 @@ kotlin {
             }
         }
     }
-
 }
 
 tasks.register<Copy>("copy") {
@@ -46,5 +45,4 @@ tasks.register<Copy>("copy") {
 tasks.named("wasmJsBrowserDistribution") {
     // Call copy task after wasm compilation to refresh backend resources
     finalizedBy("copy")
-
 }

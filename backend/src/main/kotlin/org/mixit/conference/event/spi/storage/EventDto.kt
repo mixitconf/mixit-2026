@@ -22,7 +22,7 @@ data class EventDto(
     val videoUrl: LinkDto? = null,
     val schedulingFileUrl: String? = null,
     val year: Int = start.year,
-    val streamingUrl: String? = null
+    val streamingUrl: String? = null,
 ) {
     fun toEvent() =
         Event(
@@ -30,51 +30,49 @@ data class EventDto(
             start = start,
             end = end,
             year = year,
-            media = EventMedia(
-                videoUrl = videoUrl?.let {
-                    Link(type = LinkType.VIDEO, url = it.url)
-                },
-                schedulingFileUrl = schedulingFileUrl,
-                streamingUrl = streamingUrl
-            )
+            media =
+                EventMedia(
+                    videoUrl =
+                        videoUrl?.let {
+                            Link(type = LinkType.VIDEO, url = it.url)
+                        },
+                    schedulingFileUrl = schedulingFileUrl,
+                    streamingUrl = streamingUrl,
+                ),
         )
 }
 
 @Serializable
 data class EventOrganizationDto(
-    val organizationLogin: String
+    val organizationLogin: String,
 )
 
 @Serializable
 data class EventSponsoringDto(
     val level: SponsorshipLevel = SponsorshipLevel.NONE,
     val sponsorId: String = "",
-    val subscriptionDate: LocalDate
+    val subscriptionDate: LocalDate,
 )
 
 @Serializable
 data class EventVolunteerDto(
-    val volunteerLogin: String
+    val volunteerLogin: String,
 )
 
 @Serializable
 data class EventOrganizerDto(
-    val organizerLogin: String
+    val organizerLogin: String,
 )
 
 @Serializable
 data class LinkDto(
     val name: String,
     val url: String,
-    val type: LinkType = LinkType.fromValue(name)
+    val type: LinkType = LinkType.fromValue(name),
 ) {
-
     companion object {
         val excludedSocialNetworks = listOf("twitter", "x.org", "x.com", "truthsocial", "truth social")
     }
 
-    fun isTwitterOrTruthSocial() =
-        excludedSocialNetworks.any { url.lowercase().contains(it) || name.lowercase().contains(it) }
+    fun isTwitterOrTruthSocial() = excludedSocialNetworks.any { url.lowercase().contains(it) || name.lowercase().contains(it) }
 }
-
-

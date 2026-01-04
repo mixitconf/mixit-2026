@@ -2,7 +2,7 @@ package org.mixit.conference.people.spi.storage
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import org.mixit.conference.model.shared.Language
+import org.mixit.conference.event.spi.storage.LinkDto
 import org.mixit.conference.model.link.Link
 import org.mixit.conference.model.people.Attendee
 import org.mixit.conference.model.people.Organization
@@ -11,8 +11,7 @@ import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.people.SponsorshipLevel
 import org.mixit.conference.model.people.Staff
 import org.mixit.conference.model.people.Volunteer
-import org.mixit.conference.event.spi.storage.LinkDto
-
+import org.mixit.conference.model.shared.Language
 
 /**
  * Person DTO data are crypted when stored in database except id, login, role and newsletterSubscriber
@@ -34,26 +33,31 @@ data class PersonDto(
     val cfpId: String? = null,
     var newsletterSubscriber: Boolean = false,
 ) {
-    fun toAttendee() = Attendee(
-        id = login,
-        firstname = firstname,
-        lastname = lastname,
-        email = email,
-        photoUrl = photoUrl
-    )
+    fun toAttendee() =
+        Attendee(
+            id = login,
+            firstname = firstname,
+            lastname = lastname,
+            email = email,
+            photoUrl = photoUrl,
+        )
 
-    fun toSpeaker() = Speaker(
-        id = login,
-        email = email,
-        photoUrl = photoUrl,
-        company = company,
-        firstname = firstname ?: "",
-        lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
-        description = description
-    )
+    fun toSpeaker() =
+        Speaker(
+            id = login,
+            email = email,
+            photoUrl = photoUrl,
+            company = company,
+            firstname = firstname ?: "",
+            lastname = lastname ?: "",
+            links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
+            description = description,
+        )
 
-    fun toSponsor(level: SponsorshipLevel, subscriptionDate: LocalDate) = Sponsor(
+    fun toSponsor(
+        level: SponsorshipLevel,
+        subscriptionDate: LocalDate,
+    ) = Sponsor(
         id = login,
         email = email,
         photoUrl = photoUrl,
@@ -61,35 +65,38 @@ data class PersonDto(
         links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
         description = description,
         level = level,
-        subscriptionDate = subscriptionDate
+        subscriptionDate = subscriptionDate,
     )
 
-    fun toOrganization() = Organization(
-        id = login,
-        email = email,
-        photoUrl = photoUrl,
-        name = company ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
-        description = description
-    )
+    fun toOrganization() =
+        Organization(
+            id = login,
+            email = email,
+            photoUrl = photoUrl,
+            name = company ?: "",
+            links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
+            description = description,
+        )
 
-    fun toStaff() = Staff(
-        id = login,
-        email = email,
-        photoUrl = photoUrl,
-        firstname = firstname ?: "",
-        lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
-        description = description
-    )
+    fun toStaff() =
+        Staff(
+            id = login,
+            email = email,
+            photoUrl = photoUrl,
+            firstname = firstname ?: "",
+            lastname = lastname ?: "",
+            links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
+            description = description,
+        )
 
-    fun toVolunteer() = Volunteer(
-        id = login,
-        email = email,
-        photoUrl = photoUrl,
-        firstname = firstname ?: "",
-        lastname = lastname ?: "",
-        links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
-        description = description
-    )
+    fun toVolunteer() =
+        Volunteer(
+            id = login,
+            email = email,
+            photoUrl = photoUrl,
+            firstname = firstname ?: "",
+            lastname = lastname ?: "",
+            links = links.filterNot { it.isTwitterOrTruthSocial() }.map { Link(it.type, it.url) },
+            description = description,
+        )
 }

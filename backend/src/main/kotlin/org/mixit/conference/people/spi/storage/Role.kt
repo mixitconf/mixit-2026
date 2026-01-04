@@ -4,5 +4,5 @@ enum class Role {
     STAFF,
     STAFF_IN_PAUSE,
     USER,
-    VOLUNTEER
+    VOLUNTEER,
 }

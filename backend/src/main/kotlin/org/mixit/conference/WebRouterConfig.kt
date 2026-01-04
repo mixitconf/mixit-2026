@@ -4,13 +4,13 @@ import org.mixit.WebContext
 import org.mixit.conference.event.api.EventHandlerApi
 import org.mixit.conference.event.api.EventScreen
 import org.mixit.conference.faq.api.FaqHandlerApi
-import org.mixit.conference.talk.api.toTalkCriteria
 import org.mixit.conference.media.handler.MediaHandler
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.people.api.OrgaHandlerApi
 import org.mixit.conference.people.api.SpeakerHandlerApi
 import org.mixit.conference.people.api.SponsorHandlerApi
 import org.mixit.conference.talk.api.TalkHandlerApi
+import org.mixit.conference.talk.api.toTalkCriteria
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR
 import org.mixit.conference.ui.CURRENT_YEAR
@@ -22,7 +22,6 @@ import org.springframework.web.servlet.function.router
 
 @Configuration
 class WebRouterConfig {
-
     @Bean
     fun webRouter(
         eventHandler: EventHandlerApi,
@@ -32,7 +31,7 @@ class WebRouterConfig {
         sponsorHandlerApi: SponsorHandlerApi,
         talkHandlerApi: TalkHandlerApi,
         mediaHandler: MediaHandler,
-        webContext: WebContext
+        webContext: WebContext,
     ) = router {
         accept(MediaType.TEXT_HTML).nest {
             arrayOf("/", "/fr", "/en").forEach { path ->
@@ -53,7 +52,7 @@ class WebRouterConfig {
                 eventHandler.findByYear(CURRENT_YEAR, MediaType.TEXT_HTML, EventScreen.CODE_OF_CONDUCT)
             }
             GET("/error") {
-                ok().contentType(MediaType.TEXT_HTML).body(renderError(webContext.context?: Context.default()))
+                ok().contentType(MediaType.TEXT_HTML).body(renderError(webContext.context ?: Context.default()))
             }
             GET("/faq") {
                 faqHandlerApi.findAllQuestions()
@@ -122,6 +121,5 @@ class WebRouterConfig {
                 }
             }
         }
-
     }
 }

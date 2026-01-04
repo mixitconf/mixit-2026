@@ -14,16 +14,17 @@ import org.springframework.http.HttpHeaders.CONTENT_LANGUAGE
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.servlet.LocaleResolver
-import java.util.*
+import java.util.Collections
+import java.util.Enumeration
+import java.util.Locale
 
 @Component
 class WebFilter(
     private val localeResolver: LocaleResolver,
     private val messageSource: MessageSource,
     private val markdownRenderer: MarkdownRenderer,
-    private val webContext: WebContext
+    private val webContext: WebContext,
 ) : OncePerRequestFilter() {
-
     companion object {
         private val BOTS =
             arrayOf("Google", "Bingbot", "Qwant", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider")
@@ -34,7 +35,7 @@ class WebFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         // An english user is redirected
         if (request.isAHomePageCallFromForeignLanguage()) {
@@ -51,15 +52,22 @@ class WebFilter(
         webContext.context =
             buildContext(messageSource, markdownRenderer, if (isEn) Locale.ENGLISH else Locale.FRENCH)
 
-        val uriPath = request.requestURI.let {
-            if (isEn || request.hasLanguagePrefix(Language.ENGLISH) || request.hasLanguagePrefix(Language.FRENCH)) it.substring(
-                3
-            ) else it
-        }.ifBlank { "/" }
+        val uriPath =
+            request.requestURI
+                .let {
+                    if (isEn || request.hasLanguagePrefix(Language.ENGLISH) || request.hasLanguagePrefix(Language.FRENCH)) {
+                        it.substring(
+                            3,
+                        )
+                    } else {
+                        it
+                    }
+                }.ifBlank { "/" }
 
-        val req = CustomHttpServletRequestWrapper(request, uriPath).apply {
-            addHeader(CONTENT_LANGUAGE, if (isEn) "en" else "fr")
-        }
+        val req =
+            CustomHttpServletRequestWrapper(request, uriPath).apply {
+                addHeader(CONTENT_LANGUAGE, if (isEn) "en" else "fr")
+            }
         filterChain.doFilter(req, response)
     }
 
@@ -74,37 +82,40 @@ class WebFilter(
         }
 
     private fun HttpServletRequest.isAHomePageCallFromForeignLanguage(): Boolean =
-        requestURI == "/"
-                && localeResolver.resolveLocale(this) != Locale.FRENCH
-                && !isSearchEngineCrawler()
+        requestURI == "/" &&
+            localeResolver.resolveLocale(this) != Locale.FRENCH &&
+            !isSearchEngineCrawler()
 
-    private fun HttpServletRequest.hasLanguagePrefix(language: Language) =
-        this.requestURI.startsWith(language.urlPrefix)
+    private fun HttpServletRequest.hasLanguagePrefix(language: Language) = this.requestURI.startsWith(language.urlPrefix)
 }
 
-class CustomHttpServletRequestWrapper(request: HttpServletRequest, val newPath: String) :
-    HttpServletRequestWrapper(request) {
+class CustomHttpServletRequestWrapper(
+    request: HttpServletRequest,
+    val newPath: String,
+) : HttpServletRequestWrapper(request) {
     private val headers: MutableMap<String, String> by lazy {
-        request.headerNames.asSequence().map { it to request.getHeader(it) }.toMap().toMutableMap()
+        request.headerNames
+            .asSequence()
+            .map { it to request.getHeader(it) }
+            .toMap()
+            .toMutableMap()
     }
 
-    fun addHeader(name: String, value: String) {
+    fun addHeader(
+        name: String,
+        value: String,
+    ) {
         headers[name] = value
     }
 
-    override fun getHeader(name: String): String? {
-        return headers[name]
-    }
+    override fun getHeader(name: String): String? = headers[name]
 
-    override fun getHeaders(name: String): Enumeration<String?> {
-        return super.getHeaders(name)
-    }
+    override fun getHeaders(name: String): Enumeration<String?> = super.getHeaders(name)
 
-    override fun getHeaderNames(): Enumeration<String?> {
-        return this.headers.keys.toList().let { Collections.enumeration(it) }
-    }
+    override fun getHeaderNames(): Enumeration<String?> =
+        this.headers.keys
+            .toList()
+            .let { Collections.enumeration(it) }
 
     override fun getRequestURI(): String = newPath
 }
-
-
