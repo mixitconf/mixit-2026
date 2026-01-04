@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.mixit.WebContext
 import org.mixit.buildContext
 import org.mixit.conference.model.shared.Language
-import org.mixit.util.string.MarkdownRenderer
+import org.mixit.infra.util.string.MarkdownRenderer
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.CONTENT_LANGUAGE

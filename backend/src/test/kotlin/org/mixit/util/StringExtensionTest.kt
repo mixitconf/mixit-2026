@@ -2,6 +2,7 @@ package org.mixit.util
 
 import org.junit.jupiter.api.Test
 import org.mixit.conference.camelCase
+import org.mixit.infra.util.string.toSlug
 import kotlin.test.assertEquals
 
 class StringExtensionTest {

@@ -3,7 +3,7 @@ package org.mixit
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.shared.Language.ENGLISH
 import org.mixit.conference.model.shared.Language.FRENCH
-import org.mixit.util.string.MarkdownRenderer
+import org.mixit.infra.util.string.MarkdownRenderer
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

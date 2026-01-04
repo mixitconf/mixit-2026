@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mixit.MixitProperties
 import org.mixit.SecurityProperties
-import org.mixit.util.serializer.Cryptographer
+import org.mixit.infra.util.serializer.Cryptographer
 
 class CryptographerTest {
     @MockK
