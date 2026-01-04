@@ -1,29 +1,20 @@
 [versions]
-androidx-navigation = "2.9.0-beta04"
-androidx-lifecycle = "2.9.1"
 bootstrap = "5.3.7"
-compose-adaptive = "1.1.2"
 compose-hot-reload = "1.0.0-beta04"
 compose-multiplatform = "1.8.2"
 kotlin = "2.2.20"
-kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.6.2"
 kotlinx-html = "0.12.0"
 kotlinx-browser = "0.3"
 kotlin-markdown = "0.7.3"
+ktlint= "14.0.1"
 mockk = "1.14.6"
 locator = "0.30"
 spring-boot = "3.5.6"
 spring-dependency-management = "1.1.7"
 
 [libraries]
-androidx-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
-androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-compose-adaptative = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "compose-adaptive" }
-compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "compose-multiplatform" }
-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
@@ -54,3 +45,4 @@ kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotl
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.kotlin.jvm)
