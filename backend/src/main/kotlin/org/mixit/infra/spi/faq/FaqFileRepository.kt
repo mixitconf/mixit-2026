@@ -1,25 +1,30 @@
 package org.mixit.infra.spi.faq
 
-import org.mixit.Constants
+import jakarta.annotation.PostConstruct
 import org.mixit.conference.faq.spi.storage.FaqDto
 import org.mixit.conference.model.faq.QuestionSet
 import org.mixit.domain.spi.FaqRepository
 import org.mixit.infra.util.cache.Cache
+import org.mixit.infra.spi.DataService
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.nio.file.Files
-import java.nio.file.Path
 
 @Component
-class FaqFileRepository : FaqRepository {
+class FaqFileRepository(
+    private val dataService: DataService
+) : FaqRepository {
     @Suppress("ktlint:standard:backing-property-naming")
-    private val _data: MutableSet<FaqDto>
+    private val _data: MutableSet<FaqDto> = mutableSetOf()
 
-    init {
-        val path = Path.of(ClassPathResource("data/faq.json").url.path)
-        val json = Files.readString(path)
-        _data = Constants.serializer.decodeFromString<Array<FaqDto>>(json).toMutableSet()
+    @PostConstruct
+    fun init() {
+        _data.addAll(
+            dataService.load(
+                localPath = "data/faq.json",
+                remotePath = "/faq",
+                responseType = Array<FaqDto>::class.java,
+            )
+        )
     }
 
     @Cacheable(Cache.FAQ_CACHE)

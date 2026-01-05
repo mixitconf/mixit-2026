@@ -9,6 +9,7 @@ import org.mixit.conference.model.people.Volunteer
 import org.mixit.domain.spi.PeopleRepository
 import org.mixit.infra.spi.talk.TalkStaticFileRepository
 import org.mixit.infra.util.cache.Cache
+import org.mixit.infra.util.serializer.toLocalDate
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 
@@ -45,7 +46,7 @@ class PeopleFileRepository(
             .flatMap { personDto ->
                 event.sponsors
                     .filter { it.sponsorId == personDto.login }
-                    .map { sponsor -> personDto.toSponsor(sponsor.level, sponsor.subscriptionDate) }
+                    .map { sponsor -> personDto.toSponsor(sponsor.level, sponsor.subscriptionDate.toLocalDate()) }
             }.toList()
     }
 

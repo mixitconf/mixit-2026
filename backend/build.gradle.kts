@@ -21,7 +21,7 @@ dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.cache)
     implementation(libs.spring.boot.starter.web)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.spring.boot.serialization)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.markdown)

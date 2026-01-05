@@ -1,26 +1,31 @@
 package org.mixit.infra.spi.media
 
-import org.mixit.Constants
+import jakarta.annotation.PostConstruct
 import org.mixit.conference.model.picture.Album
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.infra.util.cache.Cache
+import org.mixit.infra.spi.DataService
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.nio.file.Files
-import java.nio.file.Path
 
 @Component
-class PhotoStaticFileRepository {
+class PhotoStaticFileRepository(
+    private val dataService: DataService
+) {
     @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableMap<Int, Album> = mutableMapOf()
 
-    init {
+    @PostConstruct
+    fun init() {
         (2012..CURRENT_MEDIA_YEAR).filterNot { it == 2020 || it == 2021 }.forEach { year ->
-            val path = Path.of(ClassPathResource("data/events_image_$year.json").url.path)
-            val json = Files.readString(path)
-            val albumDtos = Constants.serializer.decodeFromString<Array<AlbumDto>>(json)
-            _data[year] = albumDtos[0].toAlbum()
+            val images  = dataService.load(
+                localPath = "data/events_image_$year.json",
+                remotePath = "/images/$year",
+                responseType = Array<AlbumDto>::class.java,
+            )
+            if(images.isNotEmpty()){
+                _data[year] = images[0].toAlbum()
+            }
         }
     }
 

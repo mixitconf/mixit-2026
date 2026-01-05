@@ -1,27 +1,39 @@
 package org.mixit.infra.spi.talk
 
-import org.mixit.Constants
+import jakarta.annotation.PostConstruct
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.infra.util.cache.Cache
+import org.mixit.infra.spi.DataService
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.nio.file.Files
-import java.nio.file.Path
 
 @Component
-class TalkStaticFileRepository {
+class TalkStaticFileRepository(
+    private val dataService: DataService
+) {
     @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableMap<Int, List<TalkDto>> = mutableMapOf()
 
-    init {
+    @PostConstruct
+    fun init() {
         (2012..CURRENT_YEAR).forEach { year ->
-            val path = Path.of(ClassPathResource("data/talks_$year.json").url.path)
-            val json = Files.readString(path)
-            val talks = Constants.serializer.decodeFromString<Array<TalkDto>>(json)
-            _data[year] = talks.toList()
+            dataService.load(
+                localPath = "data/talks_$year.json",
+                remotePath = "/talks/$year",
+                responseType = Array<TalkDto>::class.java,
+            ).let { talks ->
+                _data[year] = talks
+            }
         }
     }
+//    init {
+//        (2012..CURRENT_YEAR).forEach { year ->
+//            val path = Path.of(ClassPathResource("data/talks_$year.json").url.path)
+//            val json = Files.readString(path)
+//            val talks = Constants.serializer.decodeFromString<Array<TalkDto>>(json)
+//            _data[year] = talks.toList()
+//        }
+//    }
 
     @Cacheable(Cache.TALK_CACHE)
     fun findAll(): Map<Int, List<TalkDto>> = _data

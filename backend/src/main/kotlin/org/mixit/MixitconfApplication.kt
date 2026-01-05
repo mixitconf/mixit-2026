@@ -6,10 +6,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
 
-object Constants {
-    val serializer = Json { ignoreUnknownKeys = true }
-}
-
 @SpringBootApplication
 @EnableCaching
 @EnableConfigurationProperties(MixitProperties::class)

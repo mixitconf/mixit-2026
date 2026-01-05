@@ -1,18 +1,18 @@
 package org.mixit.infra.spi.event
 
-import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.event.EventMedia
 import org.mixit.conference.model.link.Link
 import org.mixit.conference.model.link.LinkType
 import org.mixit.conference.model.people.SponsorshipLevel
+import org.mixit.infra.util.serializer.toLocalDate
 
 @Serializable
 data class EventDto(
     val id: String = "",
-    val start: LocalDate,
-    val end: LocalDate,
+    val start: String,
+    val end: String,
     val current: Boolean = false,
     val sponsors: List<EventSponsoringDto> = emptyList(),
     val organizations: List<EventOrganizationDto> = emptyList(),
@@ -21,14 +21,14 @@ data class EventDto(
     val photoUrls: List<LinkDto> = emptyList(),
     val videoUrl: LinkDto? = null,
     val schedulingFileUrl: String? = null,
-    val year: Int = start.year,
+    val year: Int,
     val streamingUrl: String? = null,
 ) {
     fun toEvent() =
         Event(
             id = id,
-            start = start,
-            end = end,
+            start = start.toLocalDate(),
+            end = end.toLocalDate(),
             year = year,
             media =
                 EventMedia(
@@ -51,7 +51,7 @@ data class EventOrganizationDto(
 data class EventSponsoringDto(
     val level: SponsorshipLevel = SponsorshipLevel.NONE,
     val sponsorId: String = "",
-    val subscriptionDate: LocalDate,
+    val subscriptionDate: String,
 )
 
 @Serializable
