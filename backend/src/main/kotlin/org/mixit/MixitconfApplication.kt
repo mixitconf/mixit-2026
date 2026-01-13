@@ -1,6 +1,6 @@
 package org.mixit
 
-import org.mixit.config.MixitProperties
+import org.mixit.infra.config.MixitProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication

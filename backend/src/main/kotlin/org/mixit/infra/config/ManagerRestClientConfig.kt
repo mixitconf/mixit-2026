@@ -1,4 +1,4 @@
-package org.mixit.config
+package org.mixit.infra.config
 
 
 import org.springframework.context.annotation.Bean
