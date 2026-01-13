@@ -1,6 +1,6 @@
 package org.mixit.infra.util.serializer
 
-import org.mixit.MixitProperties
+import org.mixit.config.MixitProperties
 import org.springframework.stereotype.Component
 import java.util.Base64
 import javax.crypto.Cipher

@@ -2,7 +2,7 @@ package org.mixit.infra.spi
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
-import org.mixit.MixitProperties
+import org.mixit.config.MixitProperties
 import org.mixit.infra.util.serializer.Serializer
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.ResourceLoader
