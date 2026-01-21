@@ -1,4 +1,4 @@
-package org.mixit.infra.spi.people
+package org.mixit.conference.model.people
 
 enum class Role {
     STAFF,
