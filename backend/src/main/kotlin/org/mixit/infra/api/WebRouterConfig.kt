@@ -1,6 +1,6 @@
 package org.mixit.conference
 
-import org.mixit.WebContext
+import org.mixit.config.WebContext
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR

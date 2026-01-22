@@ -96,7 +96,7 @@ fun renderSponsor(context: Context, event: Event, sponsors: List<Sponsor>) =
                                 }
                                 div {
                                     unsafe {
-                                        raw(context.markdown(sponsor.description[Language.FRENCH] ?: ""))
+                                        raw(context.markdown(sponsor.description[context.language] ?: ""))
                                     }
                                     div(classes = "mxt-btn__group") {
                                         sponsor.links.forEach { linkAsSecondaryButton(it) }

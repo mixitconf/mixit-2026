@@ -5,6 +5,7 @@ import kotlinx.serialization.serializer
 import org.mixit.MixitProperties
 import org.mixit.infra.util.serializer.Serializer
 import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.ResourceLoader
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
@@ -19,6 +20,7 @@ import java.nio.file.Files import java.nio.file.Path
 class DataService(
     private val restClient: RestClient,
     private val properties: MixitProperties,
+    private val resourceLoader: ResourceLoader
 )  {
 
     /**
@@ -58,7 +60,7 @@ class DataService(
         responseType: Class<Array<T>>,
     ): List<T> =
         try {
-            val filePath = Path.of(ClassPathResource(path).url.path)
+            val filePath = resourceLoader.getResource("classpath:$path").filePath
             val json = Files.readString(filePath)
             // Use the serializer for the array type
             val serializer = serializer(responseType) as KSerializer<Array<T>>

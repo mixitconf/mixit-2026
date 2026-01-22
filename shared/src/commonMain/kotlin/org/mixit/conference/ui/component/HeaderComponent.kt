@@ -38,10 +38,6 @@ fun DIV.headerComponent(ctx: Context, event: Event?) {
             div(classes ="flex-fill") { }
             div(classes ="d-flex flex-column") {
                 div(classes ="d-flex flex-gap-2") {
-//                    button(classes = "navbar-toggler p-0") {
-//                        onClick = "javascript:switchTheme()"
-//                        img(classes = "mxt-navbar-mode", alt = ctx.translator.invoke("header.mode"))
-//                    }
                     button(classes = "navbar-toggler") {
                         onClick = "javascript:switchTheme()"
                         img(classes = "mxt-navbar-mode", alt = ctx.translator.invoke("header.mode"))
@@ -52,12 +48,12 @@ fun DIV.headerComponent(ctx: Context, event: Event?) {
                         div(classes = "mxt-navbar-language me-2 mxt-navbar-language--active") {
                             +"FR"
                         }
-                        a(href = "/en", classes = "mxt-navbar-language") {
+                        a(href = "/en${ctx.path}", classes = "mxt-navbar-language") {
 
                             +"EN"
                         }
                     } else {
-                        a( href = "/fr", classes = "mxt-navbar-language me-2") {
+                        a( href = "/fr${ctx.path}", classes = "mxt-navbar-language me-2") {
                             +"FR"
                         }
                         div(classes = "mxt-navbar-language mxt-navbar-language--active") {

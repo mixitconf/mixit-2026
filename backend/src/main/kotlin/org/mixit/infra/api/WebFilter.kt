@@ -4,8 +4,8 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
-import org.mixit.WebContext
-import org.mixit.buildContext
+import org.mixit.config.WebContext
+import org.mixit.config.buildContext
 import org.mixit.conference.model.shared.Language
 import org.mixit.infra.util.string.MarkdownRenderer
 import org.springframework.context.MessageSource
@@ -50,7 +50,7 @@ class WebFilter(
 
         val isEn = request.hasLanguagePrefix(Language.ENGLISH)
         webContext.context =
-            buildContext(messageSource, markdownRenderer, if (isEn) Locale.ENGLISH else Locale.FRENCH)
+            buildContext(messageSource, markdownRenderer, request.servletPath, if (isEn) Locale.ENGLISH else Locale.FRENCH)
 
         val uriPath =
             request.requestURI

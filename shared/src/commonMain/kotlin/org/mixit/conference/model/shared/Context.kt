@@ -7,6 +7,7 @@ data class Context(
     val uriBasePath: String = if(language == FRENCH) "" else language.urlPrefix,
     val markdownRenderer: (String) -> String = { it },
     val isAuthenticated: Boolean = false,
+    val path: String = "",
     val translator: (String) -> String,
 ) {
     companion object {

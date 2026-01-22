@@ -1,4 +1,4 @@
-package org.mixit
+package org.mixit.config
 
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.shared.Language.ENGLISH
@@ -16,14 +16,16 @@ import java.util.Locale.FRANCE
 fun buildContext(
     messageSource: MessageSource,
     markdownRenderer: MarkdownRenderer,
+    requestPath: String,
     userLocale: Locale,
 ): Context =
     (if (userLocale.language == "fr") FRENCH to FRANCE else ENGLISH to Locale.ENGLISH).let { (language, locale) ->
         Context(
             language = language,
             markdownRenderer = { markdown ->
-                markdownRenderer.render(markdown)
+                markdownRenderer.render(markdown).replace("\n", "<br>")
             },
+            path = requestPath.replace("/fr/", "/").replace("/en/", "/"),
             translator = { key ->
                 messageSource.getMessage(key, null, locale)
             },
