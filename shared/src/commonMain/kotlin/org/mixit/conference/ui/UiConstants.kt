@@ -6,7 +6,7 @@ import org.mixit.conference.model.menu.MenuItem
 import org.mixit.conference.model.talk.Podcast
 
 const val CURRENT_YEAR = 2026
-const val CURRENT_TALK_YEAR = 2025
+const val CURRENT_TALK_YEAR = 2026
 const val CURRENT_MEDIA_YEAR = 2025
 
 

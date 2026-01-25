@@ -26,14 +26,7 @@ class TalkStaticFileRepository(
             }
         }
     }
-//    init {
-//        (2012..CURRENT_YEAR).forEach { year ->
-//            val path = Path.of(ClassPathResource("data/talks_$year.json").url.path)
-//            val json = Files.readString(path)
-//            val talks = Constants.serializer.decodeFromString<Array<TalkDto>>(json)
-//            _data[year] = talks.toList()
-//        }
-//    }
+
 
     @Cacheable(Cache.TALK_CACHE)
     fun findAll(): Map<Int, List<TalkDto>> = _data

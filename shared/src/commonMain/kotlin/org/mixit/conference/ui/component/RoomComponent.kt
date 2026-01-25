@@ -7,12 +7,13 @@ import kotlinx.html.onClick
 import kotlinx.html.span
 import kotlinx.html.title
 import org.mixit.conference.model.shared.Context
+import org.mixit.conference.model.talk.Room
 import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.formatter.formatTime
 
 fun DIV.roomComponent(context: Context, talk: Talk, withLink: Boolean = false, withCapacity: Boolean = false, withTime: Boolean = false) {
-    if(talk.event.toInt() == CURRENT_YEAR) {
+    if(talk.event.toInt() == CURRENT_YEAR && talk.room != Room.UNKNOWN) {
         if (withLink) {
             a(classes = "mxt-room") {
                 if (talk.room.hasLink) {

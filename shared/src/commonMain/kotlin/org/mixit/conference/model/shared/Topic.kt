@@ -14,6 +14,6 @@ enum class Topic(val value: String) {
     ON_AIR("onair");
 
     companion object {
-        fun of(label: String?) = entries.firstOrNull { it.value == label } ?: OTHER
+        fun of(label: String?) = entries.firstOrNull { it.name == label } ?: OTHER
     }
 }
