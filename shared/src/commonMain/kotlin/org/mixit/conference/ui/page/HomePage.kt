@@ -1,12 +1,17 @@
 package org.mixit.conference.ui.page
 
 import kotlinx.html.DIV
+import kotlinx.html.a
 import kotlinx.html.b
 import kotlinx.html.br
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h3
 import kotlinx.html.img
+import kotlinx.html.li
+import kotlinx.html.p
 import kotlinx.html.span
+import kotlinx.html.ul
 import kotlinx.html.unsafe
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
@@ -38,21 +43,61 @@ fun renderHomePage(context: Context, lastPodCastId: String, event: Event, sponso
             }
         }
 
-        sectionComponent(context, i18nKey = "home.section.news.title") {
+        // This section is displayed in september
+//        sectionComponent(context, i18nKey = "home.section.news.title") {
+//            div("lead") { +context.i18n("home.section.news.when") }
+//            div("mt-2") {
+//                b { +context.i18n("home.section.news.birthday") }
+//                +context.i18n("home.section.news.birthday2")
+//                div(classes = "mxt-no-link mt-2") {
+//                    unsafe {
+//                        raw(
+//                            context.markdown(context.i18n("home.section.news.newsletter"))
+//                        )
+//                    }
+//                }
+//            }
+//            timeline(context)
+//        }
+        // This section is displayed when schedule is published
+        sectionComponent(context, i18nKey = "home.section.schedule.annoucement.title") {
             div("lead") { +context.i18n("home.section.news.when") }
             div("mt-2") {
-                b { +context.i18n("home.section.news.birthday") }
+                b { +context.i18n("home.section.news.birthday")}
+                +" "
                 +context.i18n("home.section.news.birthday2")
-                div(classes = "mxt-no-link mt-2") {
-                    unsafe {
-                        raw(
-                            context.markdown(context.i18n("home.section.news.newsletter"))
-                        )
-                    }
+            }
+            div("lead mt-2") { +context.i18n("home.section.schedule.annoucement.subtitle") }
+
+            div("mt-2 mxt-no-link") {
+                a(classes = "mxt-no-link") {
+                    href = "/schedule"
+                    +context.i18n("home.section.schedule.annoucement.link")
                 }
             }
-            timeline(context)
         }
+        sectionComponent(context) {
+            h3(classes = "mt-4") {
+                +context.i18n("home.section.sales.annoucement.title")
+            }
+            div() { +context.i18n("home.section.sales.annoucement.subtitle") }
+            div("mt-2") {
+                +context.i18n("home.section.sales.annoucement.description")
+                ul {
+                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.first") }
+                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.second") }
+                }
+                b { +context.i18n("home.section.sales.annoucement.warning") }
+            }
+            div(classes = "mxt-no-link mt-2") {
+                unsafe {
+                    raw(
+                        context.markdown(context.i18n("home.section.news.newsletter"))
+                    )
+                }
+            }
+        }
+
         sectionComponent(
             context,
             i18nKey = "home.section.onair.title",
