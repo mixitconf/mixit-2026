@@ -381,8 +381,8 @@ body {
 
 .mxt-img__sponsors {
     margin: 0.5em auto;
-    max-width: 10em;
-    width: 100%;
+    width: 10em;
+    aspect-ratio: 1.5;
 }
 
 .mxt-img__podcast {
@@ -682,8 +682,7 @@ footer {
 
 .mxt-sponsor__grid-home {
     display: grid;
-    column-gap: 0.3em;
-    row-gap: 0.3em;
+    gap: 1em;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     @media (max-width: 738px) {
         grid-template-columns: 1fr 1fr;
