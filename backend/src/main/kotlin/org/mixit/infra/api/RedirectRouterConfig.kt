@@ -21,6 +21,9 @@ class RedirectRouterConfig(
                 GET("/cfp") {
                     ServerResponse.permanentRedirect(properties.cfpUrl).build()
                 }
+                GET("/billetweb") {
+                    ServerResponse.permanentRedirect(properties.billetwebUrl).build()
+                }
                 GET("/newsletter-subscribe") {
                     ServerResponse.permanentRedirect(properties.newsLetterUrl).build()
                 }

@@ -88,8 +88,16 @@ fun renderHomePage(context: Context, lastPodCastId: String, event: Event, sponso
                     li(classes = "lead") { +context.i18n("home.section.sales.annoucement.second") }
                 }
                 b { +context.i18n("home.section.sales.annoucement.warning") }
+                div("mt-2 mxt-no-link") {
+                    a(classes = "mxt-no-link") {
+                        href = "/billetweb"
+                        target="_blank"
+                        +context.i18n("home.section.sales.annoucement.link")
+                    }
+                }
+
             }
-            div(classes = "mxt-no-link mt-2") {
+            div(classes = "mxt-no-link mt-5") {
                 unsafe {
                     raw(
                         context.markdown(context.i18n("home.section.news.newsletter"))
