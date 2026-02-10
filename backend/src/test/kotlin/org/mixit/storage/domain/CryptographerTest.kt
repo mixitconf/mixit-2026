@@ -6,8 +6,8 @@ import io.mockk.impl.annotations.MockK
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mixit.MixitProperties
-import org.mixit.SecurityProperties
+import org.mixit.infra.config.MixitProperties
+import org.mixit.infra.config.SecurityProperties
 import org.mixit.infra.util.serializer.Cryptographer
 
 class CryptographerTest {

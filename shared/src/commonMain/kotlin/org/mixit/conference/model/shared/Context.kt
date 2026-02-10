@@ -1,5 +1,6 @@
 package org.mixit.conference.model.shared
 
+import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.shared.Language.FRENCH
 
 data class Context(
@@ -7,6 +8,9 @@ data class Context(
     val uriBasePath: String = if(language == FRENCH) "" else language.urlPrefix,
     val markdownRenderer: (String) -> String = { it },
     val isAuthenticated: Boolean = false,
+    val email: String? = null,
+    val username: String? = null,
+    val role: Role = Role.USER,
     val path: String = "",
     val translator: (String) -> String,
 ) {

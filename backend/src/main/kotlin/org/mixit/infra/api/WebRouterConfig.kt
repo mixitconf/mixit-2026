@@ -1,27 +1,28 @@
-package org.mixit.conference
+package org.mixit.infra.api
 
-import org.mixit.config.WebContext
+import org.mixit.WebContext
 import org.mixit.conference.model.shared.Context
+import org.mixit.conference.model.shared.Language
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.page.renderError
+import org.mixit.conference.ui.security.loginStartForm
 import org.mixit.domain.api.EventScreen
-import org.mixit.infra.api.EventHandler
-import org.mixit.infra.api.FaqHandler
-import org.mixit.infra.api.MediaHandler
-import org.mixit.infra.api.PeopleHandler
-import org.mixit.infra.api.TalkHandler
+import org.mixit.infra.api.mapper.toLoginForm
+import org.mixit.infra.api.mapper.toLoginStartForm
 import org.mixit.infra.api.mapper.toTalkCriteria
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
+import org.springframework.web.servlet.function.paramOrNull
 import org.springframework.web.servlet.function.router
 
 @Configuration
 class WebRouterConfig {
     @Bean
     fun webRouter(
+        authenticationApi: AuthenticationHandler,
         eventHandler: EventHandler,
         faqHandler: FaqHandler,
         peopleHandler: PeopleHandler,
@@ -115,6 +116,34 @@ class WebRouterConfig {
                 GET("/$year/{slug}") {
                     talkHandler.findTalkBySlug(year, it.pathVariable("slug"))
                 }
+            }
+
+            // Security
+            GET("/login") {
+                authenticationApi.login(loginStartForm(dirty = false))
+            }
+            GET("/logout") {
+                authenticationApi.logout()
+            }
+            POST("/login") {
+                authenticationApi.loginStartSend(it.toLoginStartForm())
+            }
+            POST("/login-finalize") {
+                authenticationApi.loginFinalize(it.toLoginForm())
+            }
+            GET("/signin/{code}/{email}") {
+                authenticationApi.loginFinalize(
+                    it.toLoginForm(it.pathVariable("email") to it.pathVariable("code"), dirty = false),
+                )
+            }
+            POST("/signup/{email}") {
+                authenticationApi.signup(
+                    email = it.pathVariable("email"),
+                    firstname = it.paramOrNull("firstname"),
+                    lastname = it.paramOrNull("lastname"),
+                    language = Language.valueOf(it.paramOrNull("language") ?: Language.FRENCH.name),
+                    subscribeNewsletter = it.paramOrNull("newsletter") == "on",
+                )
             }
         }
     }

@@ -1,12 +1,16 @@
-package org.mixit.api
+package org.mixit.infra.api
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
-import org.mixit.config.WebContext
-import org.mixit.config.buildContext
+import org.mixit.WebContext
+import org.mixit.buildContext
+import org.mixit.conference.model.people.Role
+import org.mixit.conference.model.security.CredentialResponse
+import org.mixit.conference.model.security.Credentials
 import org.mixit.conference.model.shared.Language
+import org.mixit.infra.spi.manager.ManagerUserApi
 import org.mixit.infra.util.string.MarkdownRenderer
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpHeaders
@@ -24,12 +28,14 @@ class WebFilter(
     private val messageSource: MessageSource,
     private val markdownRenderer: MarkdownRenderer,
     private val webContext: WebContext,
+    private val managerUserApi: ManagerUserApi
 ) : OncePerRequestFilter() {
     companion object {
+        const val AUTHENT_COOKIE = "XSRF-TOKEN"
         private val BOTS =
             arrayOf("Google", "Bingbot", "Qwant", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider")
         private val WEB_RESSOURCE_EXTENSIONS =
-            arrayOf(".css", ".js", ".svg", ".jpg", ".png", ".webp", ".webapp", ".pdf", ".icns", ".ico", ".html")
+            arrayOf(".css", ".js", ".svg", ".jpg", ".png", ".webp", ".webapp", ".pdf", ".icns", ".ico", ".html", ".map", ".json ")
     }
 
     override fun doFilterInternal(
@@ -49,9 +55,31 @@ class WebFilter(
         }
 
         val isEn = request.hasLanguagePrefix(Language.ENGLISH)
-        webContext.context =
-            buildContext(messageSource, markdownRenderer, request.servletPath, if (isEn) Locale.ENGLISH else Locale.FRENCH)
+        val token = request.cookies?.firstOrNull { it.name == AUTHENT_COOKIE }?.value
 
+        if (!token.isNullOrBlank()) {
+            val response = managerUserApi.action(Credentials.RefreshUser(token))
+            if (response is CredentialResponse.RefreshedUser) {
+                webContext.context = buildContext(
+                    messageSource,
+                    markdownRenderer,
+                    request.servletPath,
+                    if (isEn) Locale.ENGLISH else Locale.FRENCH,
+                    email = if(request.servletPath.contains("logout")) null else response.email,
+                    role = if(request.servletPath.contains("logout")) Role.USER else response.role,
+                    username = if(request.servletPath.contains("logout")) null else response.username,
+                )
+            }
+        }
+        if (webContext.context == null) {
+            webContext.context =
+                buildContext(
+                    messageSource,
+                    markdownRenderer,
+                    request.servletPath,
+                    if (isEn) Locale.ENGLISH else Locale.FRENCH
+                )
+        }
         val uriPath =
             request.requestURI
                 .let {
@@ -68,7 +96,21 @@ class WebFilter(
             CustomHttpServletRequestWrapper(request, uriPath).apply {
                 addHeader(CONTENT_LANGUAGE, if (isEn) "en" else "fr")
             }
-        filterChain.doFilter(req, response)
+
+
+        if (Regex("^/secured/.*").matches(request.requestURI)) {
+            if (token == null) {
+                response.sendRedirect("/login")
+                return
+            }
+            if (webContext.context?.email == null) {
+                response.sendRedirect("/login")
+                return
+            }
+            filterChain.doFilter(request, response)
+        } else {
+            filterChain.doFilter(req, response)
+        }
     }
 
     private fun HttpServletRequest.isWebResource() =
@@ -83,10 +125,11 @@ class WebFilter(
 
     private fun HttpServletRequest.isAHomePageCallFromForeignLanguage(): Boolean =
         requestURI == "/" &&
-            localeResolver.resolveLocale(this) != Locale.FRENCH &&
-            !isSearchEngineCrawler()
+                localeResolver.resolveLocale(this) != Locale.FRENCH &&
+                !isSearchEngineCrawler()
 
-    private fun HttpServletRequest.hasLanguagePrefix(language: Language) = this.requestURI.startsWith(language.urlPrefix)
+    private fun HttpServletRequest.hasLanguagePrefix(language: Language) =
+        this.requestURI.startsWith(language.urlPrefix)
 }
 
 class CustomHttpServletRequestWrapper(

@@ -1,6 +1,6 @@
 package org.mixit.infra.api
 
-import org.mixit.config.WebContext
+import org.mixit.WebContext
 import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.ui.form.FormDescriptor

@@ -1,4 +1,4 @@
-package org.mixit
+package org.mixit.infra.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import java.net.URI
@@ -12,6 +12,7 @@ data class MixitProperties(
     val newsLetterUrl: URI,
     val podcastId: String,
     val externalData: ExternalDataProperties,
+    val managerUrl: String
 )
 
 data class ExternalDataProperties(
@@ -22,6 +23,7 @@ data class ExternalDataProperties(
 data class SecurityProperties(
     val initVector: String,
     val key: String,
+    val jwtKey: String,
 )
 
 data class DocumentProperties(

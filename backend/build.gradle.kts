@@ -29,6 +29,9 @@ dependencies {
     implementation(libs.webjars.locator)
     implementation(project(":shared"))
 
+    implementation(libs.json.web.token)
+    implementation(libs.json.web.token.jackson)
+
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.mockk)
