@@ -1,6 +1,6 @@
 package org.mixit.infra.api
 
-import org.mixit.config.WebContext
+import org.mixit.WebContext
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.page.renderFaqPage

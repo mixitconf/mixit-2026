@@ -23,6 +23,7 @@ data class ExternalDataProperties(
 data class SecurityProperties(
     val initVector: String,
     val key: String,
+    val jwtKey: String,
 )
 
 data class DocumentProperties(

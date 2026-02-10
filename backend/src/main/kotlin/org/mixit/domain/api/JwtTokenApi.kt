@@ -1,8 +1,8 @@
 package org.mixit.domain.api
 
 import kotlinx.datetime.Instant
+import org.mixit.conference.model.people.Role
 import org.mixit.domain.model.JwtToken
-import org.mixit.infra.spi.people.Role
 
 /**
  * API for handling JWT (JSON Web Token) operations such as parsing, generation, and key management.

@@ -35,6 +35,8 @@
     --header-img-faq-src: url('/images/svg/header/mxt-icon-faq-dark.svg');
     --header-img-ticket-src: url('/images/svg/header/mxt-icon-ticket-dark.svg');
     --header-img-budget-src: url('/images/svg/header/mxt-icon-budget-dark.svg');
+    --header-img-secured-src: url('/images/svg/security/mxt-lock--close.svg');
+    --header-img-unsecured-src: url('/images/svg/security/mxt-lock--open.svg');
     --transport-train: url('/images/svg/transport/transport_railway-dark.svg');
     --transport-bus: url('/images/svg/transport/transport_bus-dark.svg');
     --transport-flight: url('/images/svg/transport/transport_flight-dark.svg');
@@ -172,8 +174,14 @@ body {
     content: var(--mode-img-src);
 }
 
-.mxt-navbar-secu {
+.mxt-navbar-secured {
     width: 1em;
+    content: var(--header-img-secured-src);
+}
+
+.mxt-navbar-unsecured {
+    width: 1em;
+    content: var(--header-img-unsecured-src);
 }
 
 .mxt-navbar-language {

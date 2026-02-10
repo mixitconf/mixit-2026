@@ -6,6 +6,7 @@ import org.mixit.infra.spi.event.LinkDto
 import org.mixit.conference.model.link.Link
 import org.mixit.conference.model.people.Attendee
 import org.mixit.conference.model.people.Organization
+import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.people.Speaker
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.people.SponsorshipLevel

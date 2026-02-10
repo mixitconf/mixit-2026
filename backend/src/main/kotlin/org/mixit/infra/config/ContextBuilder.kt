@@ -20,6 +20,7 @@ fun buildContext(
     requestPath: String,
     userLocale: Locale,
     email: String? = null,
+    username: String? = null,
     role: Role = Role.USER,
 ): Context =
     (if (userLocale.language == "fr") FRENCH to FRANCE else ENGLISH to Locale.ENGLISH).let { (language, locale) ->
@@ -30,6 +31,7 @@ fun buildContext(
             },
             path = requestPath.replace("/fr/", "/").replace("/en/", "/"),
             email = email,
+            username = username,
             role = role,
             isAuthenticated = email != null,
             translator = { key ->
@@ -40,7 +42,9 @@ fun buildContext(
 
 open class WebContext(
     var context: Context?,
-)
+) {
+    fun ctx() = context ?: Context.default()
+}
 
 @Configuration
 class ContextConfig {

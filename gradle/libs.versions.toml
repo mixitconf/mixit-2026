@@ -1,5 +1,6 @@
 [versions]
 bootstrap = "5.3.8"
+json-web-token = "0.13.0"
 kotlin = "2.2.21"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.6.2"
@@ -14,6 +15,8 @@ spring-dependency-management = "1.1.7"
 
 [libraries]
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+json-web-token-jackson = { module ="io.jsonwebtoken:jjwt-jackson", version.ref = "json-web-token" }
+json-web-token = { module ="io.jsonwebtoken:jjwt-impl", version.ref = "json-web-token" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }

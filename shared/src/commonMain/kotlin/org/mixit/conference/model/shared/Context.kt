@@ -9,6 +9,7 @@ data class Context(
     val markdownRenderer: (String) -> String = { it },
     val isAuthenticated: Boolean = false,
     val email: String? = null,
+    val username: String? = null,
     val role: Role = Role.USER,
     val path: String = "",
     val translator: (String) -> String,

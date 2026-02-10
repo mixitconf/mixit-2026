@@ -1,7 +1,7 @@
 package org.mixit.infra.api
 
-import org.mixit.MixitProperties
-import org.mixit.config.WebContext
+import org.mixit.WebContext
+import org.mixit.infra.config.MixitProperties
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.page.renderAboutPage

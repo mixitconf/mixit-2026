@@ -22,13 +22,15 @@ data class FormField(
         FormFieldType.Url -> "^http(s?)://(w{3}\\.)?[\\w\\.\\-\\/]*\$"
         else -> null
     },
+    val dirty: Boolean = true,
     val validator: (() -> Boolean) = {
-        if (validationPattern != null && !defaultValue.isNullOrBlank()) {
+        if (dirty && validationPattern != null && !defaultValue.isNullOrBlank()) {
             Regex(validationPattern).matches(defaultValue)
-        } else if (isRequired) !defaultValue.isNullOrBlank() else true
+        } else if (isRequired && dirty) !defaultValue.isNullOrBlank() else true
     },
     val error: FormFieldError? = if (validator.invoke()) null else "This value is invalid",
     val isHidden: () -> Boolean = { false },
+
 ) {
 
     fun formField(form: FORM) {
