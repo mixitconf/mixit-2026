@@ -74,7 +74,7 @@ class ManagerUserApi(
         try {
             restClient
                 .post()
-                .uri { it.path("/login").queryParam("email", credentials.email!!).build() }
+                .uri { it.path("/public/login").queryParam("email", credentials.email!!).build() }
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<CredentialResponse>()
@@ -86,7 +86,7 @@ class ManagerUserApi(
     private fun checkUserAndRole(token: String): CredentialResponse =
         try {
             restClient.post()
-                .uri("/check-token")
+                .uri("/public/check-token")
                 .cookie(WebFilter.AUTHENT_COOKIE, token)
                 .retrieve()
                 .body(AuthenticatedUserDto::class.java)
@@ -105,7 +105,7 @@ class ManagerUserApi(
         try {
             restClient
                 .get()
-                .uri { it.path("/logout").queryParam("email", credentials.email!!).build() }
+                .uri { it.path("/public/logout").queryParam("email", credentials.email!!).build() }
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<CredentialResponse>()
@@ -119,7 +119,7 @@ class ManagerUserApi(
             restClient
                 .post()
                 .uri {
-                    it.path("/login-finalize")
+                    it.path("/public/login-finalize")
                         .queryParam("email", credentials.email!!)
                         .queryParam("token", credentials.token!!)
                         .build()
@@ -142,20 +142,19 @@ class ManagerUserApi(
         try {
             restClient
                 .post()
-                .uri("/register")
-                .body(
-                    mapOf(
-                        "email" to credentials.email!!,
-                        "firstname" to credentials.firstname,
-                        "lastname" to credentials.lastname,
-                        "language" to credentials.language.name,
-                        "newsletter" to "on",
-                    ),
-                )
+                .uri {
+                    it.path("/public/register")
+                        .queryParam("email", credentials.email!!)
+                        .queryParam("firstname", credentials.firstname!!)
+                        .queryParam("lastname", credentials.lastname!!)
+                        .queryParam("language", credentials.language.name)
+                        .queryParam("newsletter", "off")
+                        .build()
+                }
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<CredentialResponse>()
-                ?: CredentialResponse.LoginError(LoginErrorType.BAD_EMAIL_OR_LOGIN)
+                ?: CredentialResponse.TokenSent
         } catch (_: Exception) {
             CredentialResponse.LoginError(LoginErrorType.BAD_EMAIL_OR_LOGIN)
         }

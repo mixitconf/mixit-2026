@@ -11,7 +11,7 @@ import org.mixit.conference.ui.renderTemplate
 
 fun loginForm(
     values: Pair<Email, String?>? = null,
-    dirty: Boolean = true,
+    dirty: Boolean = false,
     valuesInRequest: Map<String, String?> = emptyMap(),
     converter: (FormDescriptor<Pair<Email, String?>>) -> Pair<Email, String?> = { throw IllegalStateException() }
 ) = FormDescriptor(

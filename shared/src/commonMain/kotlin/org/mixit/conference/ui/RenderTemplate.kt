@@ -102,10 +102,6 @@ fun renderTemplate(ctx: Context, event: Event? = null, layoutContent: DIV.(Conte
             rel = "stylesheet"
             href = "/mixit.css"
         }
-        script {
-            type = "text/javascript"
-            src = "/mixit.js"
-        }
         script(type = ScriptType.textJavaScript) {
             // We try to read the usage mode choosed by the user
             unsafe {
@@ -136,6 +132,8 @@ fun renderTemplate(ctx: Context, event: Event? = null, layoutContent: DIV.(Conte
                             .from(images)
                             .forEach((image) => image.src = image.getAttribute('data-src'));
                     }
+                  
+                    
                     window.addEventListener("load", () => loadImages());
             """)
             }

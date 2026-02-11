@@ -11,6 +11,7 @@ import org.mixit.conference.ui.security.loginStartForm
 import org.mixit.domain.api.EventScreen
 import org.mixit.infra.api.mapper.toLoginForm
 import org.mixit.infra.api.mapper.toLoginStartForm
+import org.mixit.infra.api.mapper.toRegistringForm
 import org.mixit.infra.api.mapper.toTalkCriteria
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -136,13 +137,9 @@ class WebRouterConfig {
                     it.toLoginForm(it.pathVariable("email") to it.pathVariable("code"), dirty = false),
                 )
             }
-            POST("/signup/{email}") {
+            POST("/signup") {
                 authenticationApi.signup(
-                    email = it.pathVariable("email"),
-                    firstname = it.paramOrNull("firstname"),
-                    lastname = it.paramOrNull("lastname"),
-                    language = Language.valueOf(it.paramOrNull("language") ?: Language.FRENCH.name),
-                    subscribeNewsletter = it.paramOrNull("newsletter") == "on",
+                    it.toRegistringForm(context = webContext.ctx())
                 )
             }
         }

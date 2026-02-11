@@ -142,4 +142,6 @@ fun renderTalks(
         sectionComponent(context) {
             sponsorGroupComponent(context, event, sponsors)
         }
+
+
     }

@@ -36,7 +36,7 @@ class DataService(
         try {
             restClient
                 .get()
-                .uri(path)
+                .uri("/public$path")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(responseType)

@@ -40,18 +40,23 @@ fun buildContext(
         )
     }
 
-open class WebContext(
-    var context: Context?,
-) {
-    fun ctx() = context ?: Context.default()
+interface WebContext {
+    var context: Context?
+    fun ctx(): Context
 }
 
-@Configuration
+open class WebContextProvider(
+    override var context: Context?,
+): WebContext {
+    override fun ctx() = context ?: Context.default()
+}
+
+@Configuration(proxyBeanMethods = false)
 class ContextConfig {
     @Bean
     @Scope(
         value = WebApplicationContext.SCOPE_REQUEST,
         proxyMode = ScopedProxyMode.TARGET_CLASS,
     )
-    fun webContext(): WebContext = WebContext(null)
+    fun webContext(): WebContext = WebContextProvider(null)
 }

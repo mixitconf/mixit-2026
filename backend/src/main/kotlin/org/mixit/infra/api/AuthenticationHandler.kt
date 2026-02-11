@@ -4,14 +4,16 @@ import org.mixit.WebContext
 import org.mixit.conference.model.people.Email
 import org.mixit.conference.model.security.CredentialResponse
 import org.mixit.conference.model.security.Credentials
+import org.mixit.conference.model.security.RegisteredUser
 import org.mixit.conference.model.shared.Language
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.security.loginForm
+import org.mixit.conference.ui.security.registerForm
 import org.mixit.conference.ui.security.renderLoginPage
 import org.mixit.conference.ui.security.renderLoginStartPage
-import org.mixit.domain.model.UserErrorType
+import org.mixit.conference.ui.security.renderRegisteringPage
+import org.mixit.domain.model.LoginErrorType
 import org.mixit.infra.spi.manager.ManagerUserApi
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType.TEXT_HTML
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
@@ -40,7 +42,20 @@ class AuthenticationHandler(
                     )
                 when (response) {
                     is CredentialResponse.TokenSent -> redirectToLogin(loginForm(Pair(email, null)))
-                    is CredentialResponse.LoginError -> redirectToLoginStart(formValue.copy(globalError = response.errorMessage()))
+                    is CredentialResponse.LoginError -> {
+                        if (response.type == LoginErrorType.BAD_EMAIL_OR_LOGIN) {
+                            redirectToRegister(
+                                registerForm(
+                                    valuesInRequest = mapOf("email" to email),
+                                    dirty = false,
+                                    context = webContext.ctx(),
+                                )
+                            )
+                        } else {
+                            redirectToLoginStart(formValue.copy(globalError = response.errorMessage()))
+                        }
+                    }
+
                     else -> redirectToLoginStart(formValue.copy(globalError = "Unexpected error, please try again"))
                 }
             } catch (e: Exception) {
@@ -93,37 +108,41 @@ class AuthenticationHandler(
             redirectToLogin(formValue)
         }
 
-    fun signup(
-        email: Email,
-        firstname: String?,
-        lastname: String?,
-        subscribeNewsletter: Boolean,
-        language: Language,
-    ): ServerResponse =
-        if (lastname == null || firstname == null) {
-            ServerResponse.badRequest().build()
-        } else {
-            val response =
-                managerUserApi.action(
-                    Credentials.SignupRequest(
-                        email = email,
-                        firstname = firstname,
-                        lastname = lastname,
-                        language = language,
-                        subcribeNewsletter = subscribeNewsletter,
-                    ),
-                )
-            when (response) {
-                is CredentialResponse.UserCreationError -> {
-                    when (response.type) {
-                        UserErrorType.ALREADY_REGISTERED -> ServerResponse.status(HttpStatus.CONFLICT).build()
-                        UserErrorType.INTERNAL_ERROR -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
-                    }
-                }
+    private fun redirectToRegister(formValue: FormDescriptor<RegisteredUser>) =
+        ok().contentType(TEXT_HTML).body(
+            renderRegisteringPage(
+                context = webContext.ctx(),
+                formValue,
+            ),
+        )
 
-                is CredentialResponse.UserCreated -> ServerResponse.status(HttpStatus.CREATED).build()
-                else -> ServerResponse.status(HttpStatus.BAD_REQUEST).build()
+    fun signup(formValue: FormDescriptor<RegisteredUser>): ServerResponse =
+        if (formValue.isValid()) {
+            val user = formValue.value()
+            try {
+                val response =
+                    managerUserApi.action(
+                        Credentials.SignupRequest(
+                            email = user.email,
+                            firstname = user.firstname,
+                            lastname = user.lastname,
+                            language = Language.FRENCH,
+                            subcribeNewsletter = true
+                        ),
+                    )
+                when (response) {
+                    is CredentialResponse.TokenSent -> redirectToLogin(loginForm(Pair(user.email, null)))
+                    is CredentialResponse.LoginError -> {
+                        redirectToRegister(formValue.copy(globalError = response.errorMessage()))
+                    }
+
+                    else -> redirectToRegister(formValue.copy(globalError = "Unexpected error, please try again"))
+                }
+            } catch (e: Exception) {
+                redirectToRegister(formValue.copy(globalError = e.message))
             }
+        } else {
+            redirectToRegister(formValue)
         }
 
     private fun redirectToLogin(formValue: FormDescriptor<Pair<Email, String?>>) =
