@@ -4,8 +4,8 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
-import org.mixit.WebContext
-import org.mixit.buildContext
+import org.mixit.infra.config.WebContext
+import org.mixit.infra.config.buildContext
 import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.security.CredentialResponse
 import org.mixit.conference.model.security.Credentials
@@ -65,6 +65,7 @@ class WebFilter(
                     markdownRenderer,
                     request.servletPath,
                     if (isEn) Locale.ENGLISH else Locale.FRENCH,
+                    token = token,
                     email = if(request.servletPath.contains("logout")) null else response.email,
                     role = if(request.servletPath.contains("logout")) Role.USER else response.role,
                     username = if(request.servletPath.contains("logout")) null else response.username,

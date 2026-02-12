@@ -52,6 +52,7 @@ fun renderTalks(
     context: Context,
     event: Event,
     sponsors: List<Sponsor>,
+    favorites: List<String>,
     talksByDate: Map<LocalDateTime?, List<Talk>>,
     filter: FormDescriptor<Pair<Topic?, String?>>
 ) =
@@ -117,6 +118,20 @@ fun renderTalks(
                                                 }
                                             }
                                             roomComponent(context, talk)
+
+                                            if (context.email != null) {
+                                                if(favorites.contains(talk.id)) {
+                                                    img(src = "/images/svg/favorites/mxt-favorite.svg", classes = "mxt-favorite") {
+                                                        alt = context.i18n("favorite.selected")
+                                                    }
+                                                }
+                                                else {
+                                                    img(src = "/images/svg/favorites/mxt-favorite-non.svg", classes = "mxt-favorite") {
+                                                        alt = context.i18n("favorite.selected")
+                                                    }
+                                                }
+                                            }
+
                                         }
 
 

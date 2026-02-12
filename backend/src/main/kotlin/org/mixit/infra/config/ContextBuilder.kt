@@ -1,4 +1,4 @@
-package org.mixit
+package org.mixit.infra.config
 
 import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.shared.Context
@@ -22,6 +22,7 @@ fun buildContext(
     email: String? = null,
     username: String? = null,
     role: Role = Role.USER,
+    token: String? = null,
 ): Context =
     (if (userLocale.language == "fr") FRENCH to FRANCE else ENGLISH to Locale.ENGLISH).let { (language, locale) ->
         Context(
@@ -34,6 +35,7 @@ fun buildContext(
             username = username,
             role = role,
             isAuthenticated = email != null,
+            token = token,
             translator = { key ->
                 messageSource.getMessage(key, null, locale)
             },
@@ -43,12 +45,14 @@ fun buildContext(
 interface WebContext {
     var context: Context?
     fun ctx(): Context
+    fun requiredToken(): String
 }
 
 open class WebContextProvider(
     override var context: Context?,
 ): WebContext {
     override fun ctx() = context ?: Context.default()
+    override fun requiredToken(): String = ctx().token ?: throw IllegalStateException("Token is required")
 }
 
 @Configuration(proxyBeanMethods = false)

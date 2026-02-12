@@ -40,6 +40,16 @@ class TalkFileRepository(
             .map { it.toTalk(peopleRepository.findSpeakerByIds(it.speakerIds)) }
             .sortedBy { it.event }
 
+    override fun findById(id: String): Talk? =
+        repository
+            .findAll()
+            .values
+            .flatten()
+            .firstOrNull { it.id == id }
+            ?.let {
+                it.toTalk(peopleRepository.findSpeakerByIds(it.speakerIds))
+            }
+
     override fun findBySlug(
         year: Int,
         slug: String,

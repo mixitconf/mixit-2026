@@ -1,8 +1,7 @@
 package org.mixit.infra.api
 
-import org.mixit.WebContext
+import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.shared.Context
-import org.mixit.conference.model.shared.Language
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR
 import org.mixit.conference.ui.CURRENT_YEAR
@@ -16,7 +15,6 @@ import org.mixit.infra.api.mapper.toTalkCriteria
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
-import org.springframework.web.servlet.function.paramOrNull
 import org.springframework.web.servlet.function.router
 
 @Configuration
@@ -29,6 +27,7 @@ class WebRouterConfig {
         peopleHandler: PeopleHandler,
         talkHandler: TalkHandler,
         mediaHandler: MediaHandler,
+        favoriteHandler: FavoriteHandler,
         webContext: WebContext,
     ) = router {
         accept(MediaType.TEXT_HTML).nest {
@@ -117,6 +116,9 @@ class WebRouterConfig {
                 GET("/$year/{slug}") {
                     talkHandler.findTalkBySlug(year, it.pathVariable("slug"))
                 }
+            }
+            POST("/favorites/{email}/talks/{talkId}/toggle") {
+                favoriteHandler.toggleFavorite(it.pathVariable("email"), it.pathVariable("talkId"))
             }
 
             // Security

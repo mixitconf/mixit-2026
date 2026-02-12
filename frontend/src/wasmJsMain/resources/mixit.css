@@ -951,9 +951,22 @@ footer {
     color: var(--color-primary);
 }
 
+.mxt-favorite {
+    margin-left: 0.6em;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.mxt-talks__container-line {
+    padding: 0.5em;
+}
+
 .mxt-talks__container-line > a {
     text-decoration: none;
     color: var(--text-color);
+}
+.mxt-talks__container-line > a, .mxt-talks__container-line:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .mxt-no-link > a, .mxt-no-link > p > a, .mxt-talks__container-line > a {
     opacity: 0.8;
@@ -964,10 +977,6 @@ footer {
 
 .mxt-talks__container-line:not(:last-child) {
     border-bottom: 1px solid var(--theme-light);
-}
-
-.mxt-talks__container-line:hover {
-    opacity: 0.8;
 }
 
 .mxt-talks__time {

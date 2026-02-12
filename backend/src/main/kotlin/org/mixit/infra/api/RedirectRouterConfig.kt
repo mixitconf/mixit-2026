@@ -1,7 +1,7 @@
 package org.mixit.infra.api
 
 import org.mixit.infra.config.MixitProperties
-import org.mixit.WebContext
+import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.shared.Language
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

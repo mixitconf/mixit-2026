@@ -1,6 +1,6 @@
 package org.mixit.infra.api
 
-import org.mixit.WebContext
+import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.people.Email
 import org.mixit.conference.model.security.CredentialResponse
 import org.mixit.conference.model.security.Credentials

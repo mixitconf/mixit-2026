@@ -12,6 +12,7 @@ data class Context(
     val username: String? = null,
     val role: Role = Role.USER,
     val path: String = "",
+    val token: String? = null,
     val translator: (String) -> String,
 ) {
     companion object {
