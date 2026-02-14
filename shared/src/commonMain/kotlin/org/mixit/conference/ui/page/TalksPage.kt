@@ -24,11 +24,13 @@ import org.mixit.conference.ui.formatter.formatDate
 import org.mixit.conference.ui.formatter.formatTime
 import org.mixit.conference.ui.renderTemplate
 
+data class TalksCriteria(val topic: Topic?, val filter: String?, val favorites: Boolean)
+
 fun talkSearchForm(
     context: Context,
-    values: Pair<Topic?, String?>? = null,
+    values: TalksCriteria? = null,
     valuesInRequest: Map<String, String?> = emptyMap(),
-    converter: (FormDescriptor<Pair<Topic?, String?>>) -> Pair<Topic?, String?> = { throw IllegalStateException() }
+    converter: (FormDescriptor<TalksCriteria>) -> TalksCriteria = { throw IllegalStateException() }
 ) = FormDescriptor(
     fields = listOf(
         FormField(
@@ -36,14 +38,21 @@ fun talkSearchForm(
             type = FormFieldType.Select,
             fieldPlaceholder = context.i18n("talks.topic"),
             options = listOf("" to context.i18n("talks.topic.all")) + Topic.entries.map { it.name to  context.i18n("topics.${it.value}.title") },
-            defaultValue = values?.first?.name ?: valuesInRequest["topic"]
+            defaultValue = values?.topic?.name ?: valuesInRequest["topic"]
         ),
         FormField(
             "filter",
             type = FormFieldType.Text,
             fieldPlaceholder = context.i18n("talks.filter"),
-            defaultValue = values?.second ?: valuesInRequest["filter"],
+            defaultValue = values?.filter ?: valuesInRequest["filter"],
+        ),
+        FormField(
+            "favorites",
+            type = FormFieldType.Checkbox,
+            help = context.i18n("talks.favorites"),
+            defaultValue = values?.favorites?.toString() ?: valuesInRequest["favorites"],
         )
+
     ),
     converter = converter
 )
@@ -54,7 +63,7 @@ fun renderTalks(
     sponsors: List<Sponsor>,
     favorites: List<String>,
     talksByDate: Map<LocalDateTime?, List<Talk>>,
-    filter: FormDescriptor<Pair<Topic?, String?>>
+    filter: FormDescriptor<TalksCriteria>
 ) =
     renderTemplate(context, event) {
         sectionComponent(context) {

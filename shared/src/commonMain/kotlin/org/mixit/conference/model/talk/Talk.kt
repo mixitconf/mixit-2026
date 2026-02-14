@@ -1,6 +1,7 @@
 package org.mixit.conference.model.talk
 
 import kotlinx.datetime.LocalDateTime
+import org.mixit.conference.model.favorite.Favorite
 import org.mixit.conference.model.people.Speaker
 import org.mixit.conference.model.shared.Language
 import org.mixit.conference.model.link.Link
@@ -43,6 +44,9 @@ data class Talk(
 
     fun searchByTopic(topic: Topic?): Boolean =
         this.topic == topic || topic == null
+
+    fun searchByFavorite(favorites: List<String>, searchBy: Boolean): Boolean =
+        if(!searchBy) true else favorites.contains(id)
 }
 
 
