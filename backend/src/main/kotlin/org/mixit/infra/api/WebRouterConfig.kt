@@ -101,6 +101,9 @@ class WebRouterConfig {
                 GET("/$year/medias/images/{album}/{name}") {
                     mediaHandler.findPhoto(year, it.pathVariable("album"), it.pathVariable("name"))
                 }
+                GET("/$year/medias/images/{album}/{name}") {
+                    mediaHandler.findPhoto(year, it.pathVariable("album"), it.pathVariable("name"))
+                }
                 GET("/$year/about") {
                     eventHandler.findByYear(year, EventScreen.ABOUT)
                 }

@@ -88,7 +88,9 @@ fun renderTalks(
                     }
                 }
             }
-
+            div {
+                +"sdqsdsq"
+            }
 
             keys.forEach { date ->
                 if(date != null) {
@@ -98,7 +100,7 @@ fun renderTalks(
                 }
                 val talkFilteredByDate = talksByDate.filter { it.key?.date == date }
                 div(classes = "mxt-year__selector") {
-                    talkFilteredByDate.keys.filterNotNull().forEach { time ->
+                    talkFilteredByDate.keys.filterNotNull().sorted().forEach { time ->
                         a(href = "#$time", classes = "mxt-talks__time-card") {
                             +time.formatTime()
                         }

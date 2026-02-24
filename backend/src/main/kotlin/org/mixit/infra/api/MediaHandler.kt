@@ -76,7 +76,7 @@ class MediaHandler(
         val section =
             album.sections.firstOrNull { it.sectionId == sectionId }
                 ?: return ServerResponse.notFound().build()
-        val index = section.photos.indexOfFirst { it.name == name }
+        val index = section.photos.indexOfFirst { it.name == name || it.name.substringBeforeLast('.') == name }
 
         return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderImage(
@@ -85,7 +85,7 @@ class MediaHandler(
                 sponsors = peopleRepository.findSponsorByYear(year),
                 albumUrl = album.url,
                 sectionId = sectionId,
-                image = name,
+                image = section.photos.get(index).name,
                 previousImage = section.photos.getOrNull(if (index <= 0) section.photos.size - 1 else index - 1)?.name,
                 nextImage = section.photos.getOrNull(if (index >= section.photos.size - 1) 0 else index + 1)?.name,
             ),

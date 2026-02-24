@@ -31,8 +31,10 @@ fun DIV.pictureAlbumComponent(context: Context, event: Event, album: Album) {
 fun DIV.pictureAlbumSectionComponent(context: Context, event: Event, albumUrl: String, albumSection: AlbumSection) {
     div(classes = "mxt-image__multi-container") {
         albumSection.photos.forEach {
+            // name contains the filename with extension. We remove this extension
+            val imagePageUrl = it.name.substringBeforeLast('.')
             a(classes = "mxt-img__card-multi d-flex flex-column align-items-center m-2") {
-                href = "${context.uriBasePath}/${event.year}/medias/images/${albumSection.sectionId}/${it.name}"
+                href = "${context.uriBasePath}/${event.year}/medias/images/${albumSection.sectionId}/$imagePageUrl"
                 img(classes = "mxt-img__lazyload") {
                     attributes["data-src"] = "${albumUrl}${event.year}/${albumSection.sectionId}/${it.name}"
                     alt = "Photo ${it.name} from ${context.i18n(albumSection.i18nKey)}"

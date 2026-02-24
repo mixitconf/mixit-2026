@@ -36,14 +36,14 @@ fun renderImage(
             // Add navigation for previous and next image
             div(classes = "d-flex justify-content-between mb-5") {
                 if (previousImage != null) {
-                    a(href = previousImage, classes = "btn btn-custom") {
+                    a(href = previousImage.substringBeforeLast('.'), classes = "btn btn-custom") {
                         +context.i18n("talks.previous")
                     }
                 } else {
                     span {}
                 }
                 if (nextImage != null) {
-                    a(href = nextImage, classes = "btn btn-custom") {
+                    a(href = nextImage.substringBeforeLast('.'), classes = "btn btn-custom") {
                         +context.i18n("talks.next")
                     }
                 } else {
