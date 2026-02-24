@@ -2,7 +2,18 @@ package org.mixit.conference.ui.page
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.html.*
+import kotlinx.html.ButtonType
+import kotlinx.html.FormMethod
+import kotlinx.html.a
+import kotlinx.html.button
+import kotlinx.html.div
+import kotlinx.html.h1
+import kotlinx.html.h2
+import kotlinx.html.img
+import kotlinx.html.small
+import kotlinx.html.span
+import kotlinx.html.title
+import kotlinx.html.unsafe
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
@@ -37,7 +48,7 @@ fun talkSearchForm(
             "topic",
             type = FormFieldType.Select,
             fieldPlaceholder = context.i18n("talks.topic"),
-            options = listOf("" to context.i18n("talks.topic.all")) + Topic.entries.map { it.name to  context.i18n("topics.${it.value}.title") },
+            options = listOf("" to context.i18n("talks.topic.all")) + Topic.entries.map { it.name to context.i18n("topics.${it.value}.title") },
             defaultValue = values?.topic?.name ?: valuesInRequest["topic"]
         ),
         FormField(
@@ -88,12 +99,13 @@ fun renderTalks(
                     }
                 }
             }
-            div {
-                +"sdqsdsq"
+            if (!context.isAuthenticated) {
+                small { +context.i18n("favorite.connected") }
             }
 
+
             keys.forEach { date ->
-                if(date != null) {
+                if (date != null) {
                     h2(classes = "mt-5") {
                         +date.formatDate(context.language)
                     }
@@ -108,7 +120,7 @@ fun renderTalks(
                 }
                 talkFilteredByDate.forEach { (date, talks) ->
                     div(classes = "mxt-talks__container ${if (date == null) "mxt-talks__container-no-date" else ""}") {
-                        if(date != null) {
+                        if (date != null) {
                             div(classes = "mxt-talks__time") {
                                 attributes["id"] = date.toString()
                                 +date.formatTime()
@@ -122,7 +134,7 @@ fun renderTalks(
                                         div(classes = "d-flex align-items-center") {
                                             languageComponent(context, talk)
                                             talkFormatComponent(context, talk)
-                                            if(talk.videos.isNotEmpty()) {
+                                            if (talk.videos.isNotEmpty()) {
                                                 img(classes = "mxt-img__header-video ms-2") {
                                                     attributes["aria-label"] = context.i18n("talks.video.available")
                                                     title = context.i18n("talks.video.available")
@@ -131,13 +143,18 @@ fun renderTalks(
                                             roomComponent(context, talk)
 
                                             if (context.email != null) {
-                                                if(favorites.contains(talk.id)) {
-                                                    img(src = "/images/svg/favorites/mxt-favorite.svg", classes = "mxt-favorite") {
+                                                if (favorites.contains(talk.id)) {
+                                                    img(
+                                                        src = "/images/svg/favorites/mxt-favorite.svg",
+                                                        classes = "mxt-favorite"
+                                                    ) {
                                                         alt = context.i18n("favorite.selected")
                                                     }
-                                                }
-                                                else {
-                                                    img(src = "/images/svg/favorites/mxt-favorite-non.svg", classes = "mxt-favorite") {
+                                                } else {
+                                                    img(
+                                                        src = "/images/svg/favorites/mxt-favorite-non.svg",
+                                                        classes = "mxt-favorite"
+                                                    ) {
                                                         alt = context.i18n("favorite.selected")
                                                     }
                                                 }
@@ -156,7 +173,7 @@ fun renderTalks(
                                         }
                                         span { +"..." }
                                         speakersComponentInDiv(context, talk.speakers)
-                                        div(classes = "mb-2") { + "  " }
+                                        div(classes = "mb-2") { +"  " }
                                     }
                                 }
                             }
