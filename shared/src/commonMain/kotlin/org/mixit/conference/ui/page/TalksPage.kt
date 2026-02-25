@@ -102,12 +102,26 @@ fun renderTalks(
             if (!context.isAuthenticated) {
                 small { +context.i18n("favorite.connected") }
             }
-
+            div(classes = "mxt-year__selector mt-2") {
+                attributes["id"] = "date-selector"
+                keys.filterNotNull().forEach { date ->
+                    a(href = "#$date", classes = "mxt-talks__time-card") {
+                        +date.formatDate(context.language)
+                    }
+                }
+            }
 
             keys.forEach { date ->
                 if (date != null) {
-                    h2(classes = "mt-5") {
+                    h2 {
+                        attributes["id"] = date.toString()
                         +date.formatDate(context.language)
+                        a(href = "#date-selector") {
+                            attributes["title"] = "Back to date selection"
+                            img(src = "/images/svg/mxt-icon--back-to-top.svg", alt = "Back to top") {
+                                attributes["class"] = "mxt-talks__back-to-top-icon"
+                            }
+                        }
                     }
                 }
                 val talkFilteredByDate = talksByDate.filter { it.key?.date == date }
@@ -118,12 +132,18 @@ fun renderTalks(
                         }
                     }
                 }
-                talkFilteredByDate.forEach { (date, talks) ->
-                    div(classes = "mxt-talks__container ${if (date == null) "mxt-talks__container-no-date" else ""}") {
-                        if (date != null) {
+                talkFilteredByDate.forEach { (dateTime, talks) ->
+                    div(classes = "mxt-talks__container ${if (dateTime == null) "mxt-talks__container-no-dateTime" else ""}") {
+                        if (dateTime != null) {
                             div(classes = "mxt-talks__time") {
-                                attributes["id"] = date.toString()
-                                +date.formatTime()
+                                attributes["id"] = dateTime.toString()
+                                +dateTime.formatTime()
+                                a(href = "#$date") {
+                                    attributes["title"] = "Back to hour selection"
+                                    img(src = "/images/svg/mxt-icon--back-to-top.svg", alt = "Back to top") {
+                                        attributes["class"] = "mxt-talks__back-to-top-icon"
+                                    }
+                                }
                             }
                         }
                         div {
