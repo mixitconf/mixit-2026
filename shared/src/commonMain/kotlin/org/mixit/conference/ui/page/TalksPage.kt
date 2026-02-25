@@ -110,7 +110,8 @@ fun renderTalks(
                         +date.formatDate(context.language)
                     }
                 }
-                val talkFilteredByDate = talksByDate.filter { it.key?.date == date }
+                val talkFilteredByDate:Map<LocalDateTime?, List<Talk>> = talksByDate.filter { it.key?.date == date }
+
                 div(classes = "mxt-year__selector") {
                     talkFilteredByDate.keys.filterNotNull().sorted().forEach { time ->
                         a(href = "#$time", classes = "mxt-talks__time-card") {
@@ -118,7 +119,7 @@ fun renderTalks(
                         }
                     }
                 }
-                talkFilteredByDate.forEach { (date, talks) ->
+                talkFilteredByDate.entries.sortedBy { it.key }.forEach { (date, talks) ->
                     div(classes = "mxt-talks__container ${if (date == null) "mxt-talks__container-no-date" else ""}") {
                         if (date != null) {
                             div(classes = "mxt-talks__time") {
@@ -127,7 +128,7 @@ fun renderTalks(
                             }
                         }
                         div {
-                            talks.forEach { talk ->
+                            talks.sortedBy { it.room.name }.forEach { talk ->
                                 div(classes = "mxt-talks__container-line") {
                                     a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
                                         topicPrefixComponent(context, talk.topic, talk.title)
