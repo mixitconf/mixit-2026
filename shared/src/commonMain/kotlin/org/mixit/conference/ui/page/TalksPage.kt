@@ -102,13 +102,26 @@ fun renderTalks(
             if (!context.isAuthenticated) {
                 small { +context.i18n("favorite.connected") }
             }
-
+            div(classes = "mxt-year__selector mt-2") {
+                attributes["id"] = "date-selector"
+                keys.filterNotNull().forEach { date ->
+                    a(href = "#$date", classes = "mxt-talks__time-card") {
+                        +date.formatDate(context.language)
+                    }
+                }
+            }
 
             keys.forEach { date ->
                 if (date != null) {
                     h2 {
                         attributes["id"] = date.toString()
                         +date.formatDate(context.language)
+                        a(href = "#date-selector") {
+                            attributes["title"] = "Back to date selection"
+                            img(src = "/images/svg/mxt-icon--back-to-top.svg", alt = "Back to top") {
+                                attributes["class"] = "mxt-talks__back-to-top-icon"
+                            }
+                        }
                     }
                 }
                 val talkFilteredByDate = talksByDate.filter { it.key?.date == date }
