@@ -106,7 +106,8 @@ fun renderTalks(
 
             keys.forEach { date ->
                 if (date != null) {
-                    h2(classes = "mt-5") {
+                    h2 {
+                        attributes["id"] = date.toString()
                         +date.formatDate(context.language)
                     }
                 }
@@ -118,12 +119,18 @@ fun renderTalks(
                         }
                     }
                 }
-                talkFilteredByDate.forEach { (date, talks) ->
-                    div(classes = "mxt-talks__container ${if (date == null) "mxt-talks__container-no-date" else ""}") {
-                        if (date != null) {
+                talkFilteredByDate.forEach { (dateTime, talks) ->
+                    div(classes = "mxt-talks__container ${if (dateTime == null) "mxt-talks__container-no-dateTime" else ""}") {
+                        if (dateTime != null) {
                             div(classes = "mxt-talks__time") {
-                                attributes["id"] = date.toString()
-                                +date.formatTime()
+                                attributes["id"] = dateTime.toString()
+                                +dateTime.formatTime()
+                                a(href = "#$date") {
+                                    attributes["title"] = "Back to hour selection"
+                                    img(src = "/images/svg/mxt-icon--back-to-top.svg", alt = "Back to top") {
+                                        attributes["class"] = "mxt-talks__back-to-top-icon"
+                                    }
+                                }
                             }
                         }
                         div {
