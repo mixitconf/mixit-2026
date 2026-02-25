@@ -40,6 +40,7 @@ class TalkHandler(
                             && it.searchByTopic(filterValues.topic)
                             && it.searchByFavorite(favorites, filterValues.favorites)
                 }
+                .sortedBy { it.startLocalTime() }
                 .groupBy { it.startLocalTime() }
 
 
