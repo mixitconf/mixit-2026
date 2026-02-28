@@ -3,11 +3,13 @@ package org.mixit.conference.ui.page
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.html.ButtonType
+import kotlinx.html.DIV
 import kotlinx.html.FormMethod
 import kotlinx.html.a
 import kotlinx.html.button
 import kotlinx.html.div
 import kotlinx.html.h1
+import kotlinx.html.h2
 import kotlinx.html.img
 import kotlinx.html.small
 import kotlinx.html.span
@@ -31,6 +33,7 @@ import org.mixit.conference.ui.component.yearSelectorComponent
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.form.FormField
 import org.mixit.conference.ui.form.FormFieldType
+import org.mixit.conference.ui.formatter.formatDate
 import org.mixit.conference.ui.formatter.formatTime
 import org.mixit.conference.ui.renderTemplate
 
@@ -104,55 +107,19 @@ fun renderTalks(
 
 
             if (event.year != CURRENT_YEAR) {
+
                 talksByDate
                     .values
                     .flatten()
-                    .sortedBy { it.title }
-                    .forEach { talk ->
-                        div(classes = "mxt-talks__container-line") {
-                            a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
-                                topicPrefixComponent(context, talk.topic, talk.title)
-                                div(classes = "d-flex align-items-center") {
-                                    languageComponent(context, talk)
-                                    talkFormatComponent(context, talk)
-                                    if (talk.videos.isNotEmpty()) {
-                                        img(classes = "mxt-img__header-video ms-2") {
-                                            attributes["aria-label"] = context.i18n("talks.video.available")
-                                            title = context.i18n("talks.video.available")
-                                        }
-                                    }
-                                    roomComponent(context, talk)
-
-                                    if (context.email != null) {
-                                        if (favorites.contains(talk.id)) {
-                                            img(
-                                                src = "/images/svg/favorites/mxt-favorite.svg",
-                                                classes = "mxt-favorite"
-                                            ) {
-                                                alt = context.i18n("favorite.selected")
-                                            }
-                                        } else {
-                                            img(
-                                                src = "/images/svg/favorites/mxt-favorite-non.svg",
-                                                classes = "mxt-favorite"
-                                            ) {
-                                                alt = context.i18n("favorite.selected")
-                                            }
-                                        }
-                                    }
-
-                                }
-
-
-                                div(classes = "mt-3 mxt-talks__detail mxt-no-link") {
-                                    unsafe {
-                                        raw(context.markdown(talk.summary) + context.markdown(talk.description))
-                                    }
-                                }
-                                span { +"..." }
-                                speakersComponentInDiv(context, talk.speakers)
-                                div(classes = "mb-2") { +"  " }
-                            }
+                    .groupBy { it.format }
+                    .entries
+                    .sortedBy { it.key.order }
+                    .forEach { (format, talks) ->
+                        h2 {
+                            +context.i18n("talk.format.${format ?: "unknown"}")
+                        }
+                        talks.forEach { talk ->
+                            displayTalk(talk, event, context, favorites)
                         }
                     }
             } else {
@@ -161,6 +128,10 @@ fun renderTalks(
 
                     val talkFilteredByDate: Map<LocalDateTime?, List<Talk>> =
                         talksByDate.filter { it.key?.date == date }
+
+                    h2(classes = "mt-4") {
+                        +date?.formatDate(context.language).orEmpty()
+                    }
 
                     div(classes = "mxt-year__selector") {
                         talkFilteredByDate.keys.filterNotNull().sorted().forEach { time ->
@@ -179,51 +150,7 @@ fun renderTalks(
                             }
                             div {
                                 talks.sortedBy { it.room.name }.forEach { talk ->
-                                    div(classes = "mxt-talks__container-line") {
-                                        a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
-                                            topicPrefixComponent(context, talk.topic, talk.title)
-                                            div(classes = "d-flex align-items-center") {
-                                                languageComponent(context, talk)
-                                                talkFormatComponent(context, talk)
-                                                if (talk.videos.isNotEmpty()) {
-                                                    img(classes = "mxt-img__header-video ms-2") {
-                                                        attributes["aria-label"] = context.i18n("talks.video.available")
-                                                        title = context.i18n("talks.video.available")
-                                                    }
-                                                }
-                                                roomComponent(context, talk)
-
-                                                if (context.email != null) {
-                                                    if (favorites.contains(talk.id)) {
-                                                        img(
-                                                            src = "/images/svg/favorites/mxt-favorite.svg",
-                                                            classes = "mxt-favorite"
-                                                        ) {
-                                                            alt = context.i18n("favorite.selected")
-                                                        }
-                                                    } else {
-                                                        img(
-                                                            src = "/images/svg/favorites/mxt-favorite-non.svg",
-                                                            classes = "mxt-favorite"
-                                                        ) {
-                                                            alt = context.i18n("favorite.selected")
-                                                        }
-                                                    }
-                                                }
-
-                                            }
-
-
-                                            div(classes = "mt-3 mxt-talks__detail mxt-no-link") {
-                                                unsafe {
-                                                    raw(context.markdown(talk.summary) + context.markdown(talk.description))
-                                                }
-                                            }
-                                            span { +"..." }
-                                            speakersComponentInDiv(context, talk.speakers)
-                                            div(classes = "mb-2") { +"  " }
-                                        }
-                                    }
+                                    displayTalk(talk, event, context, favorites)
                                 }
                             }
                         }
@@ -238,3 +165,51 @@ fun renderTalks(
 
 
     }
+
+fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<String>) {
+    div(classes = "mxt-talks__container-line") {
+        a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
+            topicPrefixComponent(context, talk.topic, talk.title)
+            div(classes = "d-flex align-items-center") {
+                languageComponent(context, talk)
+                talkFormatComponent(context, talk)
+                if (talk.videos.isNotEmpty()) {
+                    img(classes = "mxt-img__header-video ms-2") {
+                        attributes["aria-label"] = context.i18n("talks.video.available")
+                        title = context.i18n("talks.video.available")
+                    }
+                }
+                roomComponent(context, talk)
+
+                if (context.email != null) {
+                    if (favorites.contains(talk.id)) {
+                        img(
+                            src = "/images/svg/favorites/mxt-favorite.svg",
+                            classes = "mxt-favorite"
+                        ) {
+                            alt = context.i18n("favorite.selected")
+                        }
+                    } else {
+                        img(
+                            src = "/images/svg/favorites/mxt-favorite-non.svg",
+                            classes = "mxt-favorite"
+                        ) {
+                            alt = context.i18n("favorite.selected")
+                        }
+                    }
+                }
+
+            }
+
+
+            div(classes = "mt-3 mxt-talks__detail mxt-no-link") {
+                unsafe {
+                    raw(context.markdown(talk.summary) + context.markdown(talk.description))
+                }
+            }
+            span { +"..." }
+            speakersComponentInDiv(context, talk.speakers)
+            div(classes = "mb-2") { +"  " }
+        }
+    }
+}
