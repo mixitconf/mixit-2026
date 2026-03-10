@@ -5,9 +5,12 @@ import org.mixit.conference.model.people.Speaker
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.people.Staff
 import org.mixit.conference.model.people.Volunteer
+import org.mixit.infra.spi.people.PersonDto
 
 interface PeopleRepository {
     fun findSpeakerByYear(year: Int): List<Speaker>
+
+    fun exportByYear(year: Int): List<PersonDto>
 
     fun findSpeakerByIds(ids: List<String>): List<Speaker>
 

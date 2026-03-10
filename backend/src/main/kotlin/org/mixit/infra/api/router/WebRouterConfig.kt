@@ -1,6 +1,5 @@
-package org.mixit.infra.api
+package org.mixit.infra.api.router
 
-import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR
@@ -8,10 +7,18 @@ import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.page.renderError
 import org.mixit.conference.ui.security.loginStartForm
 import org.mixit.domain.api.EventScreen
+import org.mixit.infra.api.AuthenticationHandler
+import org.mixit.infra.api.EventHandler
+import org.mixit.infra.api.FaqHandler
+import org.mixit.infra.api.FavoriteHandler
+import org.mixit.infra.api.MediaHandler
+import org.mixit.infra.api.PeopleHandler
+import org.mixit.infra.api.TalkHandler
 import org.mixit.infra.api.mapper.toLoginForm
 import org.mixit.infra.api.mapper.toLoginStartForm
 import org.mixit.infra.api.mapper.toRegistringForm
 import org.mixit.infra.api.mapper.toTalkCriteria
+import org.mixit.infra.config.WebContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -40,16 +47,17 @@ class WebRouterConfig {
                 eventHandler.findByYear(CURRENT_YEAR, EventScreen.ABOUT)
             }
             GET("/accessibility") {
-                eventHandler.findByYear(CURRENT_YEAR,  EventScreen.ACCESSIBILITY)
+                eventHandler.findByYear(CURRENT_YEAR, EventScreen.ACCESSIBILITY)
             }
             (GET("/code-of-conduct") or GET("/codeofconduct")) {
-                eventHandler.findByYear(CURRENT_YEAR,  EventScreen.CODE_OF_CONDUCT)
+                eventHandler.findByYear(CURRENT_YEAR, EventScreen.CODE_OF_CONDUCT)
             }
             (GET("/code-of-conduct") or GET("/codeofconduct")) {
                 eventHandler.findByYear(CURRENT_YEAR, EventScreen.CODE_OF_CONDUCT)
             }
             GET("/error") {
-                ok().contentType(MediaType.TEXT_HTML).body(renderError(webContext.context ?: Context.default()))
+                ok().contentType(MediaType.TEXT_HTML)
+                    .body(renderError(webContext.context ?: Context.Companion.default()))
             }
             GET("/faq") {
                 faqHandler.findAllQuestions()

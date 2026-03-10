@@ -20,6 +20,11 @@ class PeopleHandler(
     private val peopleRepository: PeopleRepository,
     private val webContext: WebContext,
 ) {
+    fun findByYearIsJson(year: Int): ServerResponse =
+        ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(
+            peopleRepository.exportByYear(year)
+        )
+
     fun findSpeakerByYear(year: Int): ServerResponse =
         repository.findSpeakerByYear(year).let { speakers ->
             val staff = repository.findStaffByYear(year).map { it.id }

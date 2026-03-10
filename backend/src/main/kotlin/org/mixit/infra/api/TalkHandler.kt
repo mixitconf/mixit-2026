@@ -1,7 +1,6 @@
 package org.mixit.infra.api
 
 import org.mixit.conference.model.talk.TalkFormat
-import org.mixit.conference.shared.model.Topic
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.page.TalksCriteria
 import org.mixit.conference.ui.page.renderTalk
@@ -79,4 +78,9 @@ class TalkHandler(
             ),
         )
     }
+
+    fun findByYearIsJson(year: Int): ServerResponse =
+        ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(
+            talkRepository.exportByYear(year)
+        )
 }

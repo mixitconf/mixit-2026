@@ -54,4 +54,7 @@ class TalkFileRepository(
         year: Int,
         slug: String,
     ): Talk? = findByYear(year).firstOrNull { it.slug.startsWith(slug.trim()) }
+
+    override fun exportByYear(year: Int): List<TalkDto> =
+        (repository.findAll()[year] ?: emptyList())
 }

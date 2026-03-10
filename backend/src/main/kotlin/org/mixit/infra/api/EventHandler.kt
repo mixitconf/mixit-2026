@@ -29,6 +29,12 @@ class EventHandler(
     fun findOne(id: String): ServerResponse =
         renderEvent(repository.findOne(id), EventScreen.HOME)
 
+    fun findOneIsJson(year: Int?): ServerResponse =
+        repository
+            .exportOne(year)
+            ?.let { ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(it)}
+            ?: ServerResponse.notFound().build()
+
     fun findByYear(
         year: Int?,
         eventScreen: EventScreen,

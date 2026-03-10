@@ -27,6 +27,16 @@ class PeopleFileRepository(
         return findSpeakerByIds(speakerIds)
     }
 
+    override fun exportByYear(year: Int): List<PersonDto> {
+        val talks = talkFileRepository.findAll()[year] ?: return emptyList()
+        val speakerIds = talks.flatMap { it.speakerIds }
+        return  peopleRepository
+            .findAll()
+            .asSequence()
+            .filter { speakerIds.contains(it.login) }
+            .toList()
+    }
+
     override fun findSpeakerByIds(ids: List<String>): List<Speaker> =
         peopleRepository
             .findAll()

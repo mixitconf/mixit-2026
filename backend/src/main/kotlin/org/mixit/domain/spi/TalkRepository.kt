@@ -1,6 +1,7 @@
 package org.mixit.domain.spi
 
 import org.mixit.conference.model.talk.Talk
+import org.mixit.infra.spi.talk.TalkDto
 
 interface TalkRepository {
     fun findByYear(year: Int): List<Talk>
@@ -15,4 +16,6 @@ interface TalkRepository {
         year: Int,
         slug: String,
     ): Talk?
+
+    fun exportByYear(year: Int): List<TalkDto>
 }
