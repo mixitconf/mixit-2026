@@ -1,4 +1,4 @@
-package org.mixit.conference.ui.component.sponsor
+package org.mixit.conference.ui.component
 
 import kotlinx.html.*
 import org.mixit.conference.model.event.Event

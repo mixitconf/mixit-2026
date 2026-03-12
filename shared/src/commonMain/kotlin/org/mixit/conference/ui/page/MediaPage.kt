@@ -9,7 +9,6 @@ import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.ui.MEDIA_YEARS
 import org.mixit.conference.ui.component.*
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.renderTemplate
 
 fun renderMedia(

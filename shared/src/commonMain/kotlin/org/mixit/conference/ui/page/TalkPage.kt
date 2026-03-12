@@ -23,7 +23,7 @@ import org.mixit.conference.ui.DEFAULT_IMG_URL
 import org.mixit.conference.ui.component.languageComponent
 import org.mixit.conference.ui.component.roomComponent
 import org.mixit.conference.ui.component.sectionComponent
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.sponsorGroupComponent
 import org.mixit.conference.ui.component.topicComponent
 import org.mixit.conference.ui.component.videoComponent
 import org.mixit.conference.ui.renderTemplate

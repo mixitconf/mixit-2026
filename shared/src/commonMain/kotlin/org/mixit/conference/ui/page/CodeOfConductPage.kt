@@ -5,7 +5,6 @@ import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.component.*
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
 import org.mixit.conference.ui.renderTemplate
 
 fun renderCodeOfConduct(context: Context, event: Event, sponsors: List<Sponsor>) =

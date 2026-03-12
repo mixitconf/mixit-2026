@@ -7,7 +7,7 @@ import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.component.SectionEffect
 import org.mixit.conference.ui.component.SectionStyle
 import org.mixit.conference.ui.component.sectionComponent
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.sponsorGroupComponent
 import org.mixit.conference.ui.renderTemplate
 
 fun renderVenuePage(

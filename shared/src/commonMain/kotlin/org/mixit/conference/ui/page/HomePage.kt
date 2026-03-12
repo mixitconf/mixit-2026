@@ -4,12 +4,10 @@ import kotlinx.html.DIV
 import kotlinx.html.a
 import kotlinx.html.b
 import kotlinx.html.br
-import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h3
 import kotlinx.html.img
 import kotlinx.html.li
-import kotlinx.html.p
 import kotlinx.html.span
 import kotlinx.html.ul
 import kotlinx.html.unsafe
@@ -23,7 +21,7 @@ import org.mixit.conference.ui.component.SectionStyle
 import org.mixit.conference.ui.component.podcastComponent
 import org.mixit.conference.ui.component.podcastLinks
 import org.mixit.conference.ui.component.sectionComponent
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.sponsorGroupComponent
 import org.mixit.conference.ui.component.videoComponent
 import org.mixit.conference.ui.renderTemplate
 

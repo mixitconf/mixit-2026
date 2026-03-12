@@ -8,7 +8,7 @@ import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.DEFAULT_IMG_URL
 import org.mixit.conference.ui.TALKS_YEARS
 import org.mixit.conference.ui.component.sectionComponent
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.sponsorGroupComponent
 import org.mixit.conference.ui.component.yearSelectorComponent
 import org.mixit.conference.ui.renderTemplate
 

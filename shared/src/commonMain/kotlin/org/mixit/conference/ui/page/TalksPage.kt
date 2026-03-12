@@ -26,7 +26,7 @@ import org.mixit.conference.ui.component.languageComponent
 import org.mixit.conference.ui.component.roomComponent
 import org.mixit.conference.ui.component.sectionComponent
 import org.mixit.conference.ui.component.speakersComponentInDiv
-import org.mixit.conference.ui.component.sponsor.sponsorGroupComponent
+import org.mixit.conference.ui.component.sponsorGroupComponent
 import org.mixit.conference.ui.component.talkFormatComponent
 import org.mixit.conference.ui.component.topicPrefixComponent
 import org.mixit.conference.ui.component.yearSelectorComponent
