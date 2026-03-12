@@ -25,6 +25,7 @@ class ManagerFavoriteApi(
             .body<String>()
 
 
+
     fun getFavorites(email: String): List<Favorite> =
         restClient
             .get()

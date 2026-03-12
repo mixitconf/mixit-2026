@@ -28,7 +28,11 @@ class TalkHandler(
     ): ServerResponse {
         val filterValues = filter.value()
         val event = eventRepository.findByYear(year) ?: return ServerResponse.notFound().build()
-        val favorites = webContext.context?.email?.let { favoriteApi.getFavorites(it).map { it.talkId } } ?: emptyList()
+        val favorites = try {
+            webContext.context?.email?.let { favoriteApi.getFavorites(it).map { it.talkId } } ?: emptyList()
+        } catch (_: Exception) {
+            emptyList()
+        }
 
         val talks =
             talkRepository
@@ -65,9 +69,14 @@ class TalkHandler(
                 .findBySlug(year, slug)
                 ?: return ServerResponse.notFound().build()
 
-        val favorite = if (webContext.context?.email == null) false else
-            favoriteApi.getFavorite(webContext.context!!.email!!, talk.id)
+        val favorite = try {
+            if (webContext.context?.email == null) false else
+                favoriteApi.getFavorite(webContext.context!!.email!!, talk.id)
 
+        } catch (_: Exception) {
+            false
+        }
+        
         return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderTalk(
                 webContext.context!!,
