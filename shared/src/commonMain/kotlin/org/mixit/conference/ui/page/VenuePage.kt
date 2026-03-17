@@ -27,6 +27,8 @@ fun renderVenuePage(
 
             p(classes = "lead") {
                 +context.i18n("venue.intro")
+                +" "
+                +context.i18n("talks.description")
             }
             div(classes = "mb-4") {
                 unsafe {

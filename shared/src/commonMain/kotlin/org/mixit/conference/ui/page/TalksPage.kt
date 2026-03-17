@@ -7,6 +7,7 @@ import kotlinx.html.DIV
 import kotlinx.html.FormMethod
 import kotlinx.html.a
 import kotlinx.html.button
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.h2
@@ -88,6 +89,12 @@ fun renderTalks(
                 +pageTitle
             }
             yearSelectorComponent(context, event, url = "", alt = pageTitle, years = TALKS_YEARS)
+
+            if(event.year == CURRENT_YEAR) {
+                div(classes= "lead") {
+                    +context.i18n("talks.description")
+                }
+            }
 
             val keys: List<LocalDate?> = talksByDate.keys.map { it?.date }.toSet().sortedBy { it }
 
