@@ -32,6 +32,9 @@ fun DIV.sponsorGroupComponent(context: Context, event: Event, sponsors: List<Spo
             )
         }
     }
+    div(classes = "mt-5") {
+        + " "
+    }
 }
 
 fun DIV.sponsorBlockComponent(event: Event, sponsors: Set<Pair<String, String>>) {

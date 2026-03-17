@@ -1,5 +1,6 @@
 package org.mixit.infra.api.router
 
+import org.mixit.conference.model.feedback.Feedback
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.CURRENT_MEDIA_YEAR
 import org.mixit.conference.ui.CURRENT_TALK_YEAR
@@ -11,6 +12,7 @@ import org.mixit.infra.api.AuthenticationHandler
 import org.mixit.infra.api.EventHandler
 import org.mixit.infra.api.FaqHandler
 import org.mixit.infra.api.FavoriteHandler
+import org.mixit.infra.api.FeedbackHandler
 import org.mixit.infra.api.MediaHandler
 import org.mixit.infra.api.PeopleHandler
 import org.mixit.infra.api.TalkHandler
@@ -22,6 +24,7 @@ import org.mixit.infra.config.WebContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
+import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
 
 @Configuration
@@ -35,6 +38,7 @@ class WebRouterConfig {
         talkHandler: TalkHandler,
         mediaHandler: MediaHandler,
         favoriteHandler: FavoriteHandler,
+        feedbackHandler: FeedbackHandler,
         webContext: WebContext,
     ) = router {
         accept(MediaType.TEXT_HTML).nest {
@@ -57,7 +61,12 @@ class WebRouterConfig {
             }
             GET("/error") {
                 ok().contentType(MediaType.TEXT_HTML)
-                    .body(renderError(webContext.context ?: Context.Companion.default()))
+                    .body(
+                        renderError(
+                            context = webContext.context ?: Context.default(),
+                            status = it.attribute("jakarta.servlet.error.status_code").orElse(null)?.toString()
+                        )
+                    )
             }
             GET("/faq") {
                 faqHandler.findAllQuestions()
@@ -128,10 +137,30 @@ class WebRouterConfig {
                     talkHandler.findTalkBySlug(year, it.pathVariable("slug"))
                 }
             }
-            POST("/favorites/{email}/talks/{talkId}/toggle") {
-                favoriteHandler.toggleFavorite(it.pathVariable("email"), it.pathVariable("talkId"))
+            POST("/talks/{talkId}/favorite") {
+                val email = webContext.context?.email ?: return@POST ServerResponse.status(403).build()
+                favoriteHandler.toggleFavorite(email, it.pathVariable("talkId"))
             }
-
+            POST("/api/talks/{talkId}/{feedback}/{value}") { req ->
+                val email = webContext.context?.email ?: return@POST ServerResponse.status(403).build()
+                feedbackHandler.saveFeedback(
+                    email = email,
+                    talkId = req.pathVariable("talkId"),
+                    feedback = Feedback.valueOf(req.pathVariable("feedback").uppercase()),
+                    toAdd = req.pathVariable("value") == "1"
+                )
+            }
+            POST("/talks/{talkId}/feedback") { req ->
+                val email = webContext.context?.email ?: return@POST ServerResponse.status(403).build()
+                feedbackHandler.saveFeedbacks(
+                    email = email,
+                    talkId = req.pathVariable("talkId"),
+                    feedbacks = Feedback.entries.filter {
+                        req.param("feedback-$it").orElse(null) == "1"
+                    },
+                    comment = req.param("comment").orElse(null)
+                )
+            }
             // Security
             GET("/login") {
                 authenticationApi.login(loginStartForm(dirty = false))

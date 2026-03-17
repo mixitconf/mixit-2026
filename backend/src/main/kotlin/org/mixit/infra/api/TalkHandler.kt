@@ -1,5 +1,7 @@
 package org.mixit.infra.api
 
+import org.mixit.conference.model.feedback.TalkFeedback
+import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.page.TalksCriteria
@@ -8,8 +10,10 @@ import org.mixit.conference.ui.page.renderTalks
 import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.PeopleRepository
 import org.mixit.domain.spi.TalkRepository
+import org.mixit.infra.config.MixitProperties
 import org.mixit.infra.config.WebContext
 import org.mixit.infra.spi.manager.ManagerFavoriteApi
+import org.mixit.infra.spi.manager.ManagerFeedbackApi
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
@@ -20,6 +24,8 @@ class TalkHandler(
     private val peopleRepository: PeopleRepository,
     private val favoriteApi: ManagerFavoriteApi,
     private val eventRepository: EventRepository,
+    private val mixitProperties: MixitProperties,
+    private val managerFeedbackApi: ManagerFeedbackApi,
     private val webContext: WebContext,
 ) {
     fun findTalkByYear(
@@ -72,18 +78,34 @@ class TalkHandler(
         val favorite = try {
             if (webContext.context?.email == null) false else
                 favoriteApi.getFavorite(webContext.context!!.email!!, talk.id)
-
         } catch (_: Exception) {
             false
         }
-        
+
+        val displayFeedback = mixitProperties.features.feedback
+        val isATalkSpeakerOrAdmin =
+            webContext.context?.role == Role.STAFF || talk.speakers.any { it.email == webContext.context?.email }
+
+        val feedback: TalkFeedback? = managerFeedbackApi.getAllTalkFeedback(talk.id)
+            val userFeedback = try {
+            if (webContext.context?.isAuthenticated ?: false) {
+                managerFeedbackApi.getUserFeedback(talk.id)
+            } else null
+        } catch (_: Exception) {
+            null
+        }
+
         return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderTalk(
                 webContext.context!!,
                 event,
                 peopleRepository.findSponsorByYear(year),
                 talk,
-                favorite
+                isFavorite = favorite,
+                isATalkSpeakerOrAdmin = isATalkSpeakerOrAdmin,
+                displayFeedback = displayFeedback,
+                talkFeedback = feedback,
+                userFeedback
             ),
         )
     }

@@ -10,12 +10,42 @@ import org.mixit.conference.ui.DEFAULT_IMG_URL
 import org.mixit.conference.ui.component.*
 import org.mixit.conference.ui.renderTemplate
 
-fun renderError(context: Context) =
+fun renderError(context: Context, status: String?) =
     renderTemplate(context, null) {
         sectionComponent(context) {
+            val state = when(status) {
+                "404", "401", "403" -> status.toInt()
+                else -> 500
+            }
+
             h1 {
-                +"Oops !"
+                +context.i18n("error.$state.title")
+            }
+
+            p(classes = "mt-3 lead") {
+                +context.i18n("error.$state.description")
+            }
+
+            div(classes = "text-center") {
+                a(classes = "btn mxt-btn-primary mb-5") {
+                    href = if (state == 401 || state == 403) {
+                        "${context.uriBasePath}/login"
+                    } else {
+                        "${context.uriBasePath}/"
+                    }
+                    +context.i18n("error.$state.action")
+                }
+            }
+
+            div(classes = "text-center") {
+                img(src = "/images/png/error.png", classes = "mxt-error-image") {
+                    alt = context.i18n("error.500.description")
+                }
             }
 
         }
-    }  
+
+
+
+    }
+
