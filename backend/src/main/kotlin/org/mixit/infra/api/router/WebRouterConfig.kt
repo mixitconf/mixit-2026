@@ -60,11 +60,15 @@ class WebRouterConfig {
                 eventHandler.findByYear(CURRENT_YEAR, EventScreen.CODE_OF_CONDUCT)
             }
             GET("/error") {
+                val status = it.attribute("jakarta.servlet.error.status_code").orElse(null)?.toString()
+                if (status == "401") {
+                    authenticationApi.logout()
+                }
                 ok().contentType(MediaType.TEXT_HTML)
                     .body(
                         renderError(
                             context = webContext.context ?: Context.default(),
-                            status = it.attribute("jakarta.servlet.error.status_code").orElse(null)?.toString()
+                            status = status
                         )
                     )
             }
