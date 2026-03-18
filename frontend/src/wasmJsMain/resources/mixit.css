@@ -1021,6 +1021,11 @@ footer {
     padding: .2em .5em;
 }
 
+.mxt-talks__day-card {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+
 .mxt-talks__container-no-date {
     grid-template-columns: 1fr !important;
 }

@@ -7,10 +7,10 @@ import kotlinx.html.DIV
 import kotlinx.html.FormMethod
 import kotlinx.html.a
 import kotlinx.html.button
-import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.h2
+import kotlinx.html.id
 import kotlinx.html.img
 import kotlinx.html.small
 import kotlinx.html.span
@@ -90,8 +90,8 @@ fun renderTalks(
             }
             yearSelectorComponent(context, event, url = "", alt = pageTitle, years = TALKS_YEARS)
 
-            if(event.year == CURRENT_YEAR) {
-                div(classes= "lead") {
+            if (event.year == CURRENT_YEAR) {
+                div(classes = "lead") {
                     +context.i18n("talks.description")
                 }
             }
@@ -130,6 +130,13 @@ fun renderTalks(
                         }
                     }
             } else {
+                div(classes = "mxt-year__selector pt-4") {
+                    keys.filterNotNull().sorted().forEach { date ->
+                        a(href = "#$date", classes = "mxt-talks__time-card mxt-talks__day-card") {
+                            +date?.formatDate(context.language).orEmpty()
+                        }
+                    }
+                }
 
                 keys.forEach { date ->
 
@@ -137,6 +144,7 @@ fun renderTalks(
                         talksByDate.filter { it.key?.date == date }
 
                     h2(classes = "mt-4") {
+                        id = date.toString()
                         +date?.formatDate(context.language).orEmpty()
                     }
 
