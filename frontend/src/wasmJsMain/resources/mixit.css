@@ -934,7 +934,12 @@ footer {
     margin-bottom: 2em;
     border-bottom: 2px solid var(--theme-light);
     padding-bottom: 1.5em;
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr !important;
+    }
 }
+
 
 .mxt-events__container {
     width: 100%;
@@ -968,6 +973,7 @@ footer {
 
 .mxt-talks__container-line {
     padding: 0.5em;
+
 }
 
 .mxt-talks__container-line > a {

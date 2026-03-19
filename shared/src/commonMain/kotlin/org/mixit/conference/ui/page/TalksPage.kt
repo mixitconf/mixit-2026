@@ -6,6 +6,7 @@ import kotlinx.html.ButtonType
 import kotlinx.html.DIV
 import kotlinx.html.FormMethod
 import kotlinx.html.a
+import kotlinx.html.br
 import kotlinx.html.button
 import kotlinx.html.div
 import kotlinx.html.h1
@@ -143,9 +144,11 @@ fun renderTalks(
                     val talkFilteredByDate: Map<LocalDateTime?, List<Talk>> =
                         talksByDate.filter { it.key?.date == date }
 
+                    val shortDate = date?.formatDate(context.language).orEmpty()
+
                     h2(classes = "mt-4") {
                         id = date.toString()
-                        +date?.formatDate(context.language).orEmpty()
+                        +shortDate
                     }
 
                     div(classes = "mxt-year__selector") {
@@ -161,6 +164,14 @@ fun renderTalks(
                                 div(classes = "mxt-talks__time") {
                                     attributes["id"] = date.toString()
                                     +date.formatTime()
+                                    br {
+                                        small {
+                                            small {
+                                                +shortDate
+                                            }
+                                        }
+                                    }
+
                                 }
                             }
                             div {
