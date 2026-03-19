@@ -137,6 +137,9 @@ class WebRouterConfig {
                 GET("/$year/speakers") {
                     peopleHandler.findSpeakerByYear(year)
                 }
+                GET("/speakers/$year/{login}") {
+                    peopleHandler.findSpeakerByLogin(it.pathVariable("login"), year)
+                }
                 GET("/$year/{slug}") {
                     talkHandler.findTalkBySlug(year, it.pathVariable("slug"))
                 }

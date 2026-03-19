@@ -48,7 +48,7 @@ class PeopleHandler(
             )
         }
 
-    fun findSpeakerByLogin(login: String): ServerResponse =
+    fun findSpeakerByLogin(login: String, year: Int? = null): ServerResponse =
         repository
             .findSpeaker(login)
             ?.let { speaker ->
@@ -56,7 +56,9 @@ class PeopleHandler(
                     renderSpeaker(
                         context = webContext.context!!,
                         speaker = speaker,
+                        event = if(year != null) eventRepository.findByYear(year)!! else null,
                         talks = talkRepository.findSpeakerTalks(speaker.id),
+                        sponsors = if(year != null)  peopleRepository.findSponsorByYear(year) else emptyList(),
                     ),
                 )
             }

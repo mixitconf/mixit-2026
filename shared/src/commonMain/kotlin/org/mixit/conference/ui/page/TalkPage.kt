@@ -22,6 +22,7 @@ import kotlinx.html.i
 import kotlinx.html.id
 import kotlinx.html.img
 import kotlinx.html.input
+import kotlinx.html.li
 import kotlinx.html.onClick
 import kotlinx.html.p
 import kotlinx.html.script
@@ -29,6 +30,7 @@ import kotlinx.html.small
 import kotlinx.html.span
 import kotlinx.html.textArea
 import kotlinx.html.title
+import kotlinx.html.ul
 import kotlinx.html.unsafe
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.feedback.Feedback
@@ -39,6 +41,8 @@ import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.shared.Language
 import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.ui.DEFAULT_IMG_URL
+import org.mixit.conference.ui.component.SectionEffect
+import org.mixit.conference.ui.component.SectionStyle
 import org.mixit.conference.ui.component.languageComponent
 import org.mixit.conference.ui.component.roomComponent
 import org.mixit.conference.ui.component.sectionComponent
@@ -221,6 +225,32 @@ fun renderTalk(
                     feedbackTable(context, talk, talkFeedback)
                 }
 
+                if (isATalkSpeakerOrAdmin) {
+                    sectionComponent(context) {
+
+                        if (talkFeedback == null || talkFeedback.comments.isEmpty()) {
+                            div {
+                                b {
+                                    +context.i18n("feedback.none.comments")
+                                }
+                            }
+                        } else {
+                            div {
+                                b {
+                                    +context.i18n("feedback.your.comments")
+                                }
+                            }
+                            ul {
+                                talkFeedback.comments.forEach { comment ->
+                                    li {
+                                        +comment
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
             }
         }
         sectionComponent(context) {

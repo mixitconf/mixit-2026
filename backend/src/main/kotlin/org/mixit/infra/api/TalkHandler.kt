@@ -14,8 +14,10 @@ import org.mixit.infra.config.MixitProperties
 import org.mixit.infra.config.WebContext
 import org.mixit.infra.spi.manager.ManagerFavoriteApi
 import org.mixit.infra.spi.manager.ManagerFeedbackApi
+import org.mixit.infra.spi.manager.ManagerUserApi
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.servlet.function.ServerResponse
 
 @Component
@@ -26,6 +28,7 @@ class TalkHandler(
     private val eventRepository: EventRepository,
     private val mixitProperties: MixitProperties,
     private val managerFeedbackApi: ManagerFeedbackApi,
+    private val managerUserApi: ManagerUserApi,
     private val webContext: WebContext,
 ) {
     fun findTalkByYear(
@@ -84,10 +87,17 @@ class TalkHandler(
 
         val displayFeedback = mixitProperties.features.feedback
         val isATalkSpeakerOrAdmin =
-            webContext.context?.role == Role.STAFF || talk.speakers.any { it.email == webContext.context?.email }
+            (webContext.context?.email !=null) &&
+                    (webContext.context?.role == Role.STAFF ||
+                            talk.speakers.any { it.email == webContext.context?.email })
 
-        val feedback: TalkFeedback? = managerFeedbackApi.getAllTalkFeedback(talk.id)
-            val userFeedback = try {
+        val (feedback: TalkFeedback?, is401) = try {
+            managerFeedbackApi.getAllTalkFeedback(talk.id) to false
+        } catch (_: HttpClientErrorException.Unauthorized) {
+            null to true
+        }
+
+        val userFeedback = try {
             if (webContext.context?.isAuthenticated ?: false) {
                 managerFeedbackApi.getUserFeedback(talk.id)
             } else null
@@ -95,19 +105,20 @@ class TalkHandler(
             null
         }
 
-        return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
-            renderTalk(
-                webContext.context!!,
-                event,
-                peopleRepository.findSponsorByYear(year),
-                talk,
-                isFavorite = favorite,
-                isATalkSpeakerOrAdmin = isATalkSpeakerOrAdmin,
-                displayFeedback = displayFeedback,
-                talkFeedback = feedback,
-                userFeedback
-            ),
+        val page = renderTalk(
+            webContext.context!!,
+            event,
+            peopleRepository.findSponsorByYear(year),
+            talk,
+            isFavorite = favorite,
+            isATalkSpeakerOrAdmin = isATalkSpeakerOrAdmin,
+            displayFeedback = displayFeedback,
+            talkFeedback = feedback,
+            userFeedback
         )
+
+        return if(is401) ServerResponse.ok().contentType(MediaType.TEXT_HTML).cookie(managerUserApi.removeCookie()).body(page) else
+            ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(page)
     }
 
     fun findByYearIsJson(year: Int): ServerResponse =

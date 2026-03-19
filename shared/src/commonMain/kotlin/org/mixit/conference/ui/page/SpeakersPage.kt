@@ -39,7 +39,7 @@ fun renderSpeakers(
             div(classes = "mxt-speaker__grid") {
                 speakers.sortedBy { it.firstname }.forEach {
                     a(classes = "mxt-speaker") {
-                        href = "${context.uriBasePath}/speakers/${it.id}"
+                        href = "${context.uriBasePath}/speakers/${event.year}/${it.id}"
                         attributes["alt"] = "${it.firstname} ${it.lastname}"
                         attributes["aria-label"] = "${it.firstname} ${it.lastname}"
 

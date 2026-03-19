@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
      lateinit var id: String
      lateinit var talkId: String
      lateinit var creationInstant: String
-     lateinit var notes: List<Feedback>
+     var notes: List<Feedback> = emptyList()
      var comment: String? = null
      var commentState: FeedbackCommentState? = null
  }
