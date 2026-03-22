@@ -192,9 +192,17 @@ fun renderTalks(
 
     }
 
-fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<String>) {
-    div(classes = "mxt-talks__container-line") {
-        a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
+fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<String>, svg: String? = null) {
+    div(classes = "mxt-talks__container-box-line d-flex align-items-center") {
+        if(svg != null) {
+            div {
+                unsafe {
+                    raw(svg)
+                }
+            }
+        }
+        div(classes = "mxt-talks__container-line") {
+            a(href = "${context.uriBasePath}/${event.year}/${talk.slug}") {
             topicPrefixComponent(context, talk.topic, talk.title)
             div(classes = "d-flex align-items-center") {
                 languageComponent(context, talk)
@@ -206,6 +214,7 @@ fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<
                     }
                 }
                 roomComponent(context, talk)
+
 
                 if (context.email != null) {
                     if (favorites.contains(talk.id)) {
@@ -236,6 +245,8 @@ fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<
             span { +"..." }
             speakersComponentInDiv(context, talk.speakers)
             div(classes = "mb-2") { +"  " }
+        }
+
         }
     }
 }

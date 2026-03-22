@@ -37,6 +37,7 @@ spring-boot-docker-compose = { module = "org.springframework.boot:spring-boot-do
 spring-boot-starter-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 webjars-bootstrap= { module = "org.webjars:bootstrap", version.ref = "bootstrap"}
 webjars-locator= { module = "org.webjars:webjars-locator-lite", version.ref = "locator"}
+qrcode= { module = "com.google.zxing:javase", version = "3.5.4" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

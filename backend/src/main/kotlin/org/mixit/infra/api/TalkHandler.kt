@@ -6,6 +6,7 @@ import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.page.TalksCriteria
 import org.mixit.conference.ui.page.renderTalk
+import org.mixit.conference.ui.page.renderTalkFeedbacks
 import org.mixit.conference.ui.page.renderTalks
 import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.PeopleRepository
@@ -15,6 +16,7 @@ import org.mixit.infra.config.WebContext
 import org.mixit.infra.spi.manager.ManagerFavoriteApi
 import org.mixit.infra.spi.manager.ManagerFeedbackApi
 import org.mixit.infra.spi.manager.ManagerUserApi
+import org.mixit.infra.util.rest.QrCodeService
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpClientErrorException
@@ -67,6 +69,37 @@ class TalkHandler(
             ),
         )
     }
+
+    fun findTalkFeedbacks(
+        year: Int,
+        filter: FormDescriptor<TalksCriteria>,
+    ): ServerResponse {
+        val filterValues = filter.value()
+        val event = eventRepository.findByYear(year) ?: return ServerResponse.notFound().build()
+
+        val talks = talkRepository
+            .findByYear(year)
+            .filter {
+                it.search(filterValues.filter)
+                        && it.format != TalkFormat.ON_AIR
+                        && it.searchByTopic(filterValues.topic)
+            }
+            .associateWith {
+                QrCodeService.generateSvg("https://mixitconf.org/${year}/${it.slug}#feedback")
+            }
+
+        return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
+            renderTalkFeedbacks(
+                webContext.context!!,
+                event,
+                peopleRepository.findSponsorByYear(year),
+                talks,
+                filter,
+            ),
+        )
+    }
+
+
 
     fun findTalkBySlug(
         year: Int,

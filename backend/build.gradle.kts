@@ -31,6 +31,7 @@ dependencies {
 
     implementation(libs.json.web.token)
     implementation(libs.json.web.token.jackson)
+    implementation(libs.qrcode)
 
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.kotlin.test)

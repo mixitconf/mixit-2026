@@ -96,6 +96,9 @@ class WebRouterConfig {
             GET("/talks") {
                 talkHandler.findTalkByYear(CURRENT_TALK_YEAR, it.toTalkCriteria(webContext.context))
             }
+            GET("/feedbacks-qrcode") {
+                talkHandler.findTalkFeedbacks(CURRENT_TALK_YEAR, it.toTalkCriteria(webContext.context))
+            }
             GET("/user/{login}") {
                 peopleHandler.findSpeakerByLogin(it.pathVariable("login"))
             }
