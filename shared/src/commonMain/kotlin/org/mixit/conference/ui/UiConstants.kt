@@ -14,7 +14,7 @@ val TALKS_YEARS = (2012..CURRENT_TALK_YEAR).sortedDescending().filterNot { it ==
 
 val MEDIA_YEARS = (2012..CURRENT_MEDIA_YEAR).sortedDescending().filterNot { it == 2020 }
 val YEARS = (2012..CURRENT_YEAR).sortedDescending().filterNot { it == 2020 }
-val MIXETTE_YEARS = (2022..CURRENT_MEDIA_YEAR).sortedDescending()
+val MIXETTE_YEARS = (2022..CURRENT_TALK_YEAR).sortedDescending()
 
 const val DEFAULT_IMG_URL = "/images/png/mxt-icon--default-avatar.png"
 
