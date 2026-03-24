@@ -91,6 +91,9 @@ class RedirectRouterConfig(
                 GET("/docs/presse/leaflet/fr") {
                     ServerResponse.permanentRedirect(properties.doc.fr.press).build()
                 }
+                GET("/2026/docs/schedule") {
+                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/95V09F0D74#quoaiciQeAUk")).build()
+                }
 
                 (GET("/member/{login}") or GET("/profile/{login}") or GET("/member/sponsor/{login}") or GET("/member/member/{login}")) {
                     val login = it.pathVariable("login")
