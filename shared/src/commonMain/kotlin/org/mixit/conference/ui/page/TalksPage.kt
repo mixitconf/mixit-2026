@@ -8,6 +8,7 @@ import kotlinx.html.FormMethod
 import kotlinx.html.a
 import kotlinx.html.br
 import kotlinx.html.button
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.h2
@@ -94,6 +95,16 @@ fun renderTalks(
             if (event.year == CURRENT_YEAR) {
                 div(classes = "lead") {
                     +context.i18n("talks.description")
+                }
+            }
+
+            if (event.year == CURRENT_YEAR && event.media?.schedulingFileUrl != null) {
+                div(classes = "text-center") {
+                    a(classes = "btn mxt-btn-primary m-2") {
+                        target = "_blank"
+                        href = event.media.schedulingFileUrl
+                        +context.i18n("talks.pdf")
+                    }
                 }
             }
 
