@@ -156,6 +156,7 @@ fun renderTalks(
                         talksByDate.filter { it.key?.date == date }
 
                     val shortDate = date?.formatDate(context.language).orEmpty()
+                    val dateId = date.toString()
 
                     h2(classes = "mt-4") {
                         id = date.toString()
@@ -178,7 +179,9 @@ fun renderTalks(
                                     br {
                                         small {
                                             small {
-                                                +shortDate
+                                                a(href = "#${dateId}", classes="mxt-no-link") {
+                                                    +shortDate
+                                                }
                                             }
                                         }
                                     }

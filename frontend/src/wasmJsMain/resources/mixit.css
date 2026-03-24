@@ -979,12 +979,10 @@ footer {
 
 .mxt-talks__container-box-line {
     padding: 0.6em;
-    opacity: 0.8;
 }
 .mxt-talks__container-box-line:hover {
     border-radius: 8px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    opacity: 1;
 }
 
 .mxt-no-link > a, .mxt-no-link > p > a, .mxt-talks__container-line > a {
