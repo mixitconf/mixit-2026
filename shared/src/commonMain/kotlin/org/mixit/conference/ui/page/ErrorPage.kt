@@ -37,8 +37,8 @@ fun renderError(context: Context, status: String?) =
                 }
             }
 
-            div(classes = "text-center") {
-                img(src = "/images/png/error.png", classes = "mxt-error-image") {
+            div(classes = "text-center mb-4") {
+                img(src = "/images/png/error.png", classes = "mxt-style-image") {
                     alt = context.i18n("error.500.description")
                 }
             }

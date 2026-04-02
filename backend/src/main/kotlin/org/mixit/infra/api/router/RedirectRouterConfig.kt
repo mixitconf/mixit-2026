@@ -1,11 +1,11 @@
-package org.mixit.infra.api
+package org.mixit.infra.api.router
 
+import org.mixit.conference.model.shared.Language
 import org.mixit.infra.config.MixitProperties
 import org.mixit.infra.config.WebContext
-import org.mixit.conference.model.shared.Language
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.MediaType.TEXT_HTML
+import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
 import java.net.URI
@@ -17,7 +17,7 @@ class RedirectRouterConfig(
     @Bean
     fun redirectRouter(webContext: WebContext) =
         router {
-            accept(TEXT_HTML).nest {
+            accept(MediaType.TEXT_HTML).nest {
                 GET("/cfp") {
                     ServerResponse.permanentRedirect(properties.cfpUrl).build()
                 }
@@ -92,7 +92,8 @@ class RedirectRouterConfig(
                     ServerResponse.permanentRedirect(properties.doc.fr.press).build()
                 }
                 GET("/2026/docs/schedule") {
-                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/95V09F0D74#quoaiciQeAUk")).build()
+                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/95V09F0D74#quoaiciQeAUk"))
+                        .build()
                 }
 
                 (GET("/member/{login}") or GET("/profile/{login}") or GET("/member/sponsor/{login}") or GET("/member/member/{login}")) {

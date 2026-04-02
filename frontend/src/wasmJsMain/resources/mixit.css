@@ -1195,6 +1195,10 @@ footer {
 .mxt-error-image {
     max-width: 100%
 }
+.mxt-style-image {
+    max-width: 100%;
+    width: 600px;
+}
 .mxt-feedback-link {
     text-decoration: none;
     width: 100%;

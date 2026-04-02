@@ -15,6 +15,7 @@ import org.mixit.infra.api.FavoriteHandler
 import org.mixit.infra.api.FeedbackHandler
 import org.mixit.infra.api.MediaHandler
 import org.mixit.infra.api.PeopleHandler
+import org.mixit.infra.api.PollHandler
 import org.mixit.infra.api.TalkHandler
 import org.mixit.infra.api.mapper.toLoginForm
 import org.mixit.infra.api.mapper.toLoginStartForm
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
+import kotlin.String
 
 @Configuration
 class WebRouterConfig {
@@ -39,6 +41,7 @@ class WebRouterConfig {
         mediaHandler: MediaHandler,
         favoriteHandler: FavoriteHandler,
         feedbackHandler: FeedbackHandler,
+        pollHandler: PollHandler,
         webContext: WebContext,
     ) = router {
         accept(MediaType.TEXT_HTML).nest {
@@ -108,7 +111,16 @@ class WebRouterConfig {
             GET("/budget") {
                 eventHandler.findByYear(CURRENT_YEAR, EventScreen.BUDGET)
             }
-
+            GET("/anniversaire") {
+                pollHandler.findPoll()
+            }
+            POST("/anniversaire") { req ->
+                pollHandler.savePoll(
+                    lotteryParticipation = req.param("lotteryParticipation").orElse("false")!!,
+                    keynoteFeeds = req.param("keynoteFeeds"),
+                    conferenceFeeds = req.param("conferenceFeeds"),
+                )
+            }
             (2012..CURRENT_YEAR).forEach { year ->
                 GET("/$year") {
                     talkHandler.findTalkByYear(year, it.toTalkCriteria(webContext.context))

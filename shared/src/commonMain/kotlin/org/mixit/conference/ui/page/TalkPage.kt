@@ -222,7 +222,6 @@ fun renderTalk(
                         href = "${context.uriBasePath}/login"
                         +context.i18n("login.action.log")
                     }
-
                     feedbackTable(context, talk, talkFeedback)
                 }
 
