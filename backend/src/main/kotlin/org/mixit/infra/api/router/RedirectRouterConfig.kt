@@ -92,7 +92,7 @@ class RedirectRouterConfig(
                     ServerResponse.permanentRedirect(properties.doc.fr.press).build()
                 }
                 GET("/2026/docs/schedule") {
-                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/95V09F0D74#quoaiciQeAUk"))
+                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/KRJ2X0ZBEC#jHs9eL3mASHT"))
                         .build()
                 }
 
