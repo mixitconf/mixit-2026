@@ -91,8 +91,8 @@ class RedirectRouterConfig(
                 GET("/docs/presse/leaflet/fr") {
                     ServerResponse.permanentRedirect(properties.doc.fr.press).build()
                 }
-                GET("/2026/docs/schedule") {
-                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/KRJ2X0ZBEC#jHs9eL3mASHT"))
+                GET("/2026/docs/schedule/update1") {
+                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/quoaiciQeAUk"))
                         .build()
                 }
 
