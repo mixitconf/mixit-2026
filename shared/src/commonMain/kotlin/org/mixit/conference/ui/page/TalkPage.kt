@@ -178,7 +178,7 @@ fun renderTalk(
             }
         }
         sectionComponent(context) {
-            id = "feedbacks"
+            id = "feedback"
             if (displayFeedback) {
                 h2 {
                     +context.i18n("feedback.title")
