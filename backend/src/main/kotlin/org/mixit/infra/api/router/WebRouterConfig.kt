@@ -82,7 +82,7 @@ class WebRouterConfig {
                 mediaHandler.findMediaByYear(CURRENT_MEDIA_YEAR, it.param("search").orElse(null))
             }
             GET("/mixette") {
-                peopleHandler.findOrganizationByYear(CURRENT_MEDIA_YEAR)
+                peopleHandler.findOrganizationByYear(CURRENT_YEAR)
             }
             GET("/schedule") {
                 talkHandler.findTalkByYear(CURRENT_TALK_YEAR, it.toTalkCriteria(webContext.context))
