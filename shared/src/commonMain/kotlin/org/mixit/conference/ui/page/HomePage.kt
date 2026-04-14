@@ -75,26 +75,26 @@ fun renderHomePage(context: Context, lastPodCastId: String, event: Event, sponso
             }
         }
         sectionComponent(context) {
-//            h3(classes = "mt-4") {
-//                +context.i18n("home.section.sales.annoucement.title")
-//            }
-//            div() { +context.i18n("home.section.sales.annoucement.subtitle") }
-//            div("mt-2") {
-//                +context.i18n("home.section.sales.annoucement.description")
-//                ul {
-//                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.first") }
-//                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.second") }
-//                }
-//                b { +context.i18n("home.section.sales.annoucement.warning") }
-//                div("mt-2 mxt-no-link") {
-//                    a(classes = "mxt-no-link") {
-//                        href = "/billetweb"
-//                        target="_blank"
-//                        +context.i18n("home.section.sales.annoucement.link")
-//                    }
-//                }
-//
-//            }
+            h3(classes = "mt-4") {
+                +context.i18n("home.section.sales.annoucement.title")
+            }
+            div() { +context.i18n("home.section.sales.annoucement.subtitle") }
+            div("mt-2") {
+                +context.i18n("home.section.sales.annoucement.description")
+                ul {
+                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.first") }
+                    li(classes = "lead") { +context.i18n("home.section.sales.annoucement.second") }
+                }
+                b { +context.i18n("home.section.sales.annoucement.warning") }
+                div("mt-2 mxt-no-link") {
+                    a(classes = "mxt-no-link") {
+                        href = "/billetweb"
+                        target="_blank"
+                        +context.i18n("home.section.sales.annoucement.link")
+                    }
+                }
+
+            }
 
             div(classes = "mxt-no-link mt-5") {
                 unsafe {
