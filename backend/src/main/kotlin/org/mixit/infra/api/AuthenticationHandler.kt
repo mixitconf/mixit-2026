@@ -1,6 +1,5 @@
 package org.mixit.infra.api
 
-import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.people.Email
 import org.mixit.conference.model.security.CredentialResponse
 import org.mixit.conference.model.security.Credentials
@@ -13,6 +12,7 @@ import org.mixit.conference.ui.security.renderLoginPage
 import org.mixit.conference.ui.security.renderLoginStartPage
 import org.mixit.conference.ui.security.renderRegisteringPage
 import org.mixit.domain.model.LoginErrorType
+import org.mixit.infra.config.WebContext
 import org.mixit.infra.spi.manager.ManagerUserApi
 import org.springframework.http.MediaType.TEXT_HTML
 import org.springframework.stereotype.Component
@@ -24,10 +24,9 @@ import java.net.URI
 @Component
 class AuthenticationHandler(
     private val webContext: WebContext,
-    private val managerUserApi: ManagerUserApi
+    private val managerUserApi: ManagerUserApi,
 ) {
-    fun login(credentialForm: FormDescriptor<Email>): ServerResponse =
-        redirectToLoginStart(credentialForm)
+    fun login(credentialForm: FormDescriptor<Email>): ServerResponse = redirectToLoginStart(credentialForm)
 
     fun loginStartSend(formValue: FormDescriptor<Email>): ServerResponse =
         if (formValue.isValid()) {
@@ -49,7 +48,7 @@ class AuthenticationHandler(
                                     valuesInRequest = mapOf("email" to email),
                                     dirty = false,
                                     context = webContext.ctx(),
-                                )
+                                ),
                             )
                         } else {
                             redirectToLoginStart(formValue.copy(globalError = response.errorMessage()))
@@ -89,7 +88,7 @@ class AuthenticationHandler(
                     managerUserApi.action(
                         Credentials.LoginRequestWithToken(
                             email = email.first,
-                            token = email.second ?: throw kotlin.IllegalArgumentException("Token is missing")
+                            token = email.second ?: throw kotlin.IllegalArgumentException("Token is missing"),
                         ),
                     )
                 when (response) {
@@ -127,7 +126,7 @@ class AuthenticationHandler(
                             firstname = user.firstname,
                             lastname = user.lastname,
                             language = Language.FRENCH,
-                            subcribeNewsletter = true
+                            subcribeNewsletter = true,
                         ),
                     )
                 when (response) {

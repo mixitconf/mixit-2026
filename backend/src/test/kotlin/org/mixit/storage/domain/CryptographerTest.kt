@@ -22,6 +22,7 @@ class CryptographerTest {
             SecurityProperties(
                 key = "myKeyIsTheBest01",
                 initVector = "myvectorIsBetter",
+                jwtKey = "mykeyIsTheBest01",
             )
         service = Cryptographer(properties)
 

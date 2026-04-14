@@ -1,6 +1,5 @@
 package org.mixit.infra.spi.manager
 
-import org.mixit.conference.model.feedback.TalkFeedback
 import org.mixit.conference.model.poll.AnniversaryPoll
 import org.mixit.infra.api.WebFilter
 import org.mixit.infra.api.dto.AnniversaryPollCommand
@@ -13,11 +12,10 @@ import org.springframework.web.client.body
 @Service
 class ManagerPollApi(
     private val restClient: RestClient,
-    private val context: WebContext
+    private val context: WebContext,
 ) {
-
     fun getUserPoll() =
-        if(context.context?.token == null) {
+        if (context.context?.token == null) {
             restClient
                 .get()
                 .uri("/polls/2026")
@@ -50,5 +48,4 @@ class ManagerPollApi(
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .body<String>()
-
 }

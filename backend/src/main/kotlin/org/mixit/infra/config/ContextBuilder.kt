@@ -44,14 +44,17 @@ fun buildContext(
 
 interface WebContext {
     var context: Context?
+
     fun ctx(): Context
+
     fun requiredToken(): String
 }
 
 open class WebContextProvider(
     override var context: Context?,
-): WebContext {
+) : WebContext {
     override fun ctx() = context ?: Context.default()
+
     override fun requiredToken(): String = ctx().token ?: throw IllegalStateException("Token is required")
 }
 

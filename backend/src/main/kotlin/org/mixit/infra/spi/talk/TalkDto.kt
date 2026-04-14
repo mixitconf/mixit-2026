@@ -1,7 +1,6 @@
 package org.mixit.infra.spi.talk
 
 import kotlinx.serialization.Serializable
-import org.mixit.infra.spi.event.LinkDto
 import org.mixit.conference.model.link.Link
 import org.mixit.conference.model.link.LinkType
 import org.mixit.conference.model.link.Video
@@ -12,6 +11,7 @@ import org.mixit.conference.model.talk.Talk
 import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.model.talk.TalkLevel
 import org.mixit.conference.shared.model.Topic
+import org.mixit.infra.spi.event.LinkDto
 
 @Serializable
 data class TalkDto(

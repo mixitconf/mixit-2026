@@ -39,25 +39,23 @@ class TalkHandler(
     ): ServerResponse {
         val filterValues = filter.value()
         val event = eventRepository.findByYear(year) ?: return ServerResponse.notFound().build()
-        val favorites = try {
-            webContext.context?.email?.let { favoriteApi.getFavorites(it).map { it.talkId } } ?: emptyList()
-        } catch (_: Exception) {
-            emptyList()
-        }
+        val favorites =
+            try {
+                webContext.context?.email?.let { favoriteApi.getFavorites(it).map { it.talkId } } ?: emptyList()
+            } catch (_: Exception) {
+                emptyList()
+            }
 
         val talks =
             talkRepository
                 .findByYear(year)
                 .filter {
-                    it.search(filterValues.filter)
-                            && it.format != TalkFormat.ON_AIR
-                            && it.searchByTopic(filterValues.topic)
-                            && it.searchByFavorite(favorites, filterValues.favorites)
-                }
-                .sortedBy { it.startLocalTime() }
+                    it.search(filterValues.filter) &&
+                        it.format != TalkFormat.ON_AIR &&
+                        it.searchByTopic(filterValues.topic) &&
+                        it.searchByFavorite(favorites, filterValues.favorites)
+                }.sortedBy { it.startLocalTime() }
                 .groupBy { it.startLocalTime() }
-
-
 
         return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderTalks(
@@ -78,16 +76,16 @@ class TalkHandler(
         val filterValues = filter.value()
         val event = eventRepository.findByYear(year) ?: return ServerResponse.notFound().build()
 
-        val talks = talkRepository
-            .findByYear(year)
-            .filter {
-                it.search(filterValues.filter)
-                        && it.format != TalkFormat.ON_AIR
-                        && it.searchByTopic(filterValues.topic)
-            }
-            .associateWith {
-                QrCodeService.generateSvg("https://mixitconf.org/${year}/${it.slug}#feedback")
-            }
+        val talks =
+            talkRepository
+                .findByYear(year)
+                .filter {
+                    it.search(filterValues.filter) &&
+                        it.format != TalkFormat.ON_AIR &&
+                        it.searchByTopic(filterValues.topic)
+                }.associateWith {
+                    QrCodeService.generateSvg("https://mixitconf.org/$year/${it.slug}#feedback")
+                }
 
         return ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(
             renderTalkFeedbacks(
@@ -100,8 +98,6 @@ class TalkHandler(
         )
     }
 
-
-
     fun findTalkBySlug(
         year: Int,
         slug: String,
@@ -112,51 +108,69 @@ class TalkHandler(
                 .findBySlug(year, slug)
                 ?: return ServerResponse.notFound().build()
 
-        val favorite = try {
-            if (webContext.context?.email == null) false else
-                favoriteApi.getFavorite(webContext.context!!.email!!, talk.id)
-        } catch (_: Exception) {
-            false
-        }
+        val favorite =
+            try {
+                if (webContext.context?.email == null) {
+                    false
+                } else {
+                    favoriteApi.getFavorite(webContext.context!!.email!!, talk.id)
+                }
+            } catch (_: Exception) {
+                false
+            }
 
         val displayFeedback = mixitProperties.features.feedback
         val isATalkSpeakerOrAdmin =
-            (webContext.context?.email !=null) &&
-                    (webContext.context?.role == Role.STAFF ||
-                            talk.speakers.any { it.email == webContext.context?.email })
+            (webContext.context?.email != null) &&
+                (
+                    webContext.context?.role == Role.STAFF ||
+                        talk.speakers.any { it.email == webContext.context?.email }
+                )
 
-        val (feedback: TalkFeedback?, is401) = try {
-            managerFeedbackApi.getAllTalkFeedback(talk.id) to false
-        } catch (_: HttpClientErrorException.Unauthorized) {
-            null to true
-        }
+        val (feedback: TalkFeedback?, is401) =
+            try {
+                managerFeedbackApi.getAllTalkFeedback(talk.id) to false
+            } catch (_: HttpClientErrorException.Unauthorized) {
+                null to true
+            }
 
-        val userFeedback = try {
-            if (webContext.context?.isAuthenticated ?: false) {
-                managerFeedbackApi.getUserFeedback(talk.id)
-            } else null
-        } catch (_: Exception) {
-            null
-        }
+        val userFeedback =
+            try {
+                if (webContext.context?.isAuthenticated ?: false) {
+                    managerFeedbackApi.getUserFeedback(talk.id)
+                } else {
+                    null
+                }
+            } catch (_: Exception) {
+                null
+            }
 
-        val page = renderTalk(
-            webContext.context!!,
-            event,
-            peopleRepository.findSponsorByYear(year),
-            talk,
-            isFavorite = favorite,
-            isATalkSpeakerOrAdmin = isATalkSpeakerOrAdmin,
-            displayFeedback = displayFeedback,
-            talkFeedback = feedback,
-            userFeedback
-        )
+        val page =
+            renderTalk(
+                webContext.context!!,
+                event,
+                peopleRepository.findSponsorByYear(year),
+                talk,
+                isFavorite = favorite,
+                isATalkSpeakerOrAdmin = isATalkSpeakerOrAdmin,
+                displayFeedback = displayFeedback,
+                talkFeedback = feedback,
+                userFeedback,
+            )
 
-        return if(is401) ServerResponse.ok().contentType(MediaType.TEXT_HTML).cookie(managerUserApi.removeCookie()).body(page) else
+        return if (is401) {
+            ServerResponse
+                .ok()
+                .contentType(MediaType.TEXT_HTML)
+                .cookie(managerUserApi.removeCookie())
+                .body(page)
+        } else {
             ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(page)
+        }
     }
 
     fun findByYearIsJson(year: Int): ServerResponse =
         ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(
-            talkRepository.exportByYear(year)
+            talkRepository.exportByYear(year),
         )
 }

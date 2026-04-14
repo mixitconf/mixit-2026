@@ -17,6 +17,5 @@ class EventFileRepository(
     @Cacheable(Cache.EVENT_CACHE_DETAIL)
     override fun findByYear(year: Int?): Event? = staticFileRepository.findAll().firstOrNull { it.year == year }?.toEvent()
 
-    override fun exportOne(year: Int?): EventDto? =
-        staticFileRepository.findAll().firstOrNull { it.year == year }
+    override fun exportOne(year: Int?): EventDto? = staticFileRepository.findAll().firstOrNull { it.year == year }
 }

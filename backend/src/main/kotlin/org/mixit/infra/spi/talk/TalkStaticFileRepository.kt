@@ -2,14 +2,14 @@ package org.mixit.infra.spi.talk
 
 import jakarta.annotation.PostConstruct
 import org.mixit.conference.ui.CURRENT_YEAR
-import org.mixit.infra.util.cache.Cache
 import org.mixit.infra.spi.DataService
+import org.mixit.infra.util.cache.Cache
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 
 @Component
 class TalkStaticFileRepository(
-    private val dataService: DataService
+    private val dataService: DataService,
 ) {
     @Suppress("ktlint:standard:backing-property-naming")
     private val _data: MutableMap<Int, List<TalkDto>> = mutableMapOf()
@@ -17,16 +17,16 @@ class TalkStaticFileRepository(
     @PostConstruct
     fun init() {
         (2012..CURRENT_YEAR).forEach { year ->
-            dataService.load(
-                localPath = "data/talks_$year.json",
-                remotePath = "/talks/$year",
-                responseType = Array<TalkDto>::class.java,
-            ).let { talks ->
-                _data[year] = talks
-            }
+            dataService
+                .load(
+                    localPath = "data/talks_$year.json",
+                    remotePath = "/talks/$year",
+                    responseType = Array<TalkDto>::class.java,
+                ).let { talks ->
+                    _data[year] = talks
+                }
         }
     }
-
 
     @Cacheable(Cache.TALK_CACHE)
     fun findAll(): Map<Int, List<TalkDto>> = _data

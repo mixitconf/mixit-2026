@@ -1,7 +1,6 @@
 package org.mixit.infra.spi.manager
 
 import org.mixit.conference.model.favorite.Favorite
-import org.mixit.conference.model.shared.Context
 import org.mixit.infra.api.WebFilter
 import org.mixit.infra.config.WebContext
 import org.springframework.http.MediaType
@@ -12,9 +11,12 @@ import org.springframework.web.client.body
 @Service
 class ManagerFavoriteApi(
     private val restClient: RestClient,
-    private val context: WebContext
+    private val context: WebContext,
 ) {
-    fun toggleFavorite(email: String, talkId: String): String? =
+    fun toggleFavorite(
+        email: String,
+        talkId: String,
+    ): String? =
         restClient
             .post()
             .uri("/favorites/$email/talks/$talkId/toggle")
@@ -23,8 +25,6 @@ class ManagerFavoriteApi(
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .body<String>()
-
-
 
     fun getFavorites(email: String): List<Favorite> =
         restClient
@@ -37,7 +37,10 @@ class ManagerFavoriteApi(
             ?.toList()
             ?: emptyList()
 
-    fun getFavorite(email: String, talkId: String): Boolean =
+    fun getFavorite(
+        email: String,
+        talkId: String,
+    ): Boolean =
         restClient
             .get()
             .uri("/favorites/$email/talks/$talkId")
@@ -46,7 +49,7 @@ class ManagerFavoriteApi(
             .retrieve()
             .body<String>()
             ?.let {
-                if(it.contains("true", ignoreCase = true)) true else false
+                if (it.contains("true", ignoreCase = true)) true else false
             }
             ?: false
 }

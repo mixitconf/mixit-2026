@@ -3,7 +3,6 @@ package org.mixit.infra.api.mapper
 import org.mixit.conference.model.people.Email
 import org.mixit.conference.model.security.RegisteredUser
 import org.mixit.conference.model.shared.Context
-import org.mixit.conference.model.shared.Language
 import org.mixit.conference.ui.form.FormDescriptor
 import org.mixit.conference.ui.security.loginForm
 import org.mixit.conference.ui.security.loginStartForm
@@ -23,7 +22,10 @@ fun ServerRequest.toLoginStartForm(): FormDescriptor<Email> {
     }
 }
 
-fun ServerRequest.toLoginForm(values: Pair<Email, String?>? = null, dirty: Boolean = true): FormDescriptor<Pair<Email, String?>> {
+fun ServerRequest.toLoginForm(
+    values: Pair<Email, String?>? = null,
+    dirty: Boolean = true,
+): FormDescriptor<Pair<Email, String?>> {
     val params: MutableMap<String, String?> = mutableMapOf()
     params["email"] = values?.first ?: paramOrNull("email")
     params["token"] = values?.second ?: paramOrNull("token")
@@ -36,7 +38,10 @@ fun ServerRequest.toLoginForm(values: Pair<Email, String?>? = null, dirty: Boole
     }
 }
 
-fun ServerRequest.toRegistringForm(dirty: Boolean = true, context: Context): FormDescriptor<RegisteredUser> {
+fun ServerRequest.toRegistringForm(
+    dirty: Boolean = true,
+    context: Context,
+): FormDescriptor<RegisteredUser> {
     val params: MutableMap<String, String?> = mutableMapOf()
     params["email"] = paramOrNull("email")
     params["firstname"] = paramOrNull("firstname")

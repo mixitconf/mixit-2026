@@ -7,5 +7,5 @@ import org.mixit.conference.model.people.Role
 data class AuthenticatedUserDto(
     val username: String,
     val email: String,
-    val role: Role
+    val role: Role,
 )

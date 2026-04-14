@@ -4,13 +4,11 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
 import org.mixit.infra.config.MixitProperties
 import org.mixit.infra.util.serializer.Serializer
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.ResourceLoader
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
-import java.nio.file.Files import java.nio.file.Path
-
+import java.nio.file.Files
 
 /**
  * Generic service to fetch data from external API configured in ExternalDataProperties.
@@ -20,9 +18,8 @@ import java.nio.file.Files import java.nio.file.Path
 class DataService(
     private val restClient: RestClient,
     private val properties: MixitProperties,
-    private val resourceLoader: ResourceLoader
-)  {
-
+    private val resourceLoader: ResourceLoader,
+) {
     /**
      * Fetch a list of items from the external API
      * @param path The API path (e.g., "/talks", "/people")
@@ -73,7 +70,7 @@ class DataService(
     fun <T> load(
         localPath: String,
         remotePath: String,
-        responseType: Class<Array<T>>
+        responseType: Class<Array<T>>,
     ): List<T> =
         if (properties.externalData.enabled) {
             loadFromExternalApi(

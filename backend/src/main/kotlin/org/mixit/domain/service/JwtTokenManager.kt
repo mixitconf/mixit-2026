@@ -5,10 +5,10 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
-import org.mixit.infra.config.MixitProperties
+import org.mixit.conference.model.people.Role
 import org.mixit.domain.api.JwtTokenApi
 import org.mixit.domain.model.JwtToken
-import org.mixit.conference.model.people.Role
+import org.mixit.infra.config.MixitProperties
 import org.springframework.stereotype.Component
 import java.util.Base64
 import java.util.Date

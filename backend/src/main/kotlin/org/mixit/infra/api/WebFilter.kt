@@ -4,12 +4,12 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
-import org.mixit.infra.config.WebContext
-import org.mixit.infra.config.buildContext
 import org.mixit.conference.model.people.Role
 import org.mixit.conference.model.security.CredentialResponse
 import org.mixit.conference.model.security.Credentials
 import org.mixit.conference.model.shared.Language
+import org.mixit.infra.config.WebContext
+import org.mixit.infra.config.buildContext
 import org.mixit.infra.spi.manager.ManagerUserApi
 import org.mixit.infra.util.string.MarkdownRenderer
 import org.springframework.context.MessageSource
@@ -28,7 +28,7 @@ class WebFilter(
     private val messageSource: MessageSource,
     private val markdownRenderer: MarkdownRenderer,
     private val webContext: WebContext,
-    private val managerUserApi: ManagerUserApi
+    private val managerUserApi: ManagerUserApi,
 ) : OncePerRequestFilter() {
     companion object {
         const val AUTHENT_COOKIE = "XSRF-TOKEN"
@@ -60,16 +60,17 @@ class WebFilter(
         if (!token.isNullOrBlank()) {
             val response = managerUserApi.action(Credentials.RefreshUser(token))
             if (response is CredentialResponse.RefreshedUser) {
-                webContext.context = buildContext(
-                    messageSource,
-                    markdownRenderer,
-                    request.servletPath,
-                    if (isEn) Locale.ENGLISH else Locale.FRENCH,
-                    token = token,
-                    email = if(request.servletPath.contains("logout")) null else response.email,
-                    role = if(request.servletPath.contains("logout")) Role.USER else response.role,
-                    username = if(request.servletPath.contains("logout")) null else response.username,
-                )
+                webContext.context =
+                    buildContext(
+                        messageSource,
+                        markdownRenderer,
+                        request.servletPath,
+                        if (isEn) Locale.ENGLISH else Locale.FRENCH,
+                        token = token,
+                        email = if (request.servletPath.contains("logout")) null else response.email,
+                        role = if (request.servletPath.contains("logout")) Role.USER else response.role,
+                        username = if (request.servletPath.contains("logout")) null else response.username,
+                    )
             }
         }
         if (webContext.context == null) {
@@ -78,7 +79,7 @@ class WebFilter(
                     messageSource,
                     markdownRenderer,
                     request.servletPath,
-                    if (isEn) Locale.ENGLISH else Locale.FRENCH
+                    if (isEn) Locale.ENGLISH else Locale.FRENCH,
                 )
         }
         val uriPath =
@@ -97,7 +98,6 @@ class WebFilter(
             CustomHttpServletRequestWrapper(request, uriPath).apply {
                 addHeader(CONTENT_LANGUAGE, if (isEn) "en" else "fr")
             }
-
 
         if (Regex("^/secured/.*").matches(request.requestURI)) {
             if (token == null) {
@@ -126,11 +126,10 @@ class WebFilter(
 
     private fun HttpServletRequest.isAHomePageCallFromForeignLanguage(): Boolean =
         requestURI == "/" &&
-                localeResolver.resolveLocale(this) != Locale.FRENCH &&
-                !isSearchEngineCrawler()
+            localeResolver.resolveLocale(this) != Locale.FRENCH &&
+            !isSearchEngineCrawler()
 
-    private fun HttpServletRequest.hasLanguagePrefix(language: Language) =
-        this.requestURI.startsWith(language.urlPrefix)
+    private fun HttpServletRequest.hasLanguagePrefix(language: Language) = this.requestURI.startsWith(language.urlPrefix)
 }
 
 class CustomHttpServletRequestWrapper(

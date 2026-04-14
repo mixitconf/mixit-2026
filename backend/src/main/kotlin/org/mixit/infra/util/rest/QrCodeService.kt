@@ -8,7 +8,11 @@ import java.nio.charset.StandardCharsets
 import java.util.EnumMap
 
 object QrCodeService {
-    fun generateSvg(content: String, height: Int = 200, width: Int = 200): String {
+    fun generateSvg(
+        content: String,
+        height: Int = 200,
+        width: Int = 200,
+    ): String {
         val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
         hints[EncodeHintType.CHARACTER_SET] = StandardCharsets.UTF_8.name()
         hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.M

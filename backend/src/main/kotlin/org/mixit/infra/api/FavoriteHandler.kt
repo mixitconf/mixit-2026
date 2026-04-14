@@ -17,10 +17,12 @@ class FavoriteHandler(
     private val repository: ManagerFavoriteApi,
     private val talkRepository: TalkRepository,
     private val webContext: WebContext,
-    private val managerUserApi: ManagerUserApi
+    private val managerUserApi: ManagerUserApi,
 ) {
-
-    fun toggleFavorite(email: Email, talkId: String): ServerResponse {
+    fun toggleFavorite(
+        email: Email,
+        talkId: String,
+    ): ServerResponse {
         try {
             repository.toggleFavorite(email, talkId)
             val talk = talkRepository.findById(talkId) ?: return ServerResponse.notFound().build()
@@ -35,6 +37,5 @@ class FavoriteHandler(
             }
             throw e
         }
-
     }
 }

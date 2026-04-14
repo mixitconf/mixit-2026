@@ -1,12 +1,12 @@
 package org.mixit.infra.api
 
-import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.CURRENT_YEAR
 import org.mixit.conference.ui.page.renderFaqPage
 import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.FaqRepository
 import org.mixit.domain.spi.PeopleRepository
+import org.mixit.infra.config.WebContext
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse

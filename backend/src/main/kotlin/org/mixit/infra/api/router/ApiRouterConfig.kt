@@ -15,21 +15,21 @@ class ApiRouterConfig(
     private val talkHandler: TalkHandler,
     private val userHandler: PeopleHandler,
 ) {
-
     @Bean
-    fun apiRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api").nest {
-            (2012..CURRENT_YEAR).forEach { year ->
-                GET("/$year/event") {
-                    eventHandler.findOneIsJson(year)
-                }
-                GET("/$year/talks") {
-                    talkHandler.findByYearIsJson(year)
-                }
-                GET("/$year/speakers") {
-                    userHandler.findByYearIsJson(year)
+    fun apiRouter() =
+        router {
+            (accept(MediaType.APPLICATION_JSON) and "/api").nest {
+                (2012..CURRENT_YEAR).forEach { year ->
+                    GET("/$year/event") {
+                        eventHandler.findOneIsJson(year)
+                    }
+                    GET("/$year/talks") {
+                        talkHandler.findByYearIsJson(year)
+                    }
+                    GET("/$year/speakers") {
+                        userHandler.findByYearIsJson(year)
+                    }
                 }
             }
         }
-    }
 }

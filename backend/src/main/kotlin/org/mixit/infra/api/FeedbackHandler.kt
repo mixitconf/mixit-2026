@@ -15,19 +15,18 @@ import java.net.URI
 class FeedbackHandler(
     private val talkRepository: TalkRepository,
     private val webContext: WebContext,
-    private val managerFeedbackApi: ManagerFeedbackApi
+    private val managerFeedbackApi: ManagerFeedbackApi,
 ) {
-
     fun saveFeedback(
         email: String,
         talkId: String,
         feedback: Feedback,
-        toAdd : Boolean,
+        toAdd: Boolean,
     ): ServerResponse {
-        if(email != webContext.ctx().email) {
+        if (email != webContext.ctx().email) {
             return ServerResponse.status(403).build()
         }
-        if(toAdd) {
+        if (toAdd) {
             managerFeedbackApi.addUserFeedback(talkId, feedback)
         } else {
             managerFeedbackApi.deleteUserFeedback(talkId, feedback)
@@ -39,17 +38,18 @@ class FeedbackHandler(
         email: Email,
         talkId: String,
         feedbacks: List<Feedback>,
-        comment: String?
+        comment: String?,
     ): ServerResponse {
-            if(email != webContext.ctx().email) {
-                return ServerResponse.status(403).build()
-            }
-            val userFeedback = UserFeedbackCommand(
+        if (email != webContext.ctx().email) {
+            return ServerResponse.status(403).build()
+        }
+        val userFeedback =
+            UserFeedbackCommand(
                 feedbacks = feedbacks,
-                comment = comment
+                comment = comment,
             )
-            managerFeedbackApi.saveUserFeedbacks(talkId, userFeedback)
-            val talk = talkRepository.findById(talkId) ?: return ServerResponse.notFound().build()
-            return seeOther(URI("/${talk.event}/${talk.slug}")).build()
+        managerFeedbackApi.saveUserFeedbacks(talkId, userFeedback)
+        val talk = talkRepository.findById(talkId) ?: return ServerResponse.notFound().build()
+        return seeOther(URI("/${talk.event}/${talk.slug}")).build()
     }
 }

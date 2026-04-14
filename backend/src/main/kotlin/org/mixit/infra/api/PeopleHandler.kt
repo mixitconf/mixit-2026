@@ -1,6 +1,5 @@
 package org.mixit.infra.api
 
-import org.mixit.infra.config.WebContext
 import org.mixit.conference.ui.page.renderMixettePage
 import org.mixit.conference.ui.page.renderSpeaker
 import org.mixit.conference.ui.page.renderSpeakers
@@ -8,6 +7,7 @@ import org.mixit.conference.ui.page.renderSponsor
 import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.PeopleRepository
 import org.mixit.domain.spi.TalkRepository
+import org.mixit.infra.config.WebContext
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
@@ -22,7 +22,7 @@ class PeopleHandler(
 ) {
     fun findByYearIsJson(year: Int): ServerResponse =
         ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(
-            peopleRepository.exportByYear(year)
+            peopleRepository.exportByYear(year),
         )
 
     fun findSpeakerByYear(year: Int): ServerResponse =
@@ -48,7 +48,10 @@ class PeopleHandler(
             )
         }
 
-    fun findSpeakerByLogin(login: String, year: Int? = null): ServerResponse =
+    fun findSpeakerByLogin(
+        login: String,
+        year: Int? = null,
+    ): ServerResponse =
         repository
             .findSpeaker(login)
             ?.let { speaker ->
@@ -56,9 +59,9 @@ class PeopleHandler(
                     renderSpeaker(
                         context = webContext.context!!,
                         speaker = speaker,
-                        event = if(year != null) eventRepository.findByYear(year)!! else null,
+                        event = if (year != null) eventRepository.findByYear(year)!! else null,
                         talks = talkRepository.findSpeakerTalks(speaker.id),
-                        sponsors = if(year != null)  peopleRepository.findSponsorByYear(year) else emptyList(),
+                        sponsors = if (year != null) peopleRepository.findSponsorByYear(year) else emptyList(),
                     ),
                 )
             }

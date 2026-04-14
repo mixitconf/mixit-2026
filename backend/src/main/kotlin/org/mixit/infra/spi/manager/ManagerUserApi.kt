@@ -16,7 +16,7 @@ import org.springframework.web.client.body
 
 @Service
 class ManagerUserApi(
-    private val restClient: RestClient
+    private val restClient: RestClient,
 ) {
     /**
      * Performs an action based on the provided [credentials]. For example the caller can
@@ -43,7 +43,6 @@ class ManagerUserApi(
                 is Credentials.RefreshUser -> checkUserAndRole(credentials.token)
             }
         }
-
 
     /**
      * Create a cookie string from a JWT token.
@@ -85,7 +84,8 @@ class ManagerUserApi(
 
     private fun checkUserAndRole(token: String): CredentialResponse =
         try {
-            restClient.post()
+            restClient
+                .post()
                 .uri("/public/check-token")
                 .cookie(WebFilter.AUTHENT_COOKIE, token)
                 .retrieve()
@@ -94,7 +94,7 @@ class ManagerUserApi(
                     CredentialResponse.RefreshedUser(
                         username = it.username,
                         role = it.role,
-                        email = it.email
+                        email = it.email,
                     )
                 } ?: CredentialResponse.UserUnknownOrInvalid
         } catch (_: Exception) {
@@ -119,23 +119,23 @@ class ManagerUserApi(
             restClient
                 .post()
                 .uri {
-                    it.path("/public/login-finalize")
+                    it
+                        .path("/public/login-finalize")
                         .queryParam("email", credentials.email!!)
                         .queryParam("token", credentials.token!!)
                         .build()
-                }
-                .accept(MediaType.APPLICATION_JSON)
+                }.accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<AuthenticationResponse>()
                 ?.let {
                     CredentialResponse.LoginSuccess(
                         username = it.username,
                         jwtToken = it.jwtToken,
-                        jwtExpiration = Instant.Companion.parse(it.jwtExpiration)
+                        jwtExpiration = Instant.Companion.parse(it.jwtExpiration),
                     )
                 } ?: CredentialResponse.LoginError(LoginErrorType.BAD_TOKEN)
         } catch (e: Exception) {
-                CredentialResponse.LoginError(LoginErrorType.BAD_TOKEN)
+            CredentialResponse.LoginError(LoginErrorType.BAD_TOKEN)
         }
 
     private fun signup(credentials: Credentials.SignupRequest): CredentialResponse =
@@ -143,15 +143,15 @@ class ManagerUserApi(
             restClient
                 .post()
                 .uri {
-                    it.path("/public/register")
+                    it
+                        .path("/public/register")
                         .queryParam("email", credentials.email!!)
                         .queryParam("firstname", credentials.firstname!!)
                         .queryParam("lastname", credentials.lastname!!)
                         .queryParam("language", credentials.language.name)
                         .queryParam("newsletter", "off")
                         .build()
-                }
-                .accept(MediaType.APPLICATION_JSON)
+                }.accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<CredentialResponse>()
                 ?: CredentialResponse.TokenSent

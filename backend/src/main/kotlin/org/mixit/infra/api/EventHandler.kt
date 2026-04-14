@@ -1,7 +1,5 @@
 package org.mixit.infra.api
 
-import org.mixit.infra.config.WebContext
-import org.mixit.infra.config.MixitProperties
 import org.mixit.conference.model.event.Event
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.ui.page.renderAboutPage
@@ -14,6 +12,8 @@ import org.mixit.domain.api.EventScreen
 import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.PeopleRepository
 import org.mixit.domain.spi.TalkRepository
+import org.mixit.infra.config.MixitProperties
+import org.mixit.infra.config.WebContext
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
@@ -26,13 +26,12 @@ class EventHandler(
     private val webContext: WebContext,
     private val properties: MixitProperties,
 ) {
-    fun findOne(id: String): ServerResponse =
-        renderEvent(repository.findOne(id), EventScreen.HOME)
+    fun findOne(id: String): ServerResponse = renderEvent(repository.findOne(id), EventScreen.HOME)
 
     fun findOneIsJson(year: Int?): ServerResponse =
         repository
             .exportOne(year)
-            ?.let { ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(it)}
+            ?.let { ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(it) }
             ?: ServerResponse.notFound().build()
 
     fun findByYear(

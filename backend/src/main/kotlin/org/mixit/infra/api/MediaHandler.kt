@@ -1,6 +1,5 @@
 package org.mixit.infra.api
 
-import org.mixit.infra.config.WebContext
 import org.mixit.conference.model.shared.Context
 import org.mixit.conference.model.talk.TalkFormat
 import org.mixit.conference.ui.page.renderImage
@@ -10,6 +9,7 @@ import org.mixit.domain.spi.EventRepository
 import org.mixit.domain.spi.PeopleRepository
 import org.mixit.domain.spi.PhotoRepository
 import org.mixit.domain.spi.TalkRepository
+import org.mixit.infra.config.WebContext
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
@@ -21,7 +21,7 @@ class MediaHandler(
     private val eventRepository: EventRepository,
     private val photoRepository: PhotoRepository,
     private val webContext: WebContext,
-)  {
+) {
     fun findMediaByYear(
         year: Int,
         searchText: String?,

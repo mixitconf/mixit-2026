@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
-import kotlin.String
 
 @Configuration
 class WebRouterConfig {
@@ -67,12 +66,13 @@ class WebRouterConfig {
                 if (status == "401") {
                     authenticationApi.logout()
                 }
-                ok().contentType(MediaType.TEXT_HTML)
+                ok()
+                    .contentType(MediaType.TEXT_HTML)
                     .body(
                         renderError(
                             context = webContext.context ?: Context.default(),
-                            status = status
-                        )
+                            status = status,
+                        ),
                     )
             }
             GET("/faq") {
@@ -169,7 +169,7 @@ class WebRouterConfig {
                     email = email,
                     talkId = req.pathVariable("talkId"),
                     feedback = Feedback.valueOf(req.pathVariable("feedback").uppercase()),
-                    toAdd = req.pathVariable("value") == "1"
+                    toAdd = req.pathVariable("value") == "1",
                 )
             }
             POST("/talks/{talkId}/feedback") { req ->
@@ -177,10 +177,11 @@ class WebRouterConfig {
                 feedbackHandler.saveFeedbacks(
                     email = email,
                     talkId = req.pathVariable("talkId"),
-                    feedbacks = Feedback.entries.filter {
-                        req.param("feedback-$it").orElse(null) == "1"
-                    },
-                    comment = req.param("comment").orElse(null)
+                    feedbacks =
+                        Feedback.entries.filter {
+                            req.param("feedback-$it").orElse(null) == "1"
+                        },
+                    comment = req.param("comment").orElse(null),
                 )
             }
             // Security
@@ -203,7 +204,7 @@ class WebRouterConfig {
             }
             POST("/signup") {
                 authenticationApi.signup(
-                    it.toRegistringForm(context = webContext.ctx())
+                    it.toRegistringForm(context = webContext.ctx()),
                 )
             }
         }

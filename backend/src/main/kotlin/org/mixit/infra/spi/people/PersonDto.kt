@@ -2,7 +2,6 @@ package org.mixit.infra.spi.people
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import org.mixit.infra.spi.event.LinkDto
 import org.mixit.conference.model.link.Link
 import org.mixit.conference.model.people.Attendee
 import org.mixit.conference.model.people.Organization
@@ -13,6 +12,7 @@ import org.mixit.conference.model.people.SponsorshipLevel
 import org.mixit.conference.model.people.Staff
 import org.mixit.conference.model.people.Volunteer
 import org.mixit.conference.model.shared.Language
+import org.mixit.infra.spi.event.LinkDto
 
 /**
  * Person DTO data are crypted when stored in database except id, login, role and newsletterSubscriber

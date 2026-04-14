@@ -92,11 +92,13 @@ class RedirectRouterConfig(
                     ServerResponse.permanentRedirect(properties.doc.fr.press).build()
                 }
                 GET("/2026/docs/schedule/update1") {
-                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/KRJ2X0ZBEC#jHs9eL3mASHT"))
+                    ServerResponse
+                        .permanentRedirect(URI.create("https://drive.proton.me/urls/KRJ2X0ZBEC#jHs9eL3mASHT"))
                         .build()
                 }
                 GET("/2026/docs/schedule/update2") {
-                    ServerResponse.permanentRedirect(URI.create("https://drive.proton.me/urls/PNCRY0BSKG#3RAl7U2QYjxM"))
+                    ServerResponse
+                        .permanentRedirect(URI.create("https://drive.proton.me/urls/PNCRY0BSKG#3RAl7U2QYjxM"))
                         .build()
                 }
 

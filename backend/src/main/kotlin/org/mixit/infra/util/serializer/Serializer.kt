@@ -9,9 +9,10 @@ object Serializer {
     @OptIn(ExperimentalSerializationApi::class)
     val serializer =
         Json {
-            serializersModule = SerializersModule {
-                contextual(LocalDate::class, LocalDateSerializer)
-            }
+            serializersModule =
+                SerializersModule {
+                    contextual(LocalDate::class, LocalDateSerializer)
+                }
             encodeDefaults = true
             explicitNulls = false
             ignoreUnknownKeys = true

@@ -1,12 +1,12 @@
 package org.mixit.infra.spi.people
 
-import org.mixit.infra.spi.event.EventStaticFileRepository
 import org.mixit.conference.model.people.Organization
 import org.mixit.conference.model.people.Speaker
 import org.mixit.conference.model.people.Sponsor
 import org.mixit.conference.model.people.Staff
 import org.mixit.conference.model.people.Volunteer
 import org.mixit.domain.spi.PeopleRepository
+import org.mixit.infra.spi.event.EventStaticFileRepository
 import org.mixit.infra.spi.talk.TalkStaticFileRepository
 import org.mixit.infra.util.cache.Cache
 import org.mixit.infra.util.serializer.toLocalDate
@@ -19,7 +19,6 @@ class PeopleFileRepository(
     private val eventRepository: EventStaticFileRepository,
     private val talkFileRepository: TalkStaticFileRepository,
 ) : PeopleRepository {
-
     @Cacheable(Cache.SPEAKER_CACHE)
     override fun findSpeakerByYear(year: Int): List<Speaker> {
         val talks = talkFileRepository.findAll()[year] ?: return emptyList()
@@ -30,7 +29,7 @@ class PeopleFileRepository(
     override fun exportByYear(year: Int): List<PersonDto> {
         val talks = talkFileRepository.findAll()[year] ?: return emptyList()
         val speakerIds = talks.flatMap { it.speakerIds }
-        return  peopleRepository
+        return peopleRepository
             .findAll()
             .asSequence()
             .filter { speakerIds.contains(it.login) }

@@ -11,7 +11,6 @@ import org.mixit.infra.api.dto.AnniversaryPollCommand
 import org.mixit.infra.config.WebContext
 import org.mixit.infra.spi.manager.ManagerPollApi
 import org.mixit.infra.spi.manager.ManagerUserApi
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.TEXT_HTML
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpClientErrorException
@@ -27,25 +26,26 @@ class PollHandler(
     private val peopleRepository: PeopleRepository,
     private val webContext: WebContext,
 ) {
-
     fun findPoll(): ServerResponse {
         val event = eventRepository.findByYear(CURRENT_YEAR) ?: return ServerResponse.notFound().build()
-        val (poll: AnniversaryPoll?, status) = try {
-            managerPollApi.getUserPoll() to 200
-        } catch (_: HttpClientErrorException.Unauthorized) {
-            null to 401
-        } catch (_: HttpClientErrorException.NotFound) {
-            null to 404
-        }
+        val (poll: AnniversaryPoll?, status) =
+            try {
+                managerPollApi.getUserPoll() to 200
+            } catch (_: HttpClientErrorException.Unauthorized) {
+                null to 401
+            } catch (_: HttpClientErrorException.NotFound) {
+                null to 404
+            }
 
-        val page = renderPoll(
-            context = webContext.context!!,
-            event = event,
-            sponsors = peopleRepository.findSponsorByYear(CURRENT_YEAR),
-            poll = poll,
-        )
+        val page =
+            renderPoll(
+                context = webContext.context!!,
+                event = event,
+                sponsors = peopleRepository.findSponsorByYear(CURRENT_YEAR),
+                poll = poll,
+            )
 
-        return when(status) {
+        return when (status) {
             401 -> ok().contentType(TEXT_HTML).cookie(managerUserApi.removeCookie()).body(page)
             else -> ok().contentType(TEXT_HTML).body(page)
         }
@@ -54,42 +54,43 @@ class PollHandler(
     fun savePoll(
         lotteryParticipation: String,
         keynoteFeeds: Optional<String>,
-        conferenceFeeds: Optional<String>
+        conferenceFeeds: Optional<String>,
     ): ServerResponse =
         if (webContext.context?.token == null) {
             ok().contentType(TEXT_HTML).body(
                 renderLoginPage(
                     context = webContext.ctx(),
-                    formValue = loginForm()
+                    formValue = loginForm(),
                 ),
             )
         } else {
             val event = eventRepository.findByYear(CURRENT_YEAR) ?: return ServerResponse.notFound().build()
-            val (poll: AnniversaryPoll?, status) = try {
-                managerPollApi.savePoll(
-                    AnniversaryPollCommand(
-                        lotteryParticipation = lotteryParticipation.toBoolean(),
-                        keynoteFeeds = keynoteFeeds.orElse("")!!,
-                        conferenceFeeds = conferenceFeeds.orElse("")!!
-                    )
-                ) to 200
-            } catch (_: HttpClientErrorException.Unauthorized) {
-                null to 401
-            } catch (_: HttpClientErrorException.NotFound) {
-                null to 404
-            }
+            val (poll: AnniversaryPoll?, status) =
+                try {
+                    managerPollApi.savePoll(
+                        AnniversaryPollCommand(
+                            lotteryParticipation = lotteryParticipation.toBoolean(),
+                            keynoteFeeds = keynoteFeeds.orElse("")!!,
+                            conferenceFeeds = conferenceFeeds.orElse("")!!,
+                        ),
+                    ) to 200
+                } catch (_: HttpClientErrorException.Unauthorized) {
+                    null to 401
+                } catch (_: HttpClientErrorException.NotFound) {
+                    null to 404
+                }
 
-            val page = renderPoll(
-                context = webContext.context!!,
-                event = event,
-                sponsors = peopleRepository.findSponsorByYear(CURRENT_YEAR),
-                poll = poll,
-            )
+            val page =
+                renderPoll(
+                    context = webContext.context!!,
+                    event = event,
+                    sponsors = peopleRepository.findSponsorByYear(CURRENT_YEAR),
+                    poll = poll,
+                )
 
-            when(status) {
+            when (status) {
                 401 -> ok().contentType(TEXT_HTML).cookie(managerUserApi.removeCookie()).body(page)
                 else -> ok().contentType(TEXT_HTML).body(page)
             }
         }
-
 }

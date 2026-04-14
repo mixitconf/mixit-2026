@@ -14,34 +14,39 @@ import org.springframework.web.client.body
 @Service
 class ManagerFeedbackApi(
     private val restClient: RestClient,
-    private val context: WebContext
+    private val context: WebContext,
 ) {
+    fun addUserFeedback(
+        talkId: String,
+        feedback: Feedback,
+    ) = restClient
+        .post()
+        .uri("/feedbacks/$talkId/user/${feedback.name}")
+        .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
+        .retrieve()
+        .body<String>()
 
-    fun addUserFeedback(talkId: String, feedback: Feedback) =
-        restClient
-            .post()
-            .uri("/feedbacks/$talkId/user/${feedback.name}")
-            .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
-            .retrieve()
-            .body<String>()
+    fun deleteUserFeedback(
+        talkId: String,
+        feedback: Feedback,
+    ) = restClient
+        .delete()
+        .uri("/feedbacks/$talkId/user/${feedback.name}")
+        .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
+        .retrieve()
+        .body<String>()
 
-    fun deleteUserFeedback(talkId: String, feedback: Feedback) =
-        restClient
-            .delete()
-            .uri("/feedbacks/$talkId/user/${feedback.name}")
-            .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
-            .retrieve()
-            .body<String>()
-
-    fun saveUserFeedbacks(talkId: String, command: UserFeedbackCommand) =
-        restClient
-            .post()
-            .uri("/feedbacks/user/$talkId")
-            .body(command)
-            .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body<String>()
+    fun saveUserFeedbacks(
+        talkId: String,
+        command: UserFeedbackCommand,
+    ) = restClient
+        .post()
+        .uri("/feedbacks/user/$talkId")
+        .body(command)
+        .cookie(WebFilter.AUTHENT_COOKIE, context.requiredToken())
+        .accept(MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body<String>()
 
     fun getUserFeedback(talkId: String): UserTalkFeedback? =
         if (context.context?.token == null) {
@@ -57,7 +62,7 @@ class ManagerFeedbackApi(
         }
 
     fun getAllTalkFeedback(talkId: String): TalkFeedback? =
-        if(context.context?.token == null) {
+        if (context.context?.token == null) {
             restClient
                 .get()
                 .uri("/public/feedbacks/talk/$talkId")

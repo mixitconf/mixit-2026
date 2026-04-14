@@ -13,7 +13,7 @@ data class MixitProperties(
     val podcastId: String,
     val externalData: ExternalDataProperties,
     val managerUrl: String,
-    val features: FeatureProperties
+    val features: FeatureProperties,
 )
 
 data class FeatureProperties(

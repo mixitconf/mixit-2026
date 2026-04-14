@@ -27,8 +27,12 @@ object LocalDateSerializer : KSerializer<LocalDate> {
     }
 
     override fun deserialize(decoder: Decoder): LocalDate =
-        java.time.LocalDate.parse(decoder.decodeString(), formatter).toKotlinLocalDate()
+        java.time.LocalDate
+            .parse(decoder.decodeString(), formatter)
+            .toKotlinLocalDate()
 }
 
 fun String.toLocalDate(): LocalDate =
-    java.time.LocalDate.parse(this, DateTimeFormatter.ISO_LOCAL_DATE).toKotlinLocalDate()
+    java.time.LocalDate
+        .parse(this, DateTimeFormatter.ISO_LOCAL_DATE)
+        .toKotlinLocalDate()
