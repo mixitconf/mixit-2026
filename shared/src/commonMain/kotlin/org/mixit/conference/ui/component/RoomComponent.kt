@@ -40,6 +40,9 @@ fun DIV.roomComponent(context: Context, talk: Talk, withLink: Boolean = false, w
                 if (withCapacity) {
                     +" - ${context.i18n("talks.seats")} ${talk.room.capacity}"
                 }
+                if (withTime && talk.start != null && talk.end != null) {
+                    +" - ${talk.startLocalTime()!!.formatTime()}  ${context.i18n("talks.to")} ${talk.endLocalTime()!!.formatTime()}"
+                }
             }
         }
     }

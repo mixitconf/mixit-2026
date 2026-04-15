@@ -227,7 +227,7 @@ fun DIV.displayTalk(talk: Talk, event: Event, context: Context, favorites: List<
                         title = context.i18n("talks.video.available")
                     }
                 }
-                roomComponent(context, talk)
+                roomComponent(context, talk, withTime = true)
 
 
                 if (context.email != null) {
