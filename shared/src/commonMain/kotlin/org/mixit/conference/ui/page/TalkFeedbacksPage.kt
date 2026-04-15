@@ -46,7 +46,7 @@ fun renderTalkFeedbacks(
             }
             talks
                 .entries
-                .sortedBy { it.key.title }
+                .sortedWith(compareBy({ it.key.room }, { it.key.start }))
                 .forEach { (talk, svg) ->
                     displayTalk(talk, event, context, emptyList(), svg)
                 }
