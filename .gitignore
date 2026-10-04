@@ -39,3 +39,4 @@ out/
 ### Kotlin ###
 .kotlin
 /frontend/.kobweb/server/
+/.clever.json
